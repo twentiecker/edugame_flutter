@@ -112,7 +112,26 @@ class GameMenuScreen extends StatelessWidget {
                   child: const Text('Play'),
                 )
               ],
-            )
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Flappy Bird Game',
+                  style: TextStyle(
+                    fontFamily: 'Permanent Marker',
+                    fontSize: 25,
+                    height: 1,
+                  ),
+                ),
+                MyButton(
+                  onPressed: () {
+                    GoRouter.of(context).go('/flappy');
+                  },
+                  child: const Text('Play'),
+                )
+              ],
+            ),
           ],
         ),
         rectangularMenuArea: MyButton(

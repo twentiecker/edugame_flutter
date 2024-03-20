@@ -4,6 +4,7 @@
 
 import 'package:basic/game_menu/game_menu_screen.dart';
 import 'package:basic/games/complete_pattern_game.dart';
+import 'package:basic/games/flappy_bird_game/flappy_bird_game.dart';
 import 'package:basic/games/match_color_game.dart';
 import 'package:basic/games/match_shape_game.dart';
 import 'package:basic/games/puzzle_game.dart';
@@ -106,8 +107,11 @@ final router = GoRouter(
         ),
         GoRoute(
           path: 'puzzle',
-          builder: (context, state) =>
-          const PuzzleGame(key: Key('puzzle')),
+          builder: (context, state) => const PuzzleGame(key: Key('puzzle')),
+        ),
+        GoRoute(
+          path: 'flappy',
+          builder: (context, state) => const FlappyBirdGame(key: Key('flappy')),
         ),
       ],
     ),

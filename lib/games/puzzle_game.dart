@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -66,16 +64,16 @@ class _PuzzleGameState extends State<PuzzleGame> {
                         decoration: BoxDecoration(
                             color: Colors.white,
                             border: Border.all(color: Colors.blue, width: 2)),
-                  child: Center(
-                    child: Text(
-                      '1',
-                      style: TextStyle(
-                        fontFamily: 'Permanent Marker',
-                        fontSize: 100,
-                        height: 1,
-                      ),
-                    ),
-                  ),
+                        child: Center(
+                          child: Text(
+                            '1',
+                            style: TextStyle(
+                              fontFamily: 'Permanent Marker',
+                              fontSize: 100,
+                              height: 1,
+                            ),
+                          ),
+                        ),
                       ),
               );
             }, onAcceptWithDetails: (DragTargetDetails details) {
@@ -102,16 +100,16 @@ class _PuzzleGameState extends State<PuzzleGame> {
                         decoration: BoxDecoration(
                             color: Colors.white,
                             border: Border.all(color: Colors.blue, width: 2)),
-                  child: Center(
-                    child: Text(
-                      '2',
-                      style: TextStyle(
-                        fontFamily: 'Permanent Marker',
-                        fontSize: 100,
-                        height: 1,
-                      ),
-                    ),
-                  ),
+                        child: Center(
+                          child: Text(
+                            '2',
+                            style: TextStyle(
+                              fontFamily: 'Permanent Marker',
+                              fontSize: 100,
+                              height: 1,
+                            ),
+                          ),
+                        ),
                       ),
               );
             }, onAcceptWithDetails: (DragTargetDetails details) {
