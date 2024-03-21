@@ -7,6 +7,7 @@ import 'package:basic/games/complete_pattern_game.dart';
 import 'package:basic/games/flappy_bird_game/flappy_bird_game.dart';
 import 'package:basic/games/match_color_game.dart';
 import 'package:basic/games/match_shape_game.dart';
+import 'package:basic/games/greater_number_game.dart';
 import 'package:basic/games/puzzle_game.dart';
 import 'package:flutter/foundation.dart';
 import 'package:go_router/go_router.dart';
@@ -112,6 +113,10 @@ final router = GoRouter(
         GoRoute(
           path: 'flappy',
           builder: (context, state) => const FlappyBirdGame(key: Key('flappy')),
+        ),
+        GoRoute(
+          path: 'greater',
+          builder: (context, state) => const GreaterNumberGame(key: Key('greater')),
         ),
       ],
     ),

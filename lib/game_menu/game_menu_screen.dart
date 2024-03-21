@@ -132,6 +132,25 @@ class GameMenuScreen extends StatelessWidget {
                 )
               ],
             ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Greater Number Game',
+                  style: TextStyle(
+                    fontFamily: 'Permanent Marker',
+                    fontSize: 25,
+                    height: 1,
+                  ),
+                ),
+                MyButton(
+                  onPressed: () {
+                    GoRouter.of(context).go('/greater');
+                  },
+                  child: const Text('Play'),
+                )
+              ],
+            ),
           ],
         ),
         rectangularMenuArea: MyButton(
