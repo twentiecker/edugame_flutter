@@ -4,6 +4,7 @@
 
 import 'package:basic/game_menu/game_menu_screen.dart';
 import 'package:basic/games/complete_pattern_game.dart';
+import 'package:basic/games/count_number_game.dart';
 import 'package:basic/games/flappy_bird_game/flappy_bird_game.dart';
 import 'package:basic/games/match_color_game.dart';
 import 'package:basic/games/match_shape_game.dart';
@@ -117,6 +118,10 @@ final router = GoRouter(
         GoRoute(
           path: 'greater',
           builder: (context, state) => const GreaterNumberGame(key: Key('greater')),
+        ),
+        GoRoute(
+          path: 'count',
+          builder: (context, state) => const CountNumberGame(key: Key('count')),
         ),
       ],
     ),

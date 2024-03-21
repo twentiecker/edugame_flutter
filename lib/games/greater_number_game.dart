@@ -18,15 +18,6 @@ class GreaterNumberGame extends StatefulWidget {
 class _GreaterNumberGameState extends State<GreaterNumberGame> {
   bool isTrue1 = false;
   bool isTrue2 = false;
-
-  // List<Map<String, String>> gameData = [
-  //   {'data': 'circle', 'shape': 'assets/images/shape2d/circle.png'},
-  //   {'data': 'square', 'shape': 'assets/images/shape2d/square.png'},
-  //   {'data': 'triangle', 'shape': 'assets/images/shape2d/triangle.png'},
-  //   {'data': 'star', 'shape': 'assets/images/shape2d/star.png'}
-  // ];
-  // Map<String, String> shape1 = {};
-  // Map<String, String> shape2 = {};
   int num1 = 0;
   int num2 = 1;
 
