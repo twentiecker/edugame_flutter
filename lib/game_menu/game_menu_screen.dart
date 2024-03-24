@@ -1,3 +1,4 @@
+import 'package:basic/level_selection/levels.dart';
 import 'package:basic/style/responsive_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -16,162 +17,186 @@ class GameMenuScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: palette.backgroundMain,
       body: ResponsiveScreen(
-        squarishMainArea: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Default Flutter Game',
-                  style: TextStyle(
-                    fontFamily: 'Permanent Marker',
-                    fontSize: 25,
-                    height: 1,
+        squarishMainArea: ListView.builder(
+            itemCount: games.length,
+            itemBuilder: (BuildContext context, int index) {
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    games[index].game,
+                    style: TextStyle(
+                      fontFamily: 'Permanent Marker',
+                      fontSize: 25,
+                      height: 1,
+                    ),
                   ),
-                ),
-                MyButton(
-                  onPressed: () {
-                    GoRouter.of(context).go('/play');
-                  },
-                  child: const Text('Play'),
-                )
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Match Color Game',
-                  style: TextStyle(
-                    fontFamily: 'Permanent Marker',
-                    fontSize: 25,
-                    height: 1,
-                  ),
-                ),
-                MyButton(
-                  onPressed: () {
-                    GoRouter.of(context).go('/color');
-                  },
-                  child: const Text('Play'),
-                )
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Match Shape Game',
-                  style: TextStyle(
-                    fontFamily: 'Permanent Marker',
-                    fontSize: 25,
-                    height: 1,
-                  ),
-                ),
-                MyButton(
-                  onPressed: () {
-                    GoRouter.of(context).go('/shape');
-                  },
-                  child: const Text('Play'),
-                )
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Complete Pattern Game',
-                  style: TextStyle(
-                    fontFamily: 'Permanent Marker',
-                    fontSize: 25,
-                    height: 1,
-                  ),
-                ),
-                MyButton(
-                  onPressed: () {
-                    GoRouter.of(context).go('/pattern');
-                  },
-                  child: const Text('Play'),
-                )
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Puzzle Game',
-                  style: TextStyle(
-                    fontFamily: 'Permanent Marker',
-                    fontSize: 25,
-                    height: 1,
-                  ),
-                ),
-                MyButton(
-                  onPressed: () {
-                    GoRouter.of(context).go('/puzzle');
-                  },
-                  child: const Text('Play'),
-                )
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Flappy Bird Game',
-                  style: TextStyle(
-                    fontFamily: 'Permanent Marker',
-                    fontSize: 25,
-                    height: 1,
-                  ),
-                ),
-                MyButton(
-                  onPressed: () {
-                    GoRouter.of(context).go('/flappy');
-                  },
-                  child: const Text('Play'),
-                )
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Greater Number Game',
-                  style: TextStyle(
-                    fontFamily: 'Permanent Marker',
-                    fontSize: 25,
-                    height: 1,
-                  ),
-                ),
-                MyButton(
-                  onPressed: () {
-                    GoRouter.of(context).go('/greater');
-                  },
-                  child: const Text('Play'),
-                )
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Count Number Game',
-                  style: TextStyle(
-                    fontFamily: 'Permanent Marker',
-                    fontSize: 25,
-                    height: 1,
-                  ),
-                ),
-                MyButton(
-                  onPressed: () {
-                    GoRouter.of(context).go('/count');
-                  },
-                  child: const Text('Play'),
-                )
-              ],
-            ),
-          ],
-        ),
+                  MyButton(
+                    onPressed: () {
+                      GoRouter.of(context).go('/play/$index');
+                    },
+                    child: const Text('Play'),
+                  )
+                ],
+              );
+            }),
+
+        // Column(
+        //   children: [
+        //     Row(
+        //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        //       children: [
+        //         Text(
+        //           'Default Flutter Game',
+        //           style: TextStyle(
+        //             fontFamily: 'Permanent Marker',
+        //             fontSize: 25,
+        //             height: 1,
+        //           ),
+        //         ),
+        //         MyButton(
+        //           onPressed: () {
+        //             GoRouter.of(context).go('/play');
+        //           },
+        //           child: const Text('Play'),
+        //         )
+        //       ],
+        //     ),
+        //     Row(
+        //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        //       children: [
+        //         Text(
+        //           'Match Color Game',
+        //           style: TextStyle(
+        //             fontFamily: 'Permanent Marker',
+        //             fontSize: 25,
+        //             height: 1,
+        //           ),
+        //         ),
+        //         MyButton(
+        //           onPressed: () {
+        //             GoRouter.of(context).go('/color');
+        //           },
+        //           child: const Text('Play'),
+        //         )
+        //       ],
+        //     ),
+        //     Row(
+        //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        //       children: [
+        //         Text(
+        //           'Match Shape Game',
+        //           style: TextStyle(
+        //             fontFamily: 'Permanent Marker',
+        //             fontSize: 25,
+        //             height: 1,
+        //           ),
+        //         ),
+        //         MyButton(
+        //           onPressed: () {
+        //             GoRouter.of(context).go('/shape');
+        //           },
+        //           child: const Text('Play'),
+        //         )
+        //       ],
+        //     ),
+        //     Row(
+        //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        //       children: [
+        //         Text(
+        //           'Complete Pattern Game',
+        //           style: TextStyle(
+        //             fontFamily: 'Permanent Marker',
+        //             fontSize: 25,
+        //             height: 1,
+        //           ),
+        //         ),
+        //         MyButton(
+        //           onPressed: () {
+        //             GoRouter.of(context).go('/pattern');
+        //           },
+        //           child: const Text('Play'),
+        //         )
+        //       ],
+        //     ),
+        //     Row(
+        //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        //       children: [
+        //         Text(
+        //           'Puzzle Game',
+        //           style: TextStyle(
+        //             fontFamily: 'Permanent Marker',
+        //             fontSize: 25,
+        //             height: 1,
+        //           ),
+        //         ),
+        //         MyButton(
+        //           onPressed: () {
+        //             GoRouter.of(context).go('/puzzle');
+        //           },
+        //           child: const Text('Play'),
+        //         )
+        //       ],
+        //     ),
+        //     Row(
+        //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        //       children: [
+        //         Text(
+        //           'Flappy Bird Game',
+        //           style: TextStyle(
+        //             fontFamily: 'Permanent Marker',
+        //             fontSize: 25,
+        //             height: 1,
+        //           ),
+        //         ),
+        //         MyButton(
+        //           onPressed: () {
+        //             GoRouter.of(context).go('/flappy');
+        //           },
+        //           child: const Text('Play'),
+        //         )
+        //       ],
+        //     ),
+        //     Row(
+        //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        //       children: [
+        //         Text(
+        //           'Greater Number Game',
+        //           style: TextStyle(
+        //             fontFamily: 'Permanent Marker',
+        //             fontSize: 25,
+        //             height: 1,
+        //           ),
+        //         ),
+        //         MyButton(
+        //           onPressed: () {
+        //             GoRouter.of(context).go('/greater');
+        //           },
+        //           child: const Text('Play'),
+        //         )
+        //       ],
+        //     ),
+        //     Row(
+        //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        //       children: [
+        //         Text(
+        //           'Count Number Game',
+        //           style: TextStyle(
+        //             fontFamily: 'Permanent Marker',
+        //             fontSize: 25,
+        //             height: 1,
+        //           ),
+        //         ),
+        //         MyButton(
+        //           onPressed: () {
+        //             GoRouter.of(context).go('/count');
+        //           },
+        //           child: const Text('Play'),
+        //         )
+        //       ],
+        //     ),
+        //   ],
+        // ),
         rectangularMenuArea: MyButton(
           onPressed: () {
             GoRouter.of(context).go('/');

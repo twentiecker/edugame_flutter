@@ -2,25 +2,186 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-const gameLevels = [
-  GameLevel(
-    number: 1,
-    difficulty: 5,
-    // TODO: When ready, change these achievement IDs.
-    // You configure this in App Store Connect.
-    achievementIdIOS: 'first_win',
-    // You get this string when you configure an achievement in Play Console.
-    achievementIdAndroid: 'NhkIwB69ejkMAOOLDb',
+const games = [
+  Games(
+    game: 'color',
+    gameLevels: [
+      GameLevel(
+        number: 1,
+        difficulty: 5,
+        // TODO: When ready, change these achievement IDs.
+        // You configure this in App Store Connect.
+        achievementIdIOS: 'first_win',
+        // You get this string when you configure an achievement in Play Console.
+        achievementIdAndroid: 'NhkIwB69ejkMAOOLDb',
+      ),
+      GameLevel(
+        number: 2,
+        difficulty: 42,
+      ),
+      GameLevel(
+        number: 3,
+        difficulty: 50,
+      ),
+      GameLevel(
+        number: 4,
+        difficulty: 100,
+        achievementIdIOS: 'finished',
+        achievementIdAndroid: 'CdfIhE96aspNWLGSQg',
+      ),
+    ],
   ),
-  GameLevel(
-    number: 2,
-    difficulty: 42,
+  Games(
+    game: 'shape',
+    gameLevels: [
+      GameLevel(
+        number: 1,
+        difficulty: 5,
+        // TODO: When ready, change these achievement IDs.
+        // You configure this in App Store Connect.
+        achievementIdIOS: 'first_win',
+        // You get this string when you configure an achievement in Play Console.
+        achievementIdAndroid: 'NhkIwB69ejkMAOOLDb',
+      ),
+      GameLevel(
+        number: 2,
+        difficulty: 42,
+      ),
+      GameLevel(
+        number: 3,
+        difficulty: 100,
+        achievementIdIOS: 'finished',
+        achievementIdAndroid: 'CdfIhE96aspNWLGSQg',
+      ),
+    ],
   ),
-  GameLevel(
-    number: 3,
-    difficulty: 100,
-    achievementIdIOS: 'finished',
-    achievementIdAndroid: 'CdfIhE96aspNWLGSQg',
+  Games(
+    game: 'pattern',
+    gameLevels: [
+      GameLevel(
+        number: 1,
+        difficulty: 5,
+        // TODO: When ready, change these achievement IDs.
+        // You configure this in App Store Connect.
+        achievementIdIOS: 'first_win',
+        // You get this string when you configure an achievement in Play Console.
+        achievementIdAndroid: 'NhkIwB69ejkMAOOLDb',
+      ),
+      GameLevel(
+        number: 2,
+        difficulty: 42,
+      ),
+      GameLevel(
+        number: 3,
+        difficulty: 50,
+      ),
+      GameLevel(
+        number: 4,
+        difficulty: 100,
+        achievementIdIOS: 'finished',
+        achievementIdAndroid: 'CdfIhE96aspNWLGSQg',
+      ),
+    ],
+  ),
+  Games(
+    game: 'puzzle',
+    gameLevels: [
+      GameLevel(
+        number: 1,
+        difficulty: 5,
+        // TODO: When ready, change these achievement IDs.
+        // You configure this in App Store Connect.
+        achievementIdIOS: 'first_win',
+        // You get this string when you configure an achievement in Play Console.
+        achievementIdAndroid: 'NhkIwB69ejkMAOOLDb',
+      ),
+      GameLevel(
+        number: 2,
+        difficulty: 42,
+      ),
+      GameLevel(
+        number: 3,
+        difficulty: 100,
+        achievementIdIOS: 'finished',
+        achievementIdAndroid: 'CdfIhE96aspNWLGSQg',
+      ),
+    ],
+  ),
+  Games(
+    game: 'flappy',
+    gameLevels: [
+      GameLevel(
+        number: 1,
+        difficulty: 5,
+        // TODO: When ready, change these achievement IDs.
+        // You configure this in App Store Connect.
+        achievementIdIOS: 'first_win',
+        // You get this string when you configure an achievement in Play Console.
+        achievementIdAndroid: 'NhkIwB69ejkMAOOLDb',
+      ),
+      GameLevel(
+        number: 2,
+        difficulty: 42,
+      ),
+      GameLevel(
+        number: 3,
+        difficulty: 50,
+      ),
+      GameLevel(
+        number: 4,
+        difficulty: 100,
+        achievementIdIOS: 'finished',
+        achievementIdAndroid: 'CdfIhE96aspNWLGSQg',
+      ),
+    ],
+  ),
+  Games(
+    game: 'greater',
+    gameLevels: [
+      GameLevel(
+        number: 1,
+        difficulty: 5,
+        // TODO: When ready, change these achievement IDs.
+        // You configure this in App Store Connect.
+        achievementIdIOS: 'first_win',
+        // You get this string when you configure an achievement in Play Console.
+        achievementIdAndroid: 'NhkIwB69ejkMAOOLDb',
+      ),
+      GameLevel(
+        number: 2,
+        difficulty: 42,
+      ),
+      GameLevel(
+        number: 3,
+        difficulty: 100,
+        achievementIdIOS: 'finished',
+        achievementIdAndroid: 'CdfIhE96aspNWLGSQg',
+      ),
+    ],
+  ),
+  Games(
+    game: 'count',
+    gameLevels: [
+      GameLevel(
+        number: 1,
+        difficulty: 5,
+        // TODO: When ready, change these achievement IDs.
+        // You configure this in App Store Connect.
+        achievementIdIOS: 'first_win',
+        // You get this string when you configure an achievement in Play Console.
+        achievementIdAndroid: 'NhkIwB69ejkMAOOLDb',
+      ),
+      GameLevel(
+        number: 2,
+        difficulty: 42,
+      ),
+      GameLevel(
+        number: 3,
+        difficulty: 100,
+        achievementIdIOS: 'finished',
+        achievementIdAndroid: 'CdfIhE96aspNWLGSQg',
+      ),
+    ],
   ),
 ];
 
@@ -46,4 +207,14 @@ class GameLevel {
                 (achievementIdAndroid == null && achievementIdIOS == null),
             'Either both iOS and Android achievement ID must be provided, '
             'or none');
+}
+
+class Games {
+  final String game;
+  final List<GameLevel> gameLevels;
+
+  const Games({
+    required this.game,
+    required this.gameLevels,
+  });
 }

@@ -15,7 +15,8 @@ import '../style/responsive_screen.dart';
 import 'levels.dart';
 
 class LevelSelectionScreen extends StatelessWidget {
-  const LevelSelectionScreen({super.key});
+  final int index;
+  const LevelSelectionScreen({super.key, required this.index});
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +42,7 @@ class LevelSelectionScreen extends StatelessWidget {
             Expanded(
               child: ListView(
                 children: [
-                  for (final level in gameLevels)
+                  for (final level in games[index].gameLevels)
                     ListTile(
                       enabled: playerProgress.highestLevelReached >=
                           level.number - 1,
@@ -50,7 +51,7 @@ class LevelSelectionScreen extends StatelessWidget {
                         audioController.playSfx(SfxType.buttonTap);
 
                         GoRouter.of(context)
-                            .go('/play/session/${level.number}');
+                            .go('/play/$index/session/${level.number}');
                       },
                       leading: Text(level.number.toString()),
                       title: Text('Level #${level.number}'),

@@ -4,6 +4,13 @@
 
 import 'dart:async';
 
+import 'package:basic/play_session/game_widget/complete_pattern_game.dart';
+import 'package:basic/play_session/game_widget/count_number_game.dart';
+import 'package:basic/play_session/game_widget/flappy_bird_game/flappy_bird_game.dart';
+import 'package:basic/play_session/game_widget/greater_number_game.dart';
+import 'package:basic/play_session/game_widget/match_color_game.dart';
+import 'package:basic/play_session/game_widget/match_shape_game.dart';
+import 'package:basic/play_session/game_widget/puzzle_game.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:logging/logging.dart' hide Level;
@@ -18,7 +25,6 @@ import '../player_progress/player_progress.dart';
 import '../style/confetti.dart';
 import '../style/my_button.dart';
 import '../style/palette.dart';
-import 'game_widget.dart';
 
 /// This widget defines the entirety of the screen that the player sees when
 /// they are playing a level.
@@ -26,9 +32,10 @@ import 'game_widget.dart';
 /// It is a stateful widget because it manages some state of its own,
 /// such as whether the game is in a "celebration" state.
 class PlaySessionScreen extends StatefulWidget {
+  final int index;
   final GameLevel level;
 
-  const PlaySessionScreen(this.level, {super.key});
+  const PlaySessionScreen(this.level, {super.key, required this.index});
 
   @override
   State<PlaySessionScreen> createState() => _PlaySessionScreenState();
@@ -94,16 +101,39 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
                       ),
                     ),
                   ),
-                  const Spacer(),
+                  // const Spacer(),
                   Expanded(
-                    // The actual UI of the game.
-                    child: GameWidget(),
-                  ),
-                  const Spacer(),
+                      // The actual UI of the game.
+                      child: Builder(
+                    builder: (BuildContext context) {
+                      switch (widget.index) {
+                        case 0:
+                          return MatchColorGame();
+                        case 1:
+                          return MatchShapeGame();
+                        case 2:
+                          return CompletePatternGame();
+                        case 3:
+                          return PuzzleGame();
+                        case 4:
+                          return FlappyBirdGame();
+                        case 5:
+                          return GreaterNumberGame();
+                        case 6:
+                          return CountNumberGame();
+                        default:
+                          return Center(
+                            child: Text("Game isn't Available Now!"),
+                          );
+                      }
+                    },
+                  )),
+                  // const Spacer(),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: MyButton(
-                      onPressed: () => GoRouter.of(context).go('/play'),
+                      onPressed: () =>
+                          GoRouter.of(context).go('/play/${widget.index}'),
                       child: const Text('Back'),
                     ),
                   ),
@@ -155,6 +185,7 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
     await Future<void>.delayed(_celebrationDuration);
     if (!mounted) return;
 
-    GoRouter.of(context).go('/play/won', extra: {'score': score});
+    GoRouter.of(context)
+        .go('/play/${widget.index}/won', extra: {'score': score});
   }
 }

@@ -3,13 +3,6 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:basic/game_menu/game_menu_screen.dart';
-import 'package:basic/games/complete_pattern_game.dart';
-import 'package:basic/games/count_number_game.dart';
-import 'package:basic/games/flappy_bird_game/flappy_bird_game.dart';
-import 'package:basic/games/match_color_game.dart';
-import 'package:basic/games/match_shape_game.dart';
-import 'package:basic/games/greater_number_game.dart';
-import 'package:basic/games/puzzle_game.dart';
 import 'package:flutter/foundation.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -33,27 +26,34 @@ final router = GoRouter(
       builder: (context, state) => const MainMenuScreen(key: Key('main menu')),
       routes: [
         GoRoute(
-            path: 'play',
-            pageBuilder: (context, state) => buildMyTransition<void>(
-                  key: ValueKey('play'),
-                  color: context.watch<Palette>().backgroundLevelSelection,
-                  child: const LevelSelectionScreen(
-                    key: Key('level selection'),
-                  ),
+            path: 'play/:index',
+            pageBuilder: (context, state) {
+              final gameIndex = int.parse(state.pathParameters['index']!);
+              return buildMyTransition<void>(
+                key: ValueKey('index'),
+                color: context.watch<Palette>().backgroundLevelSelection,
+                child: LevelSelectionScreen(
+                  index: gameIndex,
+                  key: Key('level selection'),
                 ),
+              );
+            },
             routes: [
               GoRoute(
                 path: 'session/:level',
                 pageBuilder: (context, state) {
+                  final index = int.parse(state.pathParameters['index']!);
                   final levelNumber = int.parse(state.pathParameters['level']!);
-                  final level =
-                      gameLevels.singleWhere((e) => e.number == levelNumber);
+                  final level = games[index]
+                      .gameLevels
+                      .singleWhere((e) => e.number == levelNumber);
                   return buildMyTransition<void>(
                     key: ValueKey('level'),
                     color: context.watch<Palette>().backgroundPlaySession,
                     child: PlaySessionScreen(
                       level,
                       key: const Key('play session'),
+                      index: index,
                     ),
                   );
                 },
@@ -73,11 +73,13 @@ final router = GoRouter(
                 pageBuilder: (context, state) {
                   final map = state.extra! as Map<String, dynamic>;
                   final score = map['score'] as Score;
+                  final index = int.parse(state.pathParameters['index']!);
 
                   return buildMyTransition<void>(
                     key: ValueKey('won'),
                     color: context.watch<Palette>().backgroundPlaySession,
                     child: WinGameScreen(
+                      index: index,
                       score: score,
                       key: const Key('win game'),
                     ),
@@ -93,35 +95,6 @@ final router = GoRouter(
         GoRoute(
           path: 'games',
           builder: (context, state) => const GameMenuScreen(key: Key('games')),
-        ),
-        GoRoute(
-          path: 'color',
-          builder: (context, state) => const MatchColorGame(key: Key('color')),
-        ),
-        GoRoute(
-          path: 'shape',
-          builder: (context, state) => const MatchShapeGame(key: Key('shape')),
-        ),
-        GoRoute(
-          path: 'pattern',
-          builder: (context, state) =>
-              const CompletePatternGame(key: Key('pattern')),
-        ),
-        GoRoute(
-          path: 'puzzle',
-          builder: (context, state) => const PuzzleGame(key: Key('puzzle')),
-        ),
-        GoRoute(
-          path: 'flappy',
-          builder: (context, state) => const FlappyBirdGame(key: Key('flappy')),
-        ),
-        GoRoute(
-          path: 'greater',
-          builder: (context, state) => const GreaterNumberGame(key: Key('greater')),
-        ),
-        GoRoute(
-          path: 'count',
-          builder: (context, state) => const CountNumberGame(key: Key('count')),
         ),
       ],
     ),

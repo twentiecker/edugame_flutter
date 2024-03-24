@@ -1,6 +1,6 @@
-import 'package:basic/games/flappy_bird_game/game/flappy_bird.dart';
-import 'package:basic/games/flappy_bird_game/screens/game_over.dart';
-import 'package:basic/games/flappy_bird_game/screens/main_menu.dart';
+import 'package:basic/play_session/game_widget/flappy_bird_game/game/flappy_bird.dart';
+import 'package:basic/play_session/game_widget/flappy_bird_game/screens/game_over.dart';
+import 'package:basic/play_session/game_widget/flappy_bird_game/screens/main_menu.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/cupertino.dart';
 

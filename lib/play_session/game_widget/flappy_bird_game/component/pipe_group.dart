@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:basic/games/flappy_bird_game/component/pipe.dart';
+import 'package:basic/play_session/game_widget/flappy_bird_game/component/pipe.dart';
 import 'package:flame/components.dart';
 import 'package:flame_audio/flame_audio.dart';
 
