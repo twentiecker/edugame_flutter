@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../audio/audio_controller.dart';
+import '../../audio/sounds.dart';
+import '../../game_internals/level_state.dart';
 import '../../style/palette.dart';
 
 class MatchShapeGame extends StatefulWidget {
@@ -29,6 +32,15 @@ class _MatchShapeGameState extends State<MatchShapeGame> {
   @override
   Widget build(BuildContext context) {
     final palette = context.watch<Palette>();
+    final levelState = context.watch<LevelState>();
+
+    void winGame() {
+      if (isCircle && isSquare && isTriangle) {
+        levelState.setProgress(100);
+        context.read<AudioController>().playSfx(SfxType.wssh);
+        levelState.evaluate();
+      }
+    }
 
     return Column(
       children: [
@@ -83,6 +95,8 @@ class _MatchShapeGameState extends State<MatchShapeGame> {
                 setState(() {
                   isCircle = true;
                 });
+
+                winGame();
               }
             })
           ],
@@ -139,6 +153,8 @@ class _MatchShapeGameState extends State<MatchShapeGame> {
                 setState(() {
                   isSquare = true;
                 });
+
+                winGame();
               }
             })
           ],
@@ -195,6 +211,8 @@ class _MatchShapeGameState extends State<MatchShapeGame> {
                 setState(() {
                   isTriangle = true;
                 });
+
+                winGame();
               }
             })
           ],

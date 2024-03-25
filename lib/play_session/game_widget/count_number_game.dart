@@ -1,6 +1,11 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../audio/audio_controller.dart';
+import '../../audio/sounds.dart';
+import '../../game_internals/level_state.dart';
 
 class CountNumberGame extends StatefulWidget {
   const CountNumberGame({Key? key}) : super(key: key);
@@ -38,6 +43,16 @@ class _CountNumberGameState extends State<CountNumberGame> {
 
   @override
   Widget build(BuildContext context) {
+    final levelState = context.watch<LevelState>();
+
+    void winGame() {
+      if (isTrue1 && isTrue2 && isTrue3 && isTrue4) {
+        levelState.setProgress(100);
+        context.read<AudioController>().playSfx(SfxType.wssh);
+        levelState.evaluate();
+      }
+    }
+
     return Column(
       children: [
         Row(
@@ -93,6 +108,8 @@ class _CountNumberGameState extends State<CountNumberGame> {
                 setState(() {
                   isTrue1 = true;
                 });
+
+                winGame();
               }
             })
           ],
@@ -151,6 +168,8 @@ class _CountNumberGameState extends State<CountNumberGame> {
                 setState(() {
                   isTrue2 = true;
                 });
+
+                winGame();
               }
             })
           ],
@@ -209,6 +228,8 @@ class _CountNumberGameState extends State<CountNumberGame> {
                 setState(() {
                   isTrue3 = true;
                 });
+
+                winGame();
               }
             })
           ],
@@ -267,6 +288,8 @@ class _CountNumberGameState extends State<CountNumberGame> {
                 setState(() {
                   isTrue4 = true;
                 });
+
+                winGame();
               }
             })
           ],

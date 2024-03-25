@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../audio/audio_controller.dart';
+import '../../audio/sounds.dart';
+import '../../game_internals/level_state.dart';
 
 class PuzzleGame extends StatefulWidget {
   const PuzzleGame({Key? key}) : super(key: key);
@@ -14,6 +19,16 @@ class _PuzzleGameState extends State<PuzzleGame> {
 
   @override
   Widget build(BuildContext context) {
+    final levelState = context.watch<LevelState>();
+
+    void winGame() {
+      if (isCastle1 && isCastle2 && isCastle3) {
+        levelState.setProgress(100);
+        context.read<AudioController>().playSfx(SfxType.wssh);
+        levelState.evaluate();
+      }
+    }
+
     return Column(
       children: [
         DragTarget(builder: (
@@ -54,6 +69,8 @@ class _PuzzleGameState extends State<PuzzleGame> {
             setState(() {
               isCastle1 = true;
             });
+
+            winGame();
           }
         }),
         DragTarget(builder: (
@@ -94,6 +111,8 @@ class _PuzzleGameState extends State<PuzzleGame> {
             setState(() {
               isCastle2 = true;
             });
+
+            winGame();
           }
         }),
         DragTarget(builder: (
@@ -134,6 +153,8 @@ class _PuzzleGameState extends State<PuzzleGame> {
             setState(() {
               isCastle3 = true;
             });
+
+            winGame();
           }
         }),
         SizedBox(height: 20),

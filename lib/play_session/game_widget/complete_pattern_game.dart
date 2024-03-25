@@ -1,6 +1,11 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../audio/audio_controller.dart';
+import '../../audio/sounds.dart';
+import '../../game_internals/level_state.dart';
 
 class CompletePatternGame extends StatefulWidget {
   const CompletePatternGame({Key? key}) : super(key: key);
@@ -33,6 +38,16 @@ class _CompletePatternGameState extends State<CompletePatternGame> {
 
   @override
   Widget build(BuildContext context) {
+    final levelState = context.watch<LevelState>();
+
+    void winGame() {
+      if (isTrue) {
+        levelState.setProgress(100);
+        context.read<AudioController>().playSfx(SfxType.wssh);
+        levelState.evaluate();
+      }
+    }
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
@@ -231,6 +246,8 @@ class _CompletePatternGameState extends State<CompletePatternGame> {
                 setState(() {
                   isTrue = true;
                 });
+
+                winGame();
               }
             })
           ],

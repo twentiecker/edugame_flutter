@@ -1,6 +1,11 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../audio/audio_controller.dart';
+import '../../audio/sounds.dart';
+import '../../game_internals/level_state.dart';
 
 class GreaterNumberGame extends StatefulWidget {
   const GreaterNumberGame({Key? key}) : super(key: key);
@@ -30,6 +35,16 @@ class _GreaterNumberGameState extends State<GreaterNumberGame> {
 
   @override
   Widget build(BuildContext context) {
+    final levelState = context.watch<LevelState>();
+
+    void winGame() {
+      if (isTrue1 || isTrue2) {
+        levelState.setProgress(100);
+        context.read<AudioController>().playSfx(SfxType.wssh);
+        levelState.evaluate();
+      }
+    }
+
     return Column(
       children: [
         InkWell(
@@ -38,6 +53,8 @@ class _GreaterNumberGameState extends State<GreaterNumberGame> {
               setState(() {
                 isTrue1 = true;
               });
+
+              winGame();
             }
           },
           child: Stack(children: [
@@ -85,6 +102,8 @@ class _GreaterNumberGameState extends State<GreaterNumberGame> {
               setState(() {
                 isTrue2 = true;
               });
+
+              winGame();
             }
           },
           child: Stack(

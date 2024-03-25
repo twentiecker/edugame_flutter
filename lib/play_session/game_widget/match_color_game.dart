@@ -35,6 +35,14 @@ class _MatchColorGameState extends State<MatchColorGame> {
     final palette = context.watch<Palette>();
     final levelState = context.watch<LevelState>();
 
+    void winGame() {
+      if (isRed && isGreen && isBlue) {
+        levelState.setProgress(100);
+        context.read<AudioController>().playSfx(SfxType.wssh);
+        levelState.evaluate();
+      }
+    }
+
     return Column(
       children: [
         Row(
@@ -89,11 +97,7 @@ class _MatchColorGameState extends State<MatchColorGame> {
                   isRed = true;
                 });
 
-                if (isRed && isGreen && isBlue) {
-                  levelState.setProgress(100);
-                  context.read<AudioController>().playSfx(SfxType.wssh);
-                  levelState.evaluate();
-                }
+                winGame();
               }
             })
           ],
@@ -151,11 +155,7 @@ class _MatchColorGameState extends State<MatchColorGame> {
                   isBlue = true;
                 });
 
-                if (isRed && isGreen && isBlue) {
-                  levelState.setProgress(100);
-                  context.read<AudioController>().playSfx(SfxType.wssh);
-                  levelState.evaluate();
-                }
+                winGame();
               }
             })
           ],
@@ -213,11 +213,7 @@ class _MatchColorGameState extends State<MatchColorGame> {
                   isGreen = true;
                 });
 
-                if (isRed && isGreen && isBlue) {
-                  levelState.setProgress(100);
-                  context.read<AudioController>().playSfx(SfxType.wssh);
-                  levelState.evaluate();
-                }
+                winGame();
               }
             })
           ],
