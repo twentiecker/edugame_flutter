@@ -4,13 +4,6 @@
 
 import 'dart:async';
 
-import 'package:basic/play_session/game_widget/complete_pattern_game.dart';
-import 'package:basic/play_session/game_widget/count_number_game.dart';
-import 'package:basic/play_session/game_widget/flappy_bird_game/flappy_bird_game.dart';
-import 'package:basic/play_session/game_widget/greater_number_game.dart';
-import 'package:basic/play_session/game_widget/match_color_game.dart';
-import 'package:basic/play_session/game_widget/match_shape_game.dart';
-import 'package:basic/play_session/game_widget/puzzle_game.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:logging/logging.dart' hide Level;
@@ -108,19 +101,19 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
                     builder: (BuildContext context) {
                       switch (widget.index) {
                         case 0:
-                          return MatchColorGame();
+                          return games[0].gameWidget;
                         case 1:
-                          return MatchShapeGame();
+                          return games[1].gameWidget;
                         case 2:
-                          return CompletePatternGame();
+                          return games[2].gameWidget;
                         case 3:
-                          return PuzzleGame();
+                          return games[3].gameWidget;
                         case 4:
-                          return FlappyBirdGame();
+                          return games[4].gameWidget;
                         case 5:
-                          return GreaterNumberGame();
+                          return games[5].gameWidget;
                         case 6:
-                          return CountNumberGame();
+                          return games[6].gameWidget;
                         default:
                           return Center(
                             child: Text("Game isn't Available Now!"),
@@ -168,7 +161,8 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
     );
 
     final playerProgress = context.read<PlayerProgress>();
-    playerProgress.setLevelReached(widget.level.number);
+    playerProgress.setIndex(widget.index);
+    playerProgress.setLevelReached(widget.level.number, widget.index);
 
     // Let the player see the game just after winning for a bit.
     await Future<void>.delayed(_preCelebrationDuration);

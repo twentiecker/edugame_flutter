@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../audio/audio_controller.dart';
+import '../../audio/sounds.dart';
 import '../../style/palette.dart';
+import '../../game_internals/level_state.dart';
 
 class MatchColorGame extends StatefulWidget {
   const MatchColorGame({Key? key}) : super(key: key);
@@ -30,6 +33,7 @@ class _MatchColorGameState extends State<MatchColorGame> {
   @override
   Widget build(BuildContext context) {
     final palette = context.watch<Palette>();
+    final levelState = context.watch<LevelState>();
 
     return Column(
       children: [
@@ -84,6 +88,12 @@ class _MatchColorGameState extends State<MatchColorGame> {
                 setState(() {
                   isRed = true;
                 });
+
+                if (isRed && isGreen && isBlue) {
+                  levelState.setProgress(100);
+                  context.read<AudioController>().playSfx(SfxType.wssh);
+                  levelState.evaluate();
+                }
               }
             })
           ],
@@ -140,6 +150,12 @@ class _MatchColorGameState extends State<MatchColorGame> {
                 setState(() {
                   isBlue = true;
                 });
+
+                if (isRed && isGreen && isBlue) {
+                  levelState.setProgress(100);
+                  context.read<AudioController>().playSfx(SfxType.wssh);
+                  levelState.evaluate();
+                }
               }
             })
           ],
@@ -196,6 +212,12 @@ class _MatchColorGameState extends State<MatchColorGame> {
                 setState(() {
                   isGreen = true;
                 });
+
+                if (isRed && isGreen && isBlue) {
+                  levelState.setProgress(100);
+                  context.read<AudioController>().playSfx(SfxType.wssh);
+                  levelState.evaluate();
+                }
               }
             })
           ],

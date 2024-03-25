@@ -4,6 +4,7 @@
 
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../level_selection/levels.dart';
 import 'player_progress_persistence.dart';
 
 /// An implementation of [PlayerProgressPersistence] that uses
@@ -12,15 +13,20 @@ class LocalStoragePlayerProgressPersistence extends PlayerProgressPersistence {
   final Future<SharedPreferences> instanceFuture =
       SharedPreferences.getInstance();
 
+  List<String> level = [];
+
   @override
-  Future<int> getHighestLevelReached() async {
+  Future<List<String>> getHighestLevelReached() async {
     final prefs = await instanceFuture;
-    return prefs.getInt('highestLevelReached') ?? 0;
+    for (int i = 0; i < games.length; i++) {
+      level.add('0');
+    }
+    return prefs.getStringList('highestLevelReached') ?? level;
   }
 
   @override
-  Future<void> saveHighestLevelReached(int level) async {
+  Future<void> saveHighestLevelReached(List<String> level) async {
     final prefs = await instanceFuture;
-    await prefs.setInt('highestLevelReached', level);
+    await prefs.setStringList('highestLevelReached', level);
   }
 }

@@ -2,9 +2,19 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:basic/play_session/game_widget/complete_pattern_game.dart';
+import 'package:basic/play_session/game_widget/count_number_game.dart';
+import 'package:basic/play_session/game_widget/flappy_bird_game/flappy_bird_game.dart';
+import 'package:basic/play_session/game_widget/greater_number_game.dart';
+import 'package:basic/play_session/game_widget/match_color_game.dart';
+import 'package:basic/play_session/game_widget/match_shape_game.dart';
+import 'package:basic/play_session/game_widget/puzzle_game.dart';
+import 'package:flutter/widgets.dart';
+
 const games = [
   Games(
     game: 'color',
+    gameWidget: MatchColorGame(),
     gameLevels: [
       GameLevel(
         number: 1,
@@ -33,6 +43,7 @@ const games = [
   ),
   Games(
     game: 'shape',
+    gameWidget: MatchShapeGame(),
     gameLevels: [
       GameLevel(
         number: 1,
@@ -57,6 +68,7 @@ const games = [
   ),
   Games(
     game: 'pattern',
+    gameWidget: CompletePatternGame(),
     gameLevels: [
       GameLevel(
         number: 1,
@@ -85,6 +97,7 @@ const games = [
   ),
   Games(
     game: 'puzzle',
+    gameWidget: PuzzleGame(),
     gameLevels: [
       GameLevel(
         number: 1,
@@ -109,6 +122,7 @@ const games = [
   ),
   Games(
     game: 'flappy',
+    gameWidget: FlappyBirdGame(),
     gameLevels: [
       GameLevel(
         number: 1,
@@ -137,6 +151,7 @@ const games = [
   ),
   Games(
     game: 'greater',
+    gameWidget: GreaterNumberGame(),
     gameLevels: [
       GameLevel(
         number: 1,
@@ -161,6 +176,7 @@ const games = [
   ),
   Games(
     game: 'count',
+    gameWidget: CountNumberGame(),
     gameLevels: [
       GameLevel(
         number: 1,
@@ -211,10 +227,12 @@ class GameLevel {
 
 class Games {
   final String game;
+  final Widget gameWidget;
   final List<GameLevel> gameLevels;
 
   const Games({
     required this.game,
+    required this.gameWidget,
     required this.gameLevels,
   });
 }

@@ -4,6 +4,7 @@
 
 import 'dart:async';
 
+import 'package:basic/level_selection/levels.dart';
 import 'package:flutter/foundation.dart';
 
 import 'persistence/local_storage_player_progress_persistence.dart';
@@ -18,46 +19,65 @@ class PlayerProgress extends ChangeNotifier {
   /// SharedPreferences on Android or local storage on the web).
   final PlayerProgressPersistence _store;
 
-  int _highestLevelReached = 0;
+  int _index = 0;
+  List<String> _highestLevelReached = [];
 
   /// Creates an instance of [PlayerProgress] backed by an injected
   /// persistence [store].
   PlayerProgress({PlayerProgressPersistence? store})
       : _store = store ?? LocalStoragePlayerProgressPersistence() {
-    _getLatestFromStore();
+    _initLevel();
+    _getLatestFromStore(index);
   }
 
+  /// The index of the game that the player play.
+  int get index => _index;
+
   /// The highest level that the player has reached so far.
-  int get highestLevelReached => _highestLevelReached;
+  List<String> get highestLevelReached => _highestLevelReached;
 
   /// Resets the player's progress so it's like if they just started
   /// playing the game for the first time.
   void reset() {
-    _highestLevelReached = 0;
+    _highestLevelReached = [];
+    _initLevel();
     notifyListeners();
     _store.saveHighestLevelReached(_highestLevelReached);
+  }
+
+  /// Set the value of the index to determine the game level
+  void setIndex(int index) {
+    _index = index;
+    notifyListeners();
   }
 
   /// Registers [level] as reached.
   ///
   /// If this is higher than [highestLevelReached], it will update that
   /// value and save it to the injected persistence store.
-  void setLevelReached(int level) {
-    if (level > _highestLevelReached) {
-      _highestLevelReached = level;
+  void setLevelReached(int level, int index) {
+    if (level > int.parse(_highestLevelReached[index])) {
+      _highestLevelReached[index] = level.toString();
       notifyListeners();
 
-      unawaited(_store.saveHighestLevelReached(level));
+      unawaited(_store.saveHighestLevelReached(_highestLevelReached));
+    }
+  }
+
+  void _initLevel() {
+    for (int i = 0; i < games.length; i++) {
+      _highestLevelReached.add('0');
     }
   }
 
   /// Fetches the latest data from the backing persistence store.
-  Future<void> _getLatestFromStore() async {
+  Future<void> _getLatestFromStore(int index) async {
     final level = await _store.getHighestLevelReached();
-    if (level > _highestLevelReached) {
+    if (int.parse(level[index]) > int.parse(_highestLevelReached[index])) {
       _highestLevelReached = level;
       notifyListeners();
-    } else if (level < _highestLevelReached) {
+    } else if (int.parse(level[index]) <
+        int.parse(_highestLevelReached[index])) {
       await _store.saveHighestLevelReached(_highestLevelReached);
     }
   }

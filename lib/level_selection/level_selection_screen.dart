@@ -16,6 +16,7 @@ import 'levels.dart';
 
 class LevelSelectionScreen extends StatelessWidget {
   final int index;
+
   const LevelSelectionScreen({super.key, required this.index});
 
   @override
@@ -44,7 +45,8 @@ class LevelSelectionScreen extends StatelessWidget {
                 children: [
                   for (final level in games[index].gameLevels)
                     ListTile(
-                      enabled: playerProgress.highestLevelReached >=
+                      enabled: int.parse(
+                              playerProgress.highestLevelReached[index]) >=
                           level.number - 1,
                       onTap: () {
                         final audioController = context.read<AudioController>();
