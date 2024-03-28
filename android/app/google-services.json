@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "44712464821",
+    "project_id": "edugame-ddb9f",
+    "storage_bucket": "edugame-ddb9f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:44712464821:android:c83294292b9d604c2449fc",
+        "android_client_info": {
+          "package_name": "com.example.basic"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD8unEcq2SEYGn8Vj9T0ajtKEg8qOiwQWU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
