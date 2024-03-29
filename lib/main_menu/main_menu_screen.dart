@@ -185,6 +185,16 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
                 }),
             MainMenuScreen._gap,
             MyButton(
+              onPressed: () => GoRouter.of(context).push('/leaderboard'),
+              child: const Text('Leaderboard'),
+            ),
+            MainMenuScreen._gap,
+            // MyButton(
+            //   onPressed: () => authService.userSignup(),
+            //   child: const Text('Sign Up'),
+            // ),
+            // MainMenuScreen._gap,
+            MyButton(
               onPressed: () => GoRouter.of(context).push('/settings'),
               child: const Text('Settings'),
             ),

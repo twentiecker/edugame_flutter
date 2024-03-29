@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:basic/game_menu/game_menu_screen.dart';
+import 'package:basic/leaderboard_menu/leaderboard_screen.dart';
 import 'package:flutter/foundation.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -88,13 +89,18 @@ final router = GoRouter(
               )
             ]),
         GoRoute(
+          path: 'games',
+          builder: (context, state) => const GameMenuScreen(key: Key('games')),
+        ),
+        GoRoute(
+          path: 'leaderboard',
+          builder: (context, state) =>
+              const LeaderboardScreen(key: Key('leaderboard')),
+        ),
+        GoRoute(
           path: 'settings',
           builder: (context, state) =>
               const SettingsScreen(key: Key('settings')),
-        ),
-        GoRoute(
-          path: 'games',
-          builder: (context, state) => const GameMenuScreen(key: Key('games')),
         ),
       ],
     ),

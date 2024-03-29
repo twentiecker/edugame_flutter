@@ -2,6 +2,10 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:basic/firebase/firestore_service.dart';
+import 'package:basic/level_selection/levels.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -24,8 +28,47 @@ class WinGameScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final palette = context.watch<Palette>();
+    final userEmail = FirebaseAuth.instance.currentUser!.email!;
+    final FirestoreService firestoreService = FirestoreService();
 
     const gap = SizedBox(height: 10);
+
+    final docRef = firestoreService.db.collection("log").doc(userEmail);
+    docRef.get().then(
+      (DocumentSnapshot doc) {
+        if (doc.data() == null) {
+          final Map<String, dynamic> docData = {};
+          for (var game in games) {
+            docData[game.game] = 0;
+          }
+          firestoreService.addLogDoc(userEmail, docData);
+        }
+
+        firestoreService.db
+            .collection('log')
+            .doc(userEmail)
+            .get()
+            .then((value) {
+          final Map<String, dynamic> docGameData = {
+            games[index].game:
+                score.score + int.parse('${value.data()?[games[index].game]}'),
+          };
+          firestoreService.addLogDoc(userEmail, docGameData);
+        });
+      },
+      onError: (e) => debugPrint("Error getting document: $e"),
+    );
+
+    final Map<String, dynamic> gameData = {
+      'level': score.level,
+      'score': score.score,
+      'time': score.formattedTime,
+    };
+    firestoreService.addLogGame(
+      userEmail,
+      games[index].game,
+      gameData,
+    );
 
     return Scaffold(
       backgroundColor: palette.backgroundPlaySession,
