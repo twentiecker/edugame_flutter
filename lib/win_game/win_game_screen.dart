@@ -41,6 +41,7 @@ class WinGameScreen extends StatelessWidget {
           for (var game in games) {
             docData[game.game] = 0;
           }
+          docData['score'] = 0;
           firestoreService.addLogDoc(userEmail, docData);
         }
 
@@ -54,6 +55,13 @@ class WinGameScreen extends StatelessWidget {
                 score.score + int.parse('${value.data()?[games[index].game]}'),
           };
           firestoreService.addLogDoc(userEmail, docGameData);
+          docRef.get().then((value) {
+            int total = 0;
+            for (var point in value.data()!.values.toList()) {
+              total = total + int.parse('$point');
+            }
+            firestoreService.addLogDoc(userEmail, {'score': total});
+          });
         });
       },
       onError: (e) => debugPrint("Error getting document: $e"),

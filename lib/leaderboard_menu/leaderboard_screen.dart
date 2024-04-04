@@ -35,6 +35,9 @@ class LeaderboardScreen extends StatelessWidget {
                         .map(
                             (e) => leaderboard.add({e.id.toString(): e.data()}))
                         .toString();
+                    leaderboard.sort((a, b) =>
+                        int.parse('${b.values.toList()[0]['score']}').compareTo(
+                            int.parse('${a.values.toList()[0]['score']}')));
                     return ListView.separated(
                       itemCount: leaderboard.length,
                       scrollDirection: Axis.vertical,
