@@ -60,7 +60,9 @@ class WinGameScreen extends StatelessWidget {
             for (var point in value.data()!.values.toList()) {
               total = total + int.parse('$point');
             }
-            firestoreService.addLogDoc(userEmail, {'score': total});
+            firestoreService.addLogDoc(userEmail, {
+              'score': total - int.parse(value.data()!['score'].toString())
+            });
           });
         });
       },
