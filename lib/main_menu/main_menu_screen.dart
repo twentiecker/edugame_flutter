@@ -3,6 +3,8 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:basic/firebase/auth_service.dart';
+import 'package:basic/firebase/firestore_service.dart';
+import 'package:basic/player_progress/player_progress.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -25,15 +27,17 @@ class MainMenuScreen extends StatefulWidget {
 
 class _MainMenuScreenState extends State<MainMenuScreen> {
   final AuthService authService = AuthService();
+  final FirestoreService firestoreService = FirestoreService();
 
   final _formKey = GlobalKey<FormState>();
 
   final emailController = TextEditingController();
   final passController = TextEditingController();
 
+  Map<String, dynamic> level = {};
+
   @override
   void dispose() {
-    // TODO: implement dispose
     emailController.dispose();
     passController.dispose();
     super.dispose();
@@ -72,7 +76,10 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
                         top: 0,
                         right: 0,
                         child: GestureDetector(
-                          onTap: () => authService.userLogout(),
+                          onTap: () {
+                            context.read<PlayerProgress>().reset();
+                            authService.userLogout();
+                          },
                           child: Image.asset('assets/images/menu/logout.png'),
                         ),
                       )
@@ -117,7 +124,8 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
                                                 textInputAction:
                                                     TextInputAction.next,
                                                 autovalidateMode:
-                                                    AutovalidateMode.always,
+                                                    AutovalidateMode
+                                                        .onUserInteraction,
                                                 validator: (value) {
                                                   if (value == null ||
                                                       value.isEmpty) {
@@ -144,7 +152,8 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
                                                 enableSuggestions: false,
                                                 autocorrect: false,
                                                 autovalidateMode:
-                                                    AutovalidateMode.always,
+                                                    AutovalidateMode
+                                                        .onUserInteraction,
                                                 validator: (value) {
                                                   if (value == null ||
                                                       value.isEmpty) {
@@ -161,12 +170,15 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
                                               onPressed: () {
                                                 if (_formKey.currentState!
                                                     .validate()) {
-                                                  authService.userLogin(
-                                                      emailController.text,
-                                                      passController.text);
-                                                  GoRouter.of(context).pop();
-                                                  GoRouter.of(context)
-                                                      .go('/games');
+                                                  authService
+                                                      .userLogin(
+                                                          emailController.text,
+                                                          passController.text)
+                                                      .then((value) {
+                                                    GoRouter.of(context).pop();
+                                                    GoRouter.of(context)
+                                                        .go('/games');
+                                                  });
                                                 }
                                               },
                                               child: Text('Login'),
@@ -189,11 +201,11 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
               child: const Text('Leaderboard'),
             ),
             MainMenuScreen._gap,
-            // MyButton(
-            //   onPressed: () => authService.userSignup(),
-            //   child: const Text('Sign Up'),
-            // ),
-            // MainMenuScreen._gap,
+            MyButton(
+              onPressed: () => authService.userSignup(),
+              child: const Text('Sign Up'),
+            ),
+            MainMenuScreen._gap,
             MyButton(
               onPressed: () => GoRouter.of(context).push('/settings'),
               child: const Text('Settings'),

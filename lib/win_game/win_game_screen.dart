@@ -2,10 +2,10 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:basic/firebase/auth_service.dart';
 import 'package:basic/firebase/firestore_service.dart';
 import 'package:basic/level_selection/levels.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -28,12 +28,13 @@ class WinGameScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final palette = context.watch<Palette>();
-    final userEmail = FirebaseAuth.instance.currentUser!.email!;
     final FirestoreService firestoreService = FirestoreService();
+    final AuthService authService = AuthService();
 
     const gap = SizedBox(height: 10);
 
-    final docRef = firestoreService.db.collection("log").doc(userEmail);
+    final docRef =
+        firestoreService.db.collection("log").doc(authService.userEmail);
     docRef.get().then(
       (DocumentSnapshot doc) {
         if (doc.data() == null) {
@@ -42,25 +43,25 @@ class WinGameScreen extends StatelessWidget {
             docData[game.game] = 0;
           }
           docData['score'] = 0;
-          firestoreService.addLogDoc(userEmail, docData);
+          firestoreService.addLogDoc(authService.userEmail!, docData);
         }
 
         firestoreService.db
             .collection('log')
-            .doc(userEmail)
+            .doc(authService.userEmail)
             .get()
             .then((value) {
           final Map<String, dynamic> docGameData = {
             games[index].game:
                 score.score + int.parse('${value.data()?[games[index].game]}'),
           };
-          firestoreService.addLogDoc(userEmail, docGameData);
+          firestoreService.addLogDoc(authService.userEmail!, docGameData);
           docRef.get().then((value) {
             int total = 0;
             for (var point in value.data()!.values.toList()) {
               total = total + int.parse('$point');
             }
-            firestoreService.addLogDoc(userEmail, {
+            firestoreService.addLogDoc(authService.userEmail!, {
               'score': total - int.parse(value.data()!['score'].toString())
             });
           });
@@ -75,7 +76,7 @@ class WinGameScreen extends StatelessWidget {
       'time': score.formattedTime,
     };
     firestoreService.addLogGame(
-      userEmail,
+      authService.userEmail!,
       games[index].game,
       gameData,
     );

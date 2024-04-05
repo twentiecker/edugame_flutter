@@ -27,7 +27,7 @@ class LeaderboardScreen extends StatelessWidget {
             ),
             SizedBox(height: 40),
             StreamBuilder(
-                stream: firestoreService.readLogDoc(),
+                stream: firestoreService.readLog(),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   List<Map<String, dynamic>> leaderboard = [];
                   if (snapshot.hasData) {
@@ -114,7 +114,6 @@ class LeaderboardScreen extends StatelessWidget {
                             )
                           ],
                         );
-                        // return Text(leaderboard[index].toString());
                       },
                       separatorBuilder: (BuildContext context, int index) {
                         return SizedBox(height: 15);

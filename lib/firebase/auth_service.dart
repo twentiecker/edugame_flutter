@@ -2,11 +2,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 
 class AuthService {
+  final userEmail = FirebaseAuth.instance.currentUser?.email;
+
   Future<void> userSignup() async {
     try {
       final credential =
           await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: 'coba1@coba.com',
+        email: 'coba2@coba.com',
         password: '1234567890',
       );
       debugPrint(credential.user!.email);

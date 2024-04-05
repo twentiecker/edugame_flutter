@@ -26,8 +26,8 @@ class PlayerProgress extends ChangeNotifier {
   /// persistence [store].
   PlayerProgress({PlayerProgressPersistence? store})
       : _store = store ?? LocalStoragePlayerProgressPersistence() {
-    _initLevel();
-    _getLatestFromStore(index);
+    // _initLevel();
+    // _getLatestFromStore(index);
   }
 
   /// The index of the game that the player play.
@@ -40,7 +40,7 @@ class PlayerProgress extends ChangeNotifier {
   /// playing the game for the first time.
   void reset() {
     _highestLevelReached = [];
-    _initLevel();
+    // _initLevel();
     notifyListeners();
     _store.saveHighestLevelReached(_highestLevelReached);
   }
@@ -68,6 +68,10 @@ class PlayerProgress extends ChangeNotifier {
     for (int i = 0; i < games.length; i++) {
       _highestLevelReached.add('0');
     }
+  }
+
+  void setLevelProgress(List<String> level) {
+    _highestLevelReached = level;
   }
 
   /// Fetches the latest data from the backing persistence store.
