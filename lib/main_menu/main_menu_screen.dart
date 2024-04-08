@@ -34,8 +34,6 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
   final emailController = TextEditingController();
   final passController = TextEditingController();
 
-  Map<String, dynamic> level = {};
-
   @override
   void dispose() {
     emailController.dispose();
@@ -201,11 +199,11 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
               child: const Text('Leaderboard'),
             ),
             MainMenuScreen._gap,
-            MyButton(
-              onPressed: () => authService.userSignup(),
-              child: const Text('Sign Up'),
-            ),
-            MainMenuScreen._gap,
+            // MyButton(
+            //   onPressed: () => authService.userSignup(),
+            //   child: const Text('Sign Up'),
+            // ),
+            // MainMenuScreen._gap,
             MyButton(
               onPressed: () => GoRouter.of(context).push('/settings'),
               child: const Text('Settings'),

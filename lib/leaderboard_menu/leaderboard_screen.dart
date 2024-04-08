@@ -46,8 +46,12 @@ class LeaderboardScreen extends StatelessWidget {
                         int score() {
                           int point = 0;
                           for (var game in games) {
-                            point += int.parse(
-                                '${leaderboard[index].values.toList()[0][game.game]}');
+                            if (leaderboard[index].values.toList()[0]
+                                    [game.game] !=
+                                null) {
+                              point += int.parse(
+                                  '${leaderboard[index].values.toList()[0][game.game]}');
+                            }
                           }
                           return point;
                         }
