@@ -24,6 +24,7 @@ dependencies:
   firebase_core: ^2.27.2
   firebase_auth: ^4.18.0
   cloud_firestore: ^4.15.10
+  flutter_tts: ^4.0.2
 
 dev_dependencies:
   flutter_lints: ^3.0.0

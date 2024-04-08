@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 import 'package:provider/provider.dart';
 
 import '../../audio/audio_controller.dart';
@@ -20,9 +21,10 @@ class _MatchSoundGameState extends State<MatchSoundGame> {
   List<bool> isTrue = [];
   int sound = 0;
 
+  FlutterTts flutterTts = FlutterTts();
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     number.shuffle();
@@ -30,15 +32,19 @@ class _MatchSoundGameState extends State<MatchSoundGame> {
     final int num2 = number[2 + Random().nextInt(2)];
     final int num3 = number[4 + Random().nextInt(3)];
     final int num4 = number[7 + Random().nextInt(3)];
+
     sounds.add(num1);
     sounds.add(num2);
     sounds.add(num3);
     sounds.add(num4);
     sounds.shuffle();
     sound = sounds[Random().nextInt(4)];
+
     for (var i = 0; i < sounds.length; i++) {
       isTrue.add(false);
     }
+
+    flutterTts.setLanguage('id-ID');
   }
 
   @override
@@ -58,6 +64,7 @@ class _MatchSoundGameState extends State<MatchSoundGame> {
           child: InkWell(
             onTap: () {
               debugPrint(sound.toString());
+              flutterTts.speak(sound.toString());
             },
             child: Container(
               height: 100,
