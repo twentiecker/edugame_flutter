@@ -5,7 +5,6 @@
 import 'package:basic/firebase/auth_service.dart';
 import 'package:basic/firebase/firestore_service.dart';
 import 'package:basic/level_selection/levels.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -36,13 +35,21 @@ class WinGameScreen extends StatelessWidget {
     final docRef =
         firestoreService.db.collection("log").doc(authService.userEmail);
     docRef.get().then(
-      (DocumentSnapshot doc) {
+      (doc) {
         if (doc.data() == null) {
+          debugPrint('Adding initial summary data');
           final Map<String, dynamic> docData = {};
           for (var game in games) {
             docData[game.game] = 0;
           }
           docData['score'] = 0;
+          firestoreService.addLogDoc(authService.userEmail!, docData);
+        }
+
+        if (doc.data()?[games[index].game] == null) {
+          debugPrint('Adding new summary data');
+          final Map<String, dynamic> docData = {};
+          docData[games[index].game] = 0;
           firestoreService.addLogDoc(authService.userEmail!, docData);
         }
 
