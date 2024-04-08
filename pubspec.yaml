@@ -42,6 +42,7 @@ flutter:
     - assets/images/shape2d/
     - assets/images/slice/
     - assets/images/number/
+    - assets/images/memory/
     - assets/music/
     - assets/sfx/
     - assets/audio/
