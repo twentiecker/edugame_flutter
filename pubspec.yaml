@@ -40,6 +40,7 @@ flutter:
     - assets/images/
     - assets/images/menu/
     - assets/images/shape2d/
+    - assets/images/puzzle/
     - assets/images/slice/
     - assets/images/number/
     - assets/images/memory/
