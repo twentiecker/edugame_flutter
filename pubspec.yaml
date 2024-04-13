@@ -44,6 +44,7 @@ flutter:
     - assets/images/puzzle/
     - assets/images/slice/
     - assets/images/number/
+    - assets/images/jigsaw/
     - assets/images/memory/
     - assets/music/
     - assets/sfx/
