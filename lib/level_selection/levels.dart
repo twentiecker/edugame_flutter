@@ -12,6 +12,7 @@ import 'package:basic/play_session/game_widget/match_slice_game.dart';
 import 'package:basic/play_session/game_widget/match_sound_game.dart';
 import 'package:basic/play_session/game_widget/memory_game/memory_game.dart';
 import 'package:basic/play_session/game_widget/puzzle_game.dart';
+import 'package:basic/play_session/game_widget/spell_game.dart';
 import 'package:flutter/widgets.dart';
 
 const games = [
@@ -255,6 +256,31 @@ const games = [
   Games(
     game: 'slice',
     gameWidget: MatchSliceGame(),
+    gameLevels: [
+      GameLevel(
+        number: 1,
+        difficulty: 5,
+        // TODO: When ready, change these achievement IDs.
+        // You configure this in App Store Connect.
+        achievementIdIOS: 'first_win',
+        // You get this string when you configure an achievement in Play Console.
+        achievementIdAndroid: 'NhkIwB69ejkMAOOLDb',
+      ),
+      GameLevel(
+        number: 2,
+        difficulty: 42,
+      ),
+      GameLevel(
+        number: 3,
+        difficulty: 100,
+        achievementIdIOS: 'finished',
+        achievementIdAndroid: 'CdfIhE96aspNWLGSQg',
+      ),
+    ],
+  ),
+  Games(
+    game: 'spell',
+    gameWidget: SpellGame(),
     gameLevels: [
       GameLevel(
         number: 1,

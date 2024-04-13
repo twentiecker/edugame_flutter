@@ -120,6 +120,8 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
                           return games[8].gameWidget;
                         case 9:
                           return games[9].gameWidget;
+                        case 10:
+                          return games[10].gameWidget;
                         default:
                           return Center(
                             child: Text("Game isn't Available Now!"),
