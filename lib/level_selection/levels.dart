@@ -6,6 +6,7 @@ import 'package:basic/play_session/game_widget/complete_pattern_game.dart';
 import 'package:basic/play_session/game_widget/count_number_game.dart';
 import 'package:basic/play_session/game_widget/flappy_bird_game/flappy_bird_game.dart';
 import 'package:basic/play_session/game_widget/greater_number_game.dart';
+import 'package:basic/play_session/game_widget/group_game.dart';
 import 'package:basic/play_session/game_widget/jigsaw_game.dart';
 import 'package:basic/play_session/game_widget/match_color_game.dart';
 import 'package:basic/play_session/game_widget/match_shape_game.dart';
@@ -307,6 +308,31 @@ const games = [
   Games(
     game: 'jigsaw',
     gameWidget: JigsawGame(),
+    gameLevels: [
+      GameLevel(
+        number: 1,
+        difficulty: 5,
+        // TODO: When ready, change these achievement IDs.
+        // You configure this in App Store Connect.
+        achievementIdIOS: 'first_win',
+        // You get this string when you configure an achievement in Play Console.
+        achievementIdAndroid: 'NhkIwB69ejkMAOOLDb',
+      ),
+      GameLevel(
+        number: 2,
+        difficulty: 42,
+      ),
+      GameLevel(
+        number: 3,
+        difficulty: 100,
+        achievementIdIOS: 'finished',
+        achievementIdAndroid: 'CdfIhE96aspNWLGSQg',
+      ),
+    ],
+  ),
+  Games(
+    game: 'group',
+    gameWidget: GroupGame(),
     gameLevels: [
       GameLevel(
         number: 1,
