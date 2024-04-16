@@ -18,6 +18,19 @@ import '../player_progress/player_progress.dart';
 import '../style/confetti.dart';
 import '../style/my_button.dart';
 import '../style/palette.dart';
+import 'game_screen/color_game.dart';
+import 'game_widget/complete_pattern_game.dart';
+import 'game_widget/count_number_game.dart';
+import 'game_widget/flappy_bird_game/flappy_bird_game.dart';
+import 'game_widget/greater_number_game.dart';
+import 'game_widget/group_game.dart';
+import 'game_widget/jigsaw_game.dart';
+import 'game_widget/match_shape_game.dart';
+import 'game_widget/match_slice_game.dart';
+import 'game_widget/match_sound_game.dart';
+import 'game_widget/memory_game/memory_game.dart';
+import 'game_widget/puzzle_game.dart';
+import 'game_widget/spell_game.dart';
 
 /// This widget defines the entirety of the screen that the player sees when
 /// they are playing a level.
@@ -101,31 +114,31 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
                     builder: (BuildContext context) {
                       switch (widget.index) {
                         case 0:
-                          return games[0].gameWidget;
+                          return ColorGame(level: widget.level.number);
                         case 1:
-                          return games[1].gameWidget;
+                          return MatchShapeGame();
                         case 2:
-                          return games[2].gameWidget;
+                          return CompletePatternGame();
                         case 3:
-                          return games[3].gameWidget;
+                          return PuzzleGame();
                         case 4:
-                          return games[4].gameWidget;
+                          return FlappyBirdGame();
                         case 5:
-                          return games[5].gameWidget;
+                          return GreaterNumberGame();
                         case 6:
-                          return games[6].gameWidget;
+                          return CountNumberGame();
                         case 7:
-                          return games[7].gameWidget;
+                          return MatchSoundGame();
                         case 8:
-                          return games[8].gameWidget;
+                          return MemoryGame();
                         case 9:
-                          return games[9].gameWidget;
+                          return MatchSliceGame();
                         case 10:
-                          return games[10].gameWidget;
+                          return SpellGame();
                         case 11:
-                          return games[11].gameWidget;
+                          return JigsawGame();
                         case 12:
-                          return games[12].gameWidget;
+                          return GroupGame();
                         default:
                           return Center(
                             child: Text("Game isn't Available Now!"),
