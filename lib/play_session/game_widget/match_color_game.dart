@@ -1,12 +1,12 @@
 import 'dart:math';
 
-import 'package:basic/style/my_button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../audio/audio_controller.dart';
 import '../../audio/sounds.dart';
 import '../../game_internals/level_state.dart';
+import '../../style/my_button.dart';
 
 class MatchColorGame extends StatefulWidget {
   final int level;
@@ -24,21 +24,21 @@ class _MatchColorGameState extends State<MatchColorGame> {
 
   List<bool> isTrue = [];
   List<Color> colors = [];
-  List<Map<String, dynamic>> domain = [];
-  List<Map<String, dynamic>> codomain = [];
+  List<Map<String, String>> domain = [];
+  List<Map<String, String>> codomain = [];
 
   int progress = 100;
 
   void initGame() {
-    Random().nextInt(2) == 1
-        ? colors.addAll(Colors.primaries)
-        : colors.addAll(Colors.accents);
     for (var i = 0; i < widget.level + 2; i++) {
       isTrue.add(false);
     }
+    Random().nextInt(2) == 1
+        ? colors.addAll(Colors.primaries)
+        : colors.addAll(Colors.accents);
     colors.shuffle();
     for (var i = 0; i < isTrue.length; i++) {
-      domain.add({'data': i, 'color': i});
+      domain.add({'data': '$i', 'color': '$i'});
     }
     domain.shuffle();
     codomain.addAll(domain);
@@ -57,12 +57,10 @@ class _MatchColorGameState extends State<MatchColorGame> {
 
     void winGame() {
       if (isTrue.every((element) => element == true)) {
-        print(levelState.goal);
         progress = levelState.progress + levelState.goal ~/ isTrue.length;
         levelState.setProgress(progress);
         context.read<AudioController>().playSfx(SfxType.wssh);
         levelState.evaluate();
-        print(levelState.progress);
       }
     }
 
@@ -134,7 +132,7 @@ class _MatchColorGameState extends State<MatchColorGame> {
               separatorBuilder: (context, index) {
                 return SizedBox(height: 20);
               },
-              itemCount: codomain.length),
+              itemCount: isTrue.length),
         ),
         progress < levelState.goal
             ? MyButton(

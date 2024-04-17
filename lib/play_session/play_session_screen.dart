@@ -116,7 +116,7 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
                         case 0:
                           return ColorGame(level: widget.level.number);
                         case 1:
-                          return MatchShapeGame();
+                          return MatchShapeGame(level: widget.level.number);
                         case 2:
                           return CompletePatternGame();
                         case 3:

@@ -1,5 +1,7 @@
-import 'package:basic/play_session/game_widget/match_color_game.dart';
 import 'package:flutter/cupertino.dart';
+
+import '../game_widget/match_color_game.dart';
+import '../game_widget/match_shape_game.dart';
 
 class ColorGame extends StatelessWidget {
   final int level;
@@ -10,6 +12,10 @@ class ColorGame extends StatelessWidget {
   Widget build(BuildContext context) {
     return Builder(builder: (BuildContext context) {
       switch (level) {
+        case 1:
+          return MatchColorGame(level: level);
+        case 2:
+          return MatchShapeGame(level: level);
         default:
           return MatchColorGame(level: level);
       }
