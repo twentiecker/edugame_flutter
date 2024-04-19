@@ -17,15 +17,15 @@ const games = [
       ),
       GameLevel(
         number: 2,
-        difficulty: 100,
+        difficulty: 90,
       ),
       GameLevel(
         number: 3,
-        difficulty: 100,
+        difficulty: 90,
       ),
       GameLevel(
         number: 4,
-        difficulty: 100,
+        difficulty: 90,
         achievementIdIOS: 'finished',
         achievementIdAndroid: 'CdfIhE96aspNWLGSQg',
       ),
@@ -36,7 +36,7 @@ const games = [
     gameLevels: [
       GameLevel(
         number: 1,
-        difficulty: 5,
+        difficulty: 90,
         // TODO: When ready, change these achievement IDs.
         // You configure this in App Store Connect.
         achievementIdIOS: 'first_win',
@@ -45,11 +45,11 @@ const games = [
       ),
       GameLevel(
         number: 2,
-        difficulty: 42,
+        difficulty: 90,
       ),
       GameLevel(
         number: 3,
-        difficulty: 100,
+        difficulty: 90,
         achievementIdIOS: 'finished',
         achievementIdAndroid: 'CdfIhE96aspNWLGSQg',
       ),
@@ -60,7 +60,7 @@ const games = [
     gameLevels: [
       GameLevel(
         number: 1,
-        difficulty: 5,
+        difficulty: 90,
         // TODO: When ready, change these achievement IDs.
         // You configure this in App Store Connect.
         achievementIdIOS: 'first_win',
@@ -69,15 +69,15 @@ const games = [
       ),
       GameLevel(
         number: 2,
-        difficulty: 42,
+        difficulty: 90,
       ),
       GameLevel(
         number: 3,
-        difficulty: 50,
+        difficulty: 90,
       ),
       GameLevel(
         number: 4,
-        difficulty: 100,
+        difficulty: 90,
         achievementIdIOS: 'finished',
         achievementIdAndroid: 'CdfIhE96aspNWLGSQg',
       ),
@@ -88,7 +88,7 @@ const games = [
     gameLevels: [
       GameLevel(
         number: 1,
-        difficulty: 5,
+        difficulty: 90,
         // TODO: When ready, change these achievement IDs.
         // You configure this in App Store Connect.
         achievementIdIOS: 'first_win',
@@ -97,11 +97,11 @@ const games = [
       ),
       GameLevel(
         number: 2,
-        difficulty: 42,
+        difficulty: 90,
       ),
       GameLevel(
         number: 3,
-        difficulty: 100,
+        difficulty: 90,
         achievementIdIOS: 'finished',
         achievementIdAndroid: 'CdfIhE96aspNWLGSQg',
       ),
@@ -112,7 +112,7 @@ const games = [
     gameLevels: [
       GameLevel(
         number: 1,
-        difficulty: 5,
+        difficulty: 90,
         // TODO: When ready, change these achievement IDs.
         // You configure this in App Store Connect.
         achievementIdIOS: 'first_win',
@@ -121,15 +121,15 @@ const games = [
       ),
       GameLevel(
         number: 2,
-        difficulty: 42,
+        difficulty: 90,
       ),
       GameLevel(
         number: 3,
-        difficulty: 50,
+        difficulty: 90,
       ),
       GameLevel(
         number: 4,
-        difficulty: 100,
+        difficulty: 90,
         achievementIdIOS: 'finished',
         achievementIdAndroid: 'CdfIhE96aspNWLGSQg',
       ),
@@ -140,7 +140,7 @@ const games = [
     gameLevels: [
       GameLevel(
         number: 1,
-        difficulty: 5,
+        difficulty: 90,
         // TODO: When ready, change these achievement IDs.
         // You configure this in App Store Connect.
         achievementIdIOS: 'first_win',
@@ -149,11 +149,11 @@ const games = [
       ),
       GameLevel(
         number: 2,
-        difficulty: 42,
+        difficulty: 90,
       ),
       GameLevel(
         number: 3,
-        difficulty: 100,
+        difficulty: 90,
         achievementIdIOS: 'finished',
         achievementIdAndroid: 'CdfIhE96aspNWLGSQg',
       ),
@@ -164,7 +164,7 @@ const games = [
     gameLevels: [
       GameLevel(
         number: 1,
-        difficulty: 5,
+        difficulty: 90,
         // TODO: When ready, change these achievement IDs.
         // You configure this in App Store Connect.
         achievementIdIOS: 'first_win',
@@ -173,11 +173,11 @@ const games = [
       ),
       GameLevel(
         number: 2,
-        difficulty: 42,
+        difficulty: 90,
       ),
       GameLevel(
         number: 3,
-        difficulty: 100,
+        difficulty: 90,
         achievementIdIOS: 'finished',
         achievementIdAndroid: 'CdfIhE96aspNWLGSQg',
       ),
@@ -188,7 +188,7 @@ const games = [
     gameLevels: [
       GameLevel(
         number: 1,
-        difficulty: 5,
+        difficulty: 90,
         // TODO: When ready, change these achievement IDs.
         // You configure this in App Store Connect.
         achievementIdIOS: 'first_win',
@@ -197,11 +197,11 @@ const games = [
       ),
       GameLevel(
         number: 2,
-        difficulty: 42,
+        difficulty: 90,
       ),
       GameLevel(
         number: 3,
-        difficulty: 100,
+        difficulty: 90,
         achievementIdIOS: 'finished',
         achievementIdAndroid: 'CdfIhE96aspNWLGSQg',
       ),
@@ -212,7 +212,7 @@ const games = [
     gameLevels: [
       GameLevel(
         number: 1,
-        difficulty: 5,
+        difficulty: 90,
         // TODO: When ready, change these achievement IDs.
         // You configure this in App Store Connect.
         achievementIdIOS: 'first_win',
@@ -221,11 +221,11 @@ const games = [
       ),
       GameLevel(
         number: 2,
-        difficulty: 42,
+        difficulty: 90,
       ),
       GameLevel(
         number: 3,
-        difficulty: 100,
+        difficulty: 90,
         achievementIdIOS: 'finished',
         achievementIdAndroid: 'CdfIhE96aspNWLGSQg',
       ),
@@ -236,7 +236,7 @@ const games = [
     gameLevels: [
       GameLevel(
         number: 1,
-        difficulty: 5,
+        difficulty: 90,
         // TODO: When ready, change these achievement IDs.
         // You configure this in App Store Connect.
         achievementIdIOS: 'first_win',
@@ -245,11 +245,11 @@ const games = [
       ),
       GameLevel(
         number: 2,
-        difficulty: 42,
+        difficulty: 90,
       ),
       GameLevel(
         number: 3,
-        difficulty: 100,
+        difficulty: 90,
         achievementIdIOS: 'finished',
         achievementIdAndroid: 'CdfIhE96aspNWLGSQg',
       ),
@@ -260,7 +260,7 @@ const games = [
     gameLevels: [
       GameLevel(
         number: 1,
-        difficulty: 5,
+        difficulty: 90,
         // TODO: When ready, change these achievement IDs.
         // You configure this in App Store Connect.
         achievementIdIOS: 'first_win',
@@ -269,11 +269,11 @@ const games = [
       ),
       GameLevel(
         number: 2,
-        difficulty: 42,
+        difficulty: 90,
       ),
       GameLevel(
         number: 3,
-        difficulty: 100,
+        difficulty: 90,
         achievementIdIOS: 'finished',
         achievementIdAndroid: 'CdfIhE96aspNWLGSQg',
       ),
@@ -284,7 +284,7 @@ const games = [
     gameLevels: [
       GameLevel(
         number: 1,
-        difficulty: 5,
+        difficulty: 90,
         // TODO: When ready, change these achievement IDs.
         // You configure this in App Store Connect.
         achievementIdIOS: 'first_win',
@@ -293,11 +293,11 @@ const games = [
       ),
       GameLevel(
         number: 2,
-        difficulty: 42,
+        difficulty: 90,
       ),
       GameLevel(
         number: 3,
-        difficulty: 100,
+        difficulty: 90,
         achievementIdIOS: 'finished',
         achievementIdAndroid: 'CdfIhE96aspNWLGSQg',
       ),
@@ -308,7 +308,7 @@ const games = [
     gameLevels: [
       GameLevel(
         number: 1,
-        difficulty: 5,
+        difficulty: 90,
         // TODO: When ready, change these achievement IDs.
         // You configure this in App Store Connect.
         achievementIdIOS: 'first_win',
@@ -317,11 +317,11 @@ const games = [
       ),
       GameLevel(
         number: 2,
-        difficulty: 42,
+        difficulty: 90,
       ),
       GameLevel(
         number: 3,
-        difficulty: 100,
+        difficulty: 90,
         achievementIdIOS: 'finished',
         achievementIdAndroid: 'CdfIhE96aspNWLGSQg',
       ),

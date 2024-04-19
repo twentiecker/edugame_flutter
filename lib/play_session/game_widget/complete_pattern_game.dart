@@ -6,34 +6,73 @@ import 'package:provider/provider.dart';
 import '../../audio/audio_controller.dart';
 import '../../audio/sounds.dart';
 import '../../game_internals/level_state.dart';
+import '../../style/my_button.dart';
 
 class CompletePatternGame extends StatefulWidget {
-  const CompletePatternGame({Key? key}) : super(key: key);
+  final int level;
+
+  const CompletePatternGame({Key? key, required this.level}) : super(key: key);
 
   @override
   State<CompletePatternGame> createState() => _CompletePatternGameState();
 }
 
 class _CompletePatternGameState extends State<CompletePatternGame> {
-  bool isTrue = false;
-  List<Map<String, String>> gameData = [
-    {'data': 'circle', 'shape': 'assets/images/shape2d/circle.png'},
-    {'data': 'square', 'shape': 'assets/images/shape2d/square.png'},
-    {'data': 'triangle', 'shape': 'assets/images/shape2d/triangle.png'},
-    {'data': 'star', 'shape': 'assets/images/shape2d/star.png'}
-  ];
-  Map<String, String> shape1 = {};
-  Map<String, String> shape2 = {};
+  final double height = 80.0;
+  final double width = 80.0;
+  final double radius = 10.0;
+
+  List<bool> isTrue = [];
+  List<Color> colors = [];
+  List<String> shapes = [];
+  List<Map<String, String>> domain = [];
+  List<Map<String, String>> codomain = [];
+  List<Map<String, String>> tempCodomain = [];
+
+  int progress = 0;
+  int subLevel = 3;
+
+  late int difficulty;
+
+  void initGame() {
+    if (shapes.isEmpty) {
+      for (var i = 1; i < 16; i++) {
+        shapes.add('$i');
+      }
+    }
+    shapes.shuffle();
+    widget.level < 4 ? difficulty = 4 : difficulty = 6;
+    for (var i = 0; i < difficulty; i++) {
+      isTrue.add(true);
+    }
+    isTrue[Random().nextInt(isTrue.length)] = false;
+    if (difficulty == 6) {
+      final int baseIndex = isTrue.indexWhere((element) => element == false);
+      for (var i = 0; i < isTrue.length; i++) {
+        if (i == baseIndex - 3 || i == baseIndex + 3) continue;
+        isTrue[i] = isTrue[i] ? false : isTrue[i];
+        if (isTrue.where((element) => element == false).length == 2) break;
+      }
+    }
+    Random().nextInt(2) == 1
+        ? colors.addAll(Colors.primaries)
+        : colors.addAll(Colors.accents);
+    colors.shuffle();
+    for (var i = 0; i < isTrue.length; i++) {
+      domain.add({'data': '${i + 1}', 'shape': shapes[i], 'color': '$i'});
+    }
+    domain.shuffle();
+    tempCodomain.addAll(domain);
+    tempCodomain.shuffle();
+    for (var i = 0; i < isTrue.length; i++) {
+      codomain.add(tempCodomain[i % (difficulty ~/ 2)]);
+    }
+  }
 
   @override
   void initState() {
     super.initState();
-    gameData.shuffle();
-    shape1 = gameData[Random().nextInt(gameData.length)];
-    while (true) {
-      shape2 = gameData[Random().nextInt(gameData.length)];
-      if (shape1 != shape2) break;
-    }
+    initGame();
   }
 
   @override
@@ -41,217 +80,132 @@ class _CompletePatternGameState extends State<CompletePatternGame> {
     final levelState = context.watch<LevelState>();
 
     void winGame() {
-      if (isTrue) {
-        levelState.setProgress(100);
+      if (isTrue.every((element) => element == true)) {
+        progress = levelState.progress + levelState.goal ~/ subLevel;
+        levelState.setProgress(progress);
         context.read<AudioController>().playSfx(SfxType.wssh);
         levelState.evaluate();
       }
     }
 
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
+    return Column(
       children: [
-        Column(
-          children: [
-            Draggable(
-              data: gameData[0]['data'],
-              feedback: Container(
-                height: 100,
-                width: 100,
-                padding: EdgeInsets.all(10.0),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10),
+        Expanded(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              SizedBox(
+                width: width,
+                child: Column(
+                  children: [
+                    ListView.separated(
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) {
+                          return Draggable(
+                            data: domain[index]['data'],
+                            feedback: Container(
+                              height: height,
+                              width: width,
+                              padding: EdgeInsets.all(10.0),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(radius),
+                              ),
+                              child: Image.asset(
+                                'assets/images/shape2d/${domain[index]['shape']!}.png',
+                                color: colors[
+                                    int.parse('${domain[index]['color']}')],
+                              ),
+                            ),
+                            childWhenDragging: SizedBox(
+                              height: height,
+                              width: width,
+                            ),
+                            child: Container(
+                              height: height,
+                              width: width,
+                              padding: EdgeInsets.all(10.0),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(radius),
+                              ),
+                              child: Image.asset(
+                                'assets/images/shape2d/${domain[index]['shape']!}.png',
+                                color: colors[
+                                    int.parse('${domain[index]['color']}')],
+                              ),
+                            ),
+                          );
+                        },
+                        separatorBuilder: (context, index) {
+                          return SizedBox(height: 20);
+                        },
+                        itemCount: isTrue.length),
+                  ],
                 ),
-                child: Image.asset(gameData[0]['shape']!),
               ),
-              childWhenDragging: Container(
-                height: 100,
-                width: 100,
-                padding: EdgeInsets.all(10.0),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10),
+              SizedBox(
+                width: width,
+                child: Column(
+                  children: [
+                    ListView.separated(
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) {
+                          return DragTarget(builder: (
+                            BuildContext context,
+                            List<dynamic> accepted,
+                            List<dynamic> rejected,
+                          ) {
+                            return Container(
+                              height: height,
+                              width: width,
+                              padding: EdgeInsets.all(10.0),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(radius),
+                              ),
+                              child: isTrue[index]
+                                  ? Image.asset(
+                                      'assets/images/shape2d/${codomain[index]['shape']!}.png',
+                                      color: colors[int.parse(
+                                          '${codomain[index]['color']}')],
+                                    )
+                                  : Text(''),
+                            );
+                          }, onAcceptWithDetails: (DragTargetDetails details) {
+                            if (details.data == codomain[index]['data']) {
+                              setState(() {
+                                isTrue[index] = true;
+                              });
+                              winGame();
+                            }
+                          });
+                        },
+                        separatorBuilder: (context, index) {
+                          return SizedBox(height: 20);
+                        },
+                        itemCount: isTrue.length)
+                  ],
                 ),
-                child: Image.asset(gameData[0]['shape']!),
-              ),
-              child: Container(
-                height: 100,
-                width: 100,
-                padding: EdgeInsets.all(10.0),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Image.asset(gameData[0]['shape']!),
-              ),
-            ),
-            SizedBox(height: 10),
-            Draggable(
-              data: gameData[1]['data'],
-              feedback: Container(
-                height: 100,
-                width: 100,
-                padding: EdgeInsets.all(10.0),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Image.asset(gameData[1]['shape']!),
-              ),
-              childWhenDragging: Container(
-                height: 100,
-                width: 100,
-                padding: EdgeInsets.all(10.0),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Image.asset(gameData[1]['shape']!),
-              ),
-              child: Container(
-                height: 100,
-                width: 100,
-                padding: EdgeInsets.all(10.0),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Image.asset(gameData[1]['shape']!),
-              ),
-            ),
-            SizedBox(height: 10),
-            Draggable(
-              data: gameData[2]['data'],
-              feedback: Container(
-                height: 100,
-                width: 100,
-                padding: EdgeInsets.all(10.0),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Image.asset(gameData[2]['shape']!),
-              ),
-              childWhenDragging: Container(
-                height: 100,
-                width: 100,
-                padding: EdgeInsets.all(10.0),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Image.asset(gameData[2]['shape']!),
-              ),
-              child: Container(
-                height: 100,
-                width: 100,
-                padding: EdgeInsets.all(10.0),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Image.asset(gameData[2]['shape']!),
-              ),
-            ),
-            SizedBox(height: 10),
-            Draggable(
-              data: gameData[3]['data'],
-              feedback: Container(
-                height: 100,
-                width: 100,
-                padding: EdgeInsets.all(10.0),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Image.asset(gameData[3]['shape']!),
-              ),
-              childWhenDragging: Container(
-                height: 100,
-                width: 100,
-                padding: EdgeInsets.all(10.0),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Image.asset(gameData[3]['shape']!),
-              ),
-              child: Container(
-                height: 100,
-                width: 100,
-                padding: EdgeInsets.all(10.0),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Image.asset(gameData[3]['shape']!),
-              ),
-            ),
-            SizedBox(height: 10),
-          ],
+              )
+            ],
+          ),
         ),
-        Column(
-          children: [
-            Container(
-              width: 100,
-              height: 100,
-              padding: EdgeInsets.all(10.0),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Image.asset(shape1['shape']!),
-            ),
-            SizedBox(height: 10),
-            Container(
-              width: 100,
-              height: 100,
-              padding: EdgeInsets.all(10.0),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Image.asset(shape2['shape']!),
-            ),
-            SizedBox(height: 10),
-            Container(
-              width: 100,
-              height: 100,
-              padding: EdgeInsets.all(10.0),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Image.asset(shape1['shape']!),
-            ),
-            SizedBox(height: 10),
-            DragTarget(builder: (
-              BuildContext context,
-              List<dynamic> accepted,
-              List<dynamic> rejected,
-            ) {
-              return Container(
-                height: 100,
-                width: 100,
-                padding: EdgeInsets.all(10.0),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: isTrue ? Image.asset(shape2['shape']!) : Text(''),
-              );
-            }, onAcceptWithDetails: (DragTargetDetails details) {
-              if (details.data == shape2['data']) {
-                setState(() {
-                  isTrue = true;
-                });
-
-                winGame();
-              }
-            })
-          ],
-        )
+        progress < levelState.goal && isTrue.every((element) => element == true)
+            ? MyButton(
+                onPressed: () {
+                  setState(() {
+                    isTrue = [];
+                    colors = [];
+                    domain = [];
+                    codomain = [];
+                    tempCodomain = [];
+                    initGame();
+                  });
+                },
+                child: const Text('Next'),
+              )
+            : Container()
       ],
     );
   }

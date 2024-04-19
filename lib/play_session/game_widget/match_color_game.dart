@@ -28,6 +28,7 @@ class _MatchColorGameState extends State<MatchColorGame> {
   List<Map<String, String>> codomain = [];
 
   int progress = 100;
+  int subLevel = 3;
 
   void initGame() {
     for (var i = 0; i < widget.level + 2; i++) {
@@ -57,7 +58,7 @@ class _MatchColorGameState extends State<MatchColorGame> {
 
     void winGame() {
       if (isTrue.every((element) => element == true)) {
-        progress = levelState.progress + levelState.goal ~/ isTrue.length;
+        progress = levelState.progress + levelState.goal ~/ subLevel;
         levelState.setProgress(progress);
         context.read<AudioController>().playSfx(SfxType.wssh);
         levelState.evaluate();

@@ -41,7 +41,7 @@ class _PuzzleGameState extends State<PuzzleGame> {
             height: 162,
             child: isCastle1
                 ? Image.asset(
-                    'assets/images/slice/castle_01.png',
+                    'assets/images/puzzle/castle_01.png',
                     fit: BoxFit.cover,
                   )
                 : Container(
@@ -83,7 +83,7 @@ class _PuzzleGameState extends State<PuzzleGame> {
             height: 161,
             child: isCastle2
                 ? Image.asset(
-                    'assets/images/slice/castle_02.png',
+                    'assets/images/puzzle/castle_02.png',
                     fit: BoxFit.cover,
                   )
                 : Container(
@@ -125,7 +125,7 @@ class _PuzzleGameState extends State<PuzzleGame> {
             height: 162,
             child: isCastle3
                 ? Image.asset(
-                    'assets/images/slice/castle_03.png',
+                    'assets/images/puzzle/castle_03.png',
                     fit: BoxFit.cover,
                   )
                 : Container(
@@ -173,7 +173,7 @@ class _PuzzleGameState extends State<PuzzleGame> {
                       width: 300,
                       height: 162,
                       child: Image.asset(
-                        'assets/images/slice/castle_01.png',
+                        'assets/images/puzzle/castle_01.png',
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -187,7 +187,7 @@ class _PuzzleGameState extends State<PuzzleGame> {
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                       child: Image.asset(
-                        'assets/images/slice/castle_01.png',
+                        'assets/images/puzzle/castle_01.png',
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -199,7 +199,7 @@ class _PuzzleGameState extends State<PuzzleGame> {
                       width: 300,
                       height: 162,
                       child: Image.asset(
-                        'assets/images/slice/castle_02.png',
+                        'assets/images/puzzle/castle_02.png',
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -213,7 +213,7 @@ class _PuzzleGameState extends State<PuzzleGame> {
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                       child: Image.asset(
-                        'assets/images/slice/castle_02.png',
+                        'assets/images/puzzle/castle_02.png',
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -225,7 +225,7 @@ class _PuzzleGameState extends State<PuzzleGame> {
                       width: 300,
                       height: 162,
                       child: Image.asset(
-                        'assets/images/slice/castle_03.png',
+                        'assets/images/puzzle/castle_03.png',
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -239,7 +239,7 @@ class _PuzzleGameState extends State<PuzzleGame> {
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                       child: Image.asset(
-                        'assets/images/slice/castle_03.png',
+                        'assets/images/puzzle/castle_03.png',
                         fit: BoxFit.cover,
                       ),
                     ),

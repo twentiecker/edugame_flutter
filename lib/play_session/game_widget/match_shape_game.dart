@@ -27,15 +27,13 @@ class _MatchShapeGameState extends State<MatchShapeGame> {
   List<Map<String, String>> codomain = [];
 
   int progress = 100;
+  int subLevel = 3;
 
   void initGame() {
     if (shapes.isEmpty) {
-      print('masukin shape');
       for (var i = 1; i < 16; i++) {
         shapes.add('$i');
       }
-    } else {
-      print('shape dah ready');
     }
     shapes.shuffle();
     for (var i = 0; i < widget.level + 2; i++) {
@@ -65,7 +63,7 @@ class _MatchShapeGameState extends State<MatchShapeGame> {
 
     void winGame() {
       if (isTrue.every((element) => element == true)) {
-        progress = levelState.progress + levelState.goal ~/ isTrue.length;
+        progress = levelState.progress + levelState.goal ~/ subLevel;
         levelState.setProgress(progress);
         context.read<AudioController>().playSfx(SfxType.wssh);
         levelState.evaluate();

@@ -114,11 +114,17 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
                     builder: (BuildContext context) {
                       switch (widget.index) {
                         case 0:
-                          return ColorGame(level: widget.level.number);
+                          return ColorGame(
+                            level: widget.level.number,
+                          );
                         case 1:
-                          return MatchShapeGame(level: widget.level.number);
+                          return MatchShapeGame(
+                            level: widget.level.number,
+                          );
                         case 2:
-                          return CompletePatternGame();
+                          return CompletePatternGame(
+                            level: widget.level.number,
+                          );
                         case 3:
                           return PuzzleGame();
                         case 4:
