@@ -4,6 +4,7 @@
 
 import 'dart:async';
 
+import 'package:basic/play_session/game_screen/number_game.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:logging/logging.dart' hide Level;
@@ -132,7 +133,9 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
                         case 5:
                           return GreaterNumberGame();
                         case 6:
-                          return CountNumberGame();
+                          return CountNumberGame(
+                            level: widget.level.number,
+                          );
                         case 7:
                           return MatchSoundGame();
                         case 8:
@@ -145,6 +148,10 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
                           return JigsawGame();
                         case 12:
                           return GroupGame();
+                        case 13:
+                          return NumberGame(
+                            level: widget.level.number,
+                          );
                         default:
                           return Center(
                             child: Text("Game isn't Available Now!"),

@@ -327,6 +327,30 @@ const games = [
       ),
     ],
   ),
+  Games(
+    game: 'number',
+    gameLevels: [
+      GameLevel(
+        number: 1,
+        difficulty: 90,
+        // TODO: When ready, change these achievement IDs.
+        // You configure this in App Store Connect.
+        achievementIdIOS: 'first_win',
+        // You get this string when you configure an achievement in Play Console.
+        achievementIdAndroid: 'NhkIwB69ejkMAOOLDb',
+      ),
+      GameLevel(
+        number: 2,
+        difficulty: 90,
+      ),
+      GameLevel(
+        number: 3,
+        difficulty: 90,
+        achievementIdIOS: 'finished',
+        achievementIdAndroid: 'CdfIhE96aspNWLGSQg',
+      ),
+    ],
+  ),
 ];
 
 class GameLevel {

@@ -6,39 +6,52 @@ import 'package:provider/provider.dart';
 import '../../audio/audio_controller.dart';
 import '../../audio/sounds.dart';
 import '../../game_internals/level_state.dart';
+import '../../style/my_button.dart';
 
 class CountNumberGame extends StatefulWidget {
-  const CountNumberGame({Key? key}) : super(key: key);
+  final int level;
+
+  const CountNumberGame({Key? key, required this.level}) : super(key: key);
 
   @override
   State<CountNumberGame> createState() => _CountNumberGameState();
 }
 
 class _CountNumberGameState extends State<CountNumberGame> {
-  bool isTrue1 = false;
-  bool isTrue2 = false;
-  bool isTrue3 = false;
-  bool isTrue4 = false;
-  List<int> numberList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-  List<int> answerList = [];
-  late int num1;
-  late int num2;
-  late int num3;
-  late int num4;
+  final double height = 95.0;
+  final double width = 80.0;
+  final double radius = 10.0;
+
+  List<bool> isTrue = [];
+  List<Color> colors = [];
+  List<int> domain = [];
+  List<int> codomain = [];
+
+  int progress = 0;
+  int subLevel = 3;
+
+  void initGame() {
+    for (var i = 0; i < widget.level; i++) {
+      isTrue.add(false);
+    }
+    Random().nextInt(2) == 1
+        ? colors.addAll(Colors.primaries)
+        : colors.addAll(Colors.accents);
+    colors.shuffle();
+    for (var i = 1; i < 11; i++) {
+      domain.add(i);
+    }
+    domain.shuffle();
+    for (var i = 0; i < isTrue.length; i++) {
+      codomain.add(domain[i]);
+    }
+    codomain.shuffle();
+  }
 
   @override
   void initState() {
     super.initState();
-    numberList.shuffle();
-    num1 = numberList[Random().nextInt(numberList.length)];
-    num2 = numberList[Random().nextInt(numberList.length)];
-    num3 = numberList[Random().nextInt(numberList.length)];
-    num4 = numberList[Random().nextInt(numberList.length)];
-    answerList.add(num1);
-    answerList.add(num2);
-    answerList.add(num3);
-    answerList.add(num4);
-    answerList.shuffle();
+    initGame();
   }
 
   @override
@@ -46,8 +59,9 @@ class _CountNumberGameState extends State<CountNumberGame> {
     final levelState = context.watch<LevelState>();
 
     void winGame() {
-      if (isTrue1 && isTrue2 && isTrue3 && isTrue4) {
-        levelState.setProgress(100);
+      if (isTrue.every((element) => element == true)) {
+        progress = levelState.progress + levelState.goal ~/ subLevel;
+        levelState.setProgress(progress);
         context.read<AudioController>().playSfx(SfxType.wssh);
         levelState.evaluate();
       }
@@ -55,479 +69,171 @@ class _CountNumberGameState extends State<CountNumberGame> {
 
     return Column(
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Container(
-              color: Colors.white,
-              width: 280,
-              height: 115,
-              child: GridView.count(
-                crossAxisCount: 5,
-                mainAxisSpacing: 5,
-                crossAxisSpacing: 5,
-                shrinkWrap: true,
-                children: List.generate(num1, (index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: Image.asset(
-                      'assets/images/bird_midflap.png',
-                      fit: BoxFit.cover,
+        ListView.separated(
+            shrinkWrap: true,
+            itemBuilder: (context, index) {
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Container(
+                    padding: EdgeInsets.all(5.0),
+                    width: 250,
+                    height: 105,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(radius),
                     ),
-                  );
-                }),
-              ),
-            ),
-            DragTarget(builder: (
-              BuildContext context,
-              List<dynamic> accepted,
-              List<dynamic> rejected,
-            ) {
-              return Container(
-                height: 115,
-                width: 80,
-                padding: EdgeInsets.all(10.0),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                ),
-                child: isTrue1
-                    ? Center(
-                        child: Text(
-                          '$num1',
-                          style: TextStyle(
-                            fontFamily: 'Permanent Marker',
-                            fontSize: 50,
-                            height: 1,
+                    child: GridView.count(
+                      crossAxisCount: 5,
+                      mainAxisSpacing: 5,
+                      crossAxisSpacing: 5,
+                      shrinkWrap: true,
+                      children: List.generate(codomain[index], (_) {
+                        return Padding(
+                          padding: const EdgeInsets.all(4.0),
+                          child: Image.asset(
+                            'assets/images/shape2d/${codomain[index]}.png',
+                            color: colors[codomain[index]],
                           ),
-                        ),
-                      )
-                    : Text(''),
-              );
-            }, onAcceptWithDetails: (DragTargetDetails details) {
-              if (details.data == '$num1') {
-                setState(() {
-                  isTrue1 = true;
-                });
-
-                winGame();
-              }
-            })
-          ],
-        ),
-        SizedBox(height: 5),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Container(
-              color: Colors.white,
-              width: 280,
-              height: 115,
-              child: GridView.count(
-                crossAxisCount: 5,
-                mainAxisSpacing: 5,
-                crossAxisSpacing: 5,
-                shrinkWrap: true,
-                children: List.generate(num2, (index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: Image.asset(
-                      'assets/images/bird_midflap.png',
-                      fit: BoxFit.cover,
+                        );
+                      }),
                     ),
-                  );
-                }),
-              ),
-            ),
-            DragTarget(builder: (
-              BuildContext context,
-              List<dynamic> accepted,
-              List<dynamic> rejected,
-            ) {
-              return Container(
-                height: 115,
-                width: 80,
-                padding: EdgeInsets.all(10.0),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                ),
-                child: isTrue2
-                    ? Center(
-                        child: Text(
-                          '$num2',
-                          style: TextStyle(
-                            fontFamily: 'Permanent Marker',
-                            fontSize: 50,
-                            height: 1,
-                          ),
-                        ),
-                      )
-                    : Text(''),
+                  ),
+                  DragTarget(builder: (
+                    BuildContext context,
+                    List<dynamic> accepted,
+                    List<dynamic> rejected,
+                  ) {
+                    return Container(
+                      height: height,
+                      width: width,
+                      padding: EdgeInsets.all(10.0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(radius),
+                        color: Colors.white,
+                      ),
+                      child: isTrue[index]
+                          ? Center(
+                              child: Text(
+                                '${codomain[index]}',
+                                style: TextStyle(
+                                    fontFamily: 'Permanent Marker',
+                                    fontSize: 50,
+                                    height: 1,
+                                    color: colors[index]),
+                              ),
+                            )
+                          : Text(''),
+                    );
+                  }, onAcceptWithDetails: (DragTargetDetails details) {
+                    if (details.data == '${codomain[index]}') {
+                      setState(() {
+                        isTrue[index] = true;
+                      });
+                      winGame();
+                    }
+                  })
+                ],
               );
-            }, onAcceptWithDetails: (DragTargetDetails details) {
-              if (details.data == '$num2') {
-                setState(() {
-                  isTrue2 = true;
-                });
-
-                winGame();
-              }
-            })
-          ],
-        ),
-        SizedBox(height: 5),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Container(
-              color: Colors.white,
-              width: 280,
-              height: 115,
-              child: GridView.count(
-                crossAxisCount: 5,
-                mainAxisSpacing: 5,
-                crossAxisSpacing: 5,
-                shrinkWrap: true,
-                children: List.generate(num3, (index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: Image.asset(
-                      'assets/images/bird_midflap.png',
-                      fit: BoxFit.cover,
-                    ),
-                  );
-                }),
-              ),
-            ),
-            DragTarget(builder: (
-              BuildContext context,
-              List<dynamic> accepted,
-              List<dynamic> rejected,
-            ) {
-              return Container(
-                height: 115,
-                width: 80,
-                padding: EdgeInsets.all(10.0),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                ),
-                child: isTrue3
-                    ? Center(
-                        child: Text(
-                          '$num3',
-                          style: TextStyle(
-                            fontFamily: 'Permanent Marker',
-                            fontSize: 50,
-                            height: 1,
-                          ),
-                        ),
-                      )
-                    : Text(''),
-              );
-            }, onAcceptWithDetails: (DragTargetDetails details) {
-              if (details.data == '$num3') {
-                setState(() {
-                  isTrue3 = true;
-                });
-
-                winGame();
-              }
-            })
-          ],
-        ),
-        SizedBox(height: 5),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Container(
-              color: Colors.white,
-              width: 280,
-              height: 115,
-              child: GridView.count(
-                crossAxisCount: 5,
-                mainAxisSpacing: 5,
-                crossAxisSpacing: 5,
-                shrinkWrap: true,
-                children: List.generate(num4, (index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: Image.asset(
-                      'assets/images/bird_midflap.png',
-                      fit: BoxFit.cover,
-                    ),
-                  );
-                }),
-              ),
-            ),
-            DragTarget(builder: (
-              BuildContext context,
-              List<dynamic> accepted,
-              List<dynamic> rejected,
-            ) {
-              return Container(
-                height: 115,
-                width: 80,
-                padding: EdgeInsets.all(10.0),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                ),
-                child: isTrue4
-                    ? Center(
-                        child: Text(
-                          '$num4',
-                          style: TextStyle(
-                            fontFamily: 'Permanent Marker',
-                            fontSize: 50,
-                            height: 1,
-                          ),
-                        ),
-                      )
-                    : Text(''),
-              );
-            }, onAcceptWithDetails: (DragTargetDetails details) {
-              if (details.data == '$num4') {
-                setState(() {
-                  isTrue4 = true;
-                });
-
-                winGame();
-              }
-            })
-          ],
-        ),
+            },
+            separatorBuilder: (context, index) {
+              return SizedBox(height: 15);
+            },
+            itemCount: isTrue.length),
         SizedBox(height: 50),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            Draggable(
-              data: '${answerList[0]}',
-              feedback: Container(
-                height: 115,
-                width: 80,
-                padding: EdgeInsets.all(10.0),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                ),
-                child: Center(
-                  child: Text(
-                    '${answerList[0]}',
-                    style: TextStyle(
-                      fontFamily: 'Permanent Marker',
-                      fontSize: 50,
-                      height: 1,
+            SizedBox(
+              height: height,
+              child: ListView.separated(
+                shrinkWrap: true,
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (context, index) {
+                  return Draggable(
+                    data: '${codomain[index]}',
+                    feedback: Container(
+                      height: height,
+                      width: width,
+                      padding: EdgeInsets.all(10.0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(radius),
+                        color: Colors.white,
+                      ),
+                      child: Center(
+                        child: Text(
+                          '${codomain[index]}',
+                          style: TextStyle(
+                              fontFamily: 'Permanent Marker',
+                              fontSize: 50,
+                              height: 1,
+                              color: colors[index]),
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-              ),
-              childWhenDragging: Container(
-                height: 115,
-                width: 80,
-                padding: EdgeInsets.all(10.0),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                ),
-                child: Center(
-                  child: Text(
-                    '${answerList[0]}',
-                    style: TextStyle(
-                      fontFamily: 'Permanent Marker',
-                      fontSize: 50,
-                      height: 1,
+                    childWhenDragging: Container(
+                      height: height,
+                      width: width,
+                      padding: EdgeInsets.all(10.0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(radius),
+                        color: Colors.white,
+                      ),
+                      child: Center(
+                        child: Text(
+                          '${codomain[index]}',
+                          style: TextStyle(
+                              fontFamily: 'Permanent Marker',
+                              fontSize: 50,
+                              height: 1,
+                              color: colors[index]),
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-              ),
-              child: Container(
-                height: 115,
-                width: 80,
-                padding: EdgeInsets.all(10.0),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                ),
-                child: Center(
-                  child: Text(
-                    '${answerList[0]}',
-                    style: TextStyle(
-                      fontFamily: 'Permanent Marker',
-                      fontSize: 50,
-                      height: 1,
+                    child: Container(
+                      height: height,
+                      width: width,
+                      padding: EdgeInsets.all(10.0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(radius),
+                        color: Colors.white,
+                      ),
+                      child: Center(
+                        child: Text(
+                          '${codomain[index]}',
+                          style: TextStyle(
+                              fontFamily: 'Permanent Marker',
+                              fontSize: 50,
+                              height: 1,
+                              color: colors[index]),
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-              ),
-            ),
-            Draggable(
-              data: '${answerList[1]}',
-              feedback: Container(
-                height: 115,
-                width: 80,
-                padding: EdgeInsets.all(10.0),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                ),
-                child: Center(
-                  child: Text(
-                    '${answerList[1]}',
-                    style: TextStyle(
-                      fontFamily: 'Permanent Marker',
-                      fontSize: 50,
-                      height: 1,
-                    ),
-                  ),
-                ),
-              ),
-              childWhenDragging: Container(
-                height: 115,
-                width: 80,
-                padding: EdgeInsets.all(10.0),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                ),
-                child: Center(
-                  child: Text(
-                    '${answerList[1]}',
-                    style: TextStyle(
-                      fontFamily: 'Permanent Marker',
-                      fontSize: 50,
-                      height: 1,
-                    ),
-                  ),
-                ),
-              ),
-              child: Container(
-                height: 115,
-                width: 80,
-                padding: EdgeInsets.all(10.0),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                ),
-                child: Center(
-                  child: Text(
-                    '${answerList[1]}',
-                    style: TextStyle(
-                      fontFamily: 'Permanent Marker',
-                      fontSize: 50,
-                      height: 1,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            Draggable(
-              data: '${answerList[2]}',
-              feedback: Container(
-                height: 115,
-                width: 80,
-                padding: EdgeInsets.all(10.0),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                ),
-                child: Center(
-                  child: Text(
-                    '${answerList[2]}',
-                    style: TextStyle(
-                      fontFamily: 'Permanent Marker',
-                      fontSize: 50,
-                      height: 1,
-                    ),
-                  ),
-                ),
-              ),
-              childWhenDragging: Container(
-                height: 115,
-                width: 80,
-                padding: EdgeInsets.all(10.0),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                ),
-                child: Center(
-                  child: Text(
-                    '${answerList[2]}',
-                    style: TextStyle(
-                      fontFamily: 'Permanent Marker',
-                      fontSize: 50,
-                      height: 1,
-                    ),
-                  ),
-                ),
-              ),
-              child: Container(
-                height: 115,
-                width: 80,
-                padding: EdgeInsets.all(10.0),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                ),
-                child: Center(
-                  child: Text(
-                    '${answerList[2]}',
-                    style: TextStyle(
-                      fontFamily: 'Permanent Marker',
-                      fontSize: 50,
-                      height: 1,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            Draggable(
-              data: '${answerList[3]}',
-              feedback: Container(
-                height: 115,
-                width: 80,
-                padding: EdgeInsets.all(10.0),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                ),
-                child: Center(
-                  child: Text(
-                    '${answerList[3]}',
-                    style: TextStyle(
-                      fontFamily: 'Permanent Marker',
-                      fontSize: 50,
-                      height: 1,
-                    ),
-                  ),
-                ),
-              ),
-              childWhenDragging: Container(
-                height: 115,
-                width: 80,
-                padding: EdgeInsets.all(10.0),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                ),
-                child: Center(
-                  child: Text(
-                    '${answerList[3]}',
-                    style: TextStyle(
-                      fontFamily: 'Permanent Marker',
-                      fontSize: 50,
-                      height: 1,
-                    ),
-                  ),
-                ),
-              ),
-              child: Container(
-                height: 115,
-                width: 80,
-                padding: EdgeInsets.all(10.0),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                ),
-                child: Center(
-                  child: Text(
-                    '${answerList[3]}',
-                    style: TextStyle(
-                      fontFamily: 'Permanent Marker',
-                      fontSize: 50,
-                      height: 1,
-                    ),
-                  ),
-                ),
+                  );
+                },
+                separatorBuilder: (BuildContext context, int index) {
+                  return SizedBox(width: 19);
+                },
+                itemCount: isTrue.length,
               ),
             ),
           ],
-        )
+        ),
+        Spacer(),
+        progress < levelState.goal && isTrue.every((element) => element == true)
+            ? MyButton(
+                onPressed: () {
+                  setState(() {
+                    isTrue = [];
+                    colors = [];
+                    domain = [];
+                    codomain = [];
+                    initGame();
+                  });
+                },
+                child: const Text('Next'),
+              )
+            : Container()
       ],
     );
   }
