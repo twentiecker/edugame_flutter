@@ -26,305 +26,34 @@ const games = [
       GameLevel(
         number: 4,
         difficulty: 90,
-        achievementIdIOS: 'finished',
-        achievementIdAndroid: 'CdfIhE96aspNWLGSQg',
-      ),
-    ],
-  ),
-  Games(
-    game: 'shape',
-    gameLevels: [
-      GameLevel(
-        number: 1,
-        difficulty: 90,
-        // TODO: When ready, change these achievement IDs.
-        // You configure this in App Store Connect.
-        achievementIdIOS: 'first_win',
-        // You get this string when you configure an achievement in Play Console.
-        achievementIdAndroid: 'NhkIwB69ejkMAOOLDb',
       ),
       GameLevel(
-        number: 2,
+        number: 5,
         difficulty: 90,
       ),
       GameLevel(
-        number: 3,
-        difficulty: 90,
-        achievementIdIOS: 'finished',
-        achievementIdAndroid: 'CdfIhE96aspNWLGSQg',
-      ),
-    ],
-  ),
-  Games(
-    game: 'pattern',
-    gameLevels: [
-      GameLevel(
-        number: 1,
-        difficulty: 90,
-        // TODO: When ready, change these achievement IDs.
-        // You configure this in App Store Connect.
-        achievementIdIOS: 'first_win',
-        // You get this string when you configure an achievement in Play Console.
-        achievementIdAndroid: 'NhkIwB69ejkMAOOLDb',
-      ),
-      GameLevel(
-        number: 2,
+        number: 6,
         difficulty: 90,
       ),
       GameLevel(
-        number: 3,
+        number: 7,
         difficulty: 90,
       ),
       GameLevel(
-        number: 4,
+        number: 8,
+        difficulty: 90,
+      ),
+      GameLevel(
+        number: 9,
+        difficulty: 90,
+      ),
+      GameLevel(
+        number: 10,
         difficulty: 90,
         achievementIdIOS: 'finished',
         achievementIdAndroid: 'CdfIhE96aspNWLGSQg',
       ),
-    ],
-  ),
-  Games(
-    game: 'puzzle',
-    gameLevels: [
-      GameLevel(
-        number: 1,
-        difficulty: 90,
-        // TODO: When ready, change these achievement IDs.
-        // You configure this in App Store Connect.
-        achievementIdIOS: 'first_win',
-        // You get this string when you configure an achievement in Play Console.
-        achievementIdAndroid: 'NhkIwB69ejkMAOOLDb',
-      ),
-      GameLevel(
-        number: 2,
-        difficulty: 90,
-      ),
-      GameLevel(
-        number: 3,
-        difficulty: 90,
-        achievementIdIOS: 'finished',
-        achievementIdAndroid: 'CdfIhE96aspNWLGSQg',
-      ),
-    ],
-  ),
-  Games(
-    game: 'flappy',
-    gameLevels: [
-      GameLevel(
-        number: 1,
-        difficulty: 90,
-        // TODO: When ready, change these achievement IDs.
-        // You configure this in App Store Connect.
-        achievementIdIOS: 'first_win',
-        // You get this string when you configure an achievement in Play Console.
-        achievementIdAndroid: 'NhkIwB69ejkMAOOLDb',
-      ),
-      GameLevel(
-        number: 2,
-        difficulty: 90,
-      ),
-      GameLevel(
-        number: 3,
-        difficulty: 90,
-      ),
-      GameLevel(
-        number: 4,
-        difficulty: 90,
-        achievementIdIOS: 'finished',
-        achievementIdAndroid: 'CdfIhE96aspNWLGSQg',
-      ),
-    ],
-  ),
-  Games(
-    game: 'greater',
-    gameLevels: [
-      GameLevel(
-        number: 1,
-        difficulty: 90,
-        // TODO: When ready, change these achievement IDs.
-        // You configure this in App Store Connect.
-        achievementIdIOS: 'first_win',
-        // You get this string when you configure an achievement in Play Console.
-        achievementIdAndroid: 'NhkIwB69ejkMAOOLDb',
-      ),
-      GameLevel(
-        number: 2,
-        difficulty: 90,
-      ),
-      GameLevel(
-        number: 3,
-        difficulty: 90,
-        achievementIdIOS: 'finished',
-        achievementIdAndroid: 'CdfIhE96aspNWLGSQg',
-      ),
-    ],
-  ),
-  Games(
-    game: 'count',
-    gameLevels: [
-      GameLevel(
-        number: 1,
-        difficulty: 90,
-        // TODO: When ready, change these achievement IDs.
-        // You configure this in App Store Connect.
-        achievementIdIOS: 'first_win',
-        // You get this string when you configure an achievement in Play Console.
-        achievementIdAndroid: 'NhkIwB69ejkMAOOLDb',
-      ),
-      GameLevel(
-        number: 2,
-        difficulty: 90,
-      ),
-      GameLevel(
-        number: 3,
-        difficulty: 90,
-        achievementIdIOS: 'finished',
-        achievementIdAndroid: 'CdfIhE96aspNWLGSQg',
-      ),
-    ],
-  ),
-  Games(
-    game: 'sound',
-    gameLevels: [
-      GameLevel(
-        number: 1,
-        difficulty: 90,
-        // TODO: When ready, change these achievement IDs.
-        // You configure this in App Store Connect.
-        achievementIdIOS: 'first_win',
-        // You get this string when you configure an achievement in Play Console.
-        achievementIdAndroid: 'NhkIwB69ejkMAOOLDb',
-      ),
-      GameLevel(
-        number: 2,
-        difficulty: 90,
-      ),
-      GameLevel(
-        number: 3,
-        difficulty: 90,
-        achievementIdIOS: 'finished',
-        achievementIdAndroid: 'CdfIhE96aspNWLGSQg',
-      ),
-    ],
-  ),
-  Games(
-    game: 'memory',
-    gameLevels: [
-      GameLevel(
-        number: 1,
-        difficulty: 90,
-        // TODO: When ready, change these achievement IDs.
-        // You configure this in App Store Connect.
-        achievementIdIOS: 'first_win',
-        // You get this string when you configure an achievement in Play Console.
-        achievementIdAndroid: 'NhkIwB69ejkMAOOLDb',
-      ),
-      GameLevel(
-        number: 2,
-        difficulty: 90,
-      ),
-      GameLevel(
-        number: 3,
-        difficulty: 90,
-        achievementIdIOS: 'finished',
-        achievementIdAndroid: 'CdfIhE96aspNWLGSQg',
-      ),
-    ],
-  ),
-  Games(
-    game: 'slice',
-    gameLevels: [
-      GameLevel(
-        number: 1,
-        difficulty: 90,
-        // TODO: When ready, change these achievement IDs.
-        // You configure this in App Store Connect.
-        achievementIdIOS: 'first_win',
-        // You get this string when you configure an achievement in Play Console.
-        achievementIdAndroid: 'NhkIwB69ejkMAOOLDb',
-      ),
-      GameLevel(
-        number: 2,
-        difficulty: 90,
-      ),
-      GameLevel(
-        number: 3,
-        difficulty: 90,
-        achievementIdIOS: 'finished',
-        achievementIdAndroid: 'CdfIhE96aspNWLGSQg',
-      ),
-    ],
-  ),
-  Games(
-    game: 'spell',
-    gameLevels: [
-      GameLevel(
-        number: 1,
-        difficulty: 90,
-        // TODO: When ready, change these achievement IDs.
-        // You configure this in App Store Connect.
-        achievementIdIOS: 'first_win',
-        // You get this string when you configure an achievement in Play Console.
-        achievementIdAndroid: 'NhkIwB69ejkMAOOLDb',
-      ),
-      GameLevel(
-        number: 2,
-        difficulty: 90,
-      ),
-      GameLevel(
-        number: 3,
-        difficulty: 90,
-        achievementIdIOS: 'finished',
-        achievementIdAndroid: 'CdfIhE96aspNWLGSQg',
-      ),
-    ],
-  ),
-  Games(
-    game: 'jigsaw',
-    gameLevels: [
-      GameLevel(
-        number: 1,
-        difficulty: 90,
-        // TODO: When ready, change these achievement IDs.
-        // You configure this in App Store Connect.
-        achievementIdIOS: 'first_win',
-        // You get this string when you configure an achievement in Play Console.
-        achievementIdAndroid: 'NhkIwB69ejkMAOOLDb',
-      ),
-      GameLevel(
-        number: 2,
-        difficulty: 90,
-      ),
-      GameLevel(
-        number: 3,
-        difficulty: 90,
-        achievementIdIOS: 'finished',
-        achievementIdAndroid: 'CdfIhE96aspNWLGSQg',
-      ),
-    ],
-  ),
-  Games(
-    game: 'group',
-    gameLevels: [
-      GameLevel(
-        number: 1,
-        difficulty: 90,
-        // TODO: When ready, change these achievement IDs.
-        // You configure this in App Store Connect.
-        achievementIdIOS: 'first_win',
-        // You get this string when you configure an achievement in Play Console.
-        achievementIdAndroid: 'NhkIwB69ejkMAOOLDb',
-      ),
-      GameLevel(
-        number: 2,
-        difficulty: 90,
-      ),
-      GameLevel(
-        number: 3,
-        difficulty: 90,
-        achievementIdIOS: 'finished',
-        achievementIdAndroid: 'CdfIhE96aspNWLGSQg',
-      ),
+
     ],
   ),
   Games(
@@ -345,6 +74,34 @@ const games = [
       ),
       GameLevel(
         number: 3,
+        difficulty: 90,
+      ),
+      GameLevel(
+        number: 4,
+        difficulty: 90,
+      ),
+      GameLevel(
+        number: 5,
+        difficulty: 90,
+      ),
+      GameLevel(
+        number: 6,
+        difficulty: 90,
+      ),
+      GameLevel(
+        number: 7,
+        difficulty: 90,
+      ),
+      GameLevel(
+        number: 8,
+        difficulty: 90,
+      ),
+      GameLevel(
+        number: 9,
+        difficulty: 90,
+      ),
+      GameLevel(
+        number: 10,
         difficulty: 90,
         achievementIdIOS: 'finished',
         achievementIdAndroid: 'CdfIhE96aspNWLGSQg',

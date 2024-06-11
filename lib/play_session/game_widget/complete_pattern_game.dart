@@ -9,9 +9,9 @@ import '../../game_internals/level_state.dart';
 import '../../style/my_button.dart';
 
 class CompletePatternGame extends StatefulWidget {
-  final int level;
+  final List<String> images;
 
-  const CompletePatternGame({Key? key, required this.level}) : super(key: key);
+  const CompletePatternGame({Key? key, required this.images}) : super(key: key);
 
   @override
   State<CompletePatternGame> createState() => _CompletePatternGameState();
@@ -24,27 +24,19 @@ class _CompletePatternGameState extends State<CompletePatternGame> {
 
   List<bool> isTrue = [];
   List<Color> colors = [];
-  List<String> shapes = [];
   List<Map<String, String>> domain = [];
   List<Map<String, String>> codomain = [];
-  List<Map<String, String>> tempCodomain = [];
 
   int progress = 0;
   int subLevel = 3;
+  int adjLevel = 4;
 
   late int difficulty;
 
   void initGame() {
-    if (shapes.isEmpty) {
-      for (var i = 1; i < 16; i++) {
-        shapes.add('$i');
-      }
-    }
-    shapes.shuffle();
-    widget.level < 4 ? difficulty = 4 : difficulty = 6;
-    for (var i = 0; i < difficulty; i++) {
-      isTrue.add(true);
-    }
+    adjLevel < 5 ? difficulty = 4 : difficulty = 6;
+    widget.images.shuffle();
+    isTrue = List.generate(difficulty, (index) => true);
     isTrue[Random().nextInt(isTrue.length)] = false;
     if (difficulty == 6) {
       final int baseIndex = isTrue.indexWhere((element) => element == false);
@@ -55,18 +47,20 @@ class _CompletePatternGameState extends State<CompletePatternGame> {
       }
     }
     Random().nextInt(2) == 1
-        ? colors.addAll(Colors.primaries)
-        : colors.addAll(Colors.accents);
+        ? colors = List.generate(
+            Colors.primaries.length, (index) => Colors.primaries[index])
+        : colors = List.generate(
+            Colors.accents.length, (index) => Colors.accents[index]);
     colors.shuffle();
-    for (var i = 0; i < isTrue.length; i++) {
-      domain.add({'data': '${i + 1}', 'shape': shapes[i], 'color': '$i'});
-    }
+    domain = List.generate(
+        isTrue.length,
+        (index) => {
+              'data': '$index',
+              'shape': widget.images[index],
+            });
     domain.shuffle();
-    tempCodomain.addAll(domain);
-    tempCodomain.shuffle();
-    for (var i = 0; i < isTrue.length; i++) {
-      codomain.add(tempCodomain[i % (difficulty ~/ 2)]);
-    }
+    codomain = List.generate(
+        domain.length, (index) => domain[index % (difficulty ~/ 2)]);
   }
 
   @override
@@ -112,9 +106,9 @@ class _CompletePatternGameState extends State<CompletePatternGame> {
                                 borderRadius: BorderRadius.circular(radius),
                               ),
                               child: Image.asset(
-                                'assets/images/shape2d/${domain[index]['shape']!}.png',
-                                color: colors[
-                                    int.parse('${domain[index]['color']}')],
+                                domain[index]['shape']!,
+                                color:
+                                    colors[int.parse(domain[index]['data']!)],
                               ),
                             ),
                             childWhenDragging: SizedBox(
@@ -130,9 +124,9 @@ class _CompletePatternGameState extends State<CompletePatternGame> {
                                 borderRadius: BorderRadius.circular(radius),
                               ),
                               child: Image.asset(
-                                'assets/images/shape2d/${domain[index]['shape']!}.png',
-                                color: colors[
-                                    int.parse('${domain[index]['color']}')],
+                                domain[index]['shape']!,
+                                color:
+                                    colors[int.parse(domain[index]['data']!)],
                               ),
                             ),
                           );
@@ -166,9 +160,9 @@ class _CompletePatternGameState extends State<CompletePatternGame> {
                               ),
                               child: isTrue[index]
                                   ? Image.asset(
-                                      'assets/images/shape2d/${codomain[index]['shape']!}.png',
-                                      color: colors[int.parse(
-                                          '${codomain[index]['color']}')],
+                                      codomain[index]['shape']!,
+                                      color: colors[
+                                          int.parse(codomain[index]['data']!)],
                                     )
                                   : Text(''),
                             );
@@ -195,11 +189,6 @@ class _CompletePatternGameState extends State<CompletePatternGame> {
             ? MyButton(
                 onPressed: () {
                   setState(() {
-                    isTrue = [];
-                    colors = [];
-                    domain = [];
-                    codomain = [];
-                    tempCodomain = [];
                     initGame();
                   });
                 },

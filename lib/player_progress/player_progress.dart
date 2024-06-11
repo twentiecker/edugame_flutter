@@ -70,7 +70,22 @@ class PlayerProgress extends ChangeNotifier {
     }
   }
 
-  void setLevelProgress(List<String> level) {
+  void setAdditionalLevel(int addLevel) {
+    for (var i = 0; i < addLevel; i++) {
+      _highestLevelReached.add('0');
+      debugPrint('Additional level added: $_highestLevelReached');
+    }
+  }
+
+  void getLatestFromFirestore(List<String> level) {
+    _highestLevelReached = level;
+    notifyListeners();
+
+    unawaited(_store.saveHighestLevelReached(_highestLevelReached));
+  }
+
+  Future<void> getLatestFromStore() async {
+    final level = await _store.getHighestLevelReached();
     _highestLevelReached = level;
   }
 

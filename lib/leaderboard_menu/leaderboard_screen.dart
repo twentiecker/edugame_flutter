@@ -23,7 +23,11 @@ class LeaderboardScreen extends StatelessWidget {
           children: [
             Text(
               'Leaderboard',
-              style: TextStyle(fontSize: 30),
+              style: TextStyle(
+                fontFamily: 'Permanent Marker',
+                fontSize: 40,
+                height: 1,
+              ),
             ),
             SizedBox(height: 40),
             StreamBuilder(
@@ -38,91 +42,98 @@ class LeaderboardScreen extends StatelessWidget {
                     leaderboard.sort((a, b) =>
                         int.parse('${b.values.toList()[0]['score']}').compareTo(
                             int.parse('${a.values.toList()[0]['score']}')));
-                    return ListView.separated(
-                      itemCount: leaderboard.length,
-                      scrollDirection: Axis.vertical,
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) {
-                        int score() {
-                          int point = 0;
-                          for (var game in games) {
-                            if (leaderboard[index].values.toList()[0]
-                                    [game.game] !=
-                                null) {
-                              point += int.parse(
-                                  '${leaderboard[index].values.toList()[0][game.game]}');
-                            }
-                          }
-                          return point;
-                        }
+                    return leaderboard.isEmpty
+                        ? Text('No data founds')
+                        : ListView.separated(
+                            itemCount: leaderboard.length,
+                            scrollDirection: Axis.vertical,
+                            shrinkWrap: true,
+                            itemBuilder: (context, index) {
+                              int score() {
+                                int point = 0;
+                                for (var game in games) {
+                                  if (leaderboard[index].values.toList()[0]
+                                          [game.game] !=
+                                      null) {
+                                    point += int.parse(
+                                        '${leaderboard[index].values.toList()[0][game.game]}');
+                                  }
+                                }
+                                return point;
+                              }
 
-                        return Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Container(
-                              width: 30,
-                              height: 30,
-                              decoration: BoxDecoration(
-                                color: Colors.orange,
-                                borderRadius: BorderRadius.circular(30),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  '${index + 1}',
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                            ),
-                            Container(
-                              width: 50,
-                              height: 50,
-                              decoration: BoxDecoration(
-                                color: Colors.orange,
-                                borderRadius: BorderRadius.circular(30),
-                              ),
-                              child: Icon(
-                                Icons.person,
-                                color: Colors.white,
-                                size: 30,
-                              ),
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Player name',
-                                  style: TextStyle(fontSize: 12),
-                                ),
-                                Text(
-                                  leaderboard[index].keys.toList()[0],
-                                  style: TextStyle(fontSize: 16),
-                                )
-                              ],
-                            ),
-                            Icon(
-                              Icons.arrow_right,
-                              size: 30,
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Score',
-                                  style: TextStyle(fontSize: 12),
-                                ),
-                                Text(
-                                  score().toString(),
-                                  style: TextStyle(fontSize: 16),
-                                ),
-                              ],
-                            )
-                          ],
-                        );
-                      },
-                      separatorBuilder: (BuildContext context, int index) {
-                        return SizedBox(height: 15);
-                      },
-                    );
+                              return Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  Container(
+                                    width: 30,
+                                    height: 30,
+                                    decoration: BoxDecoration(
+                                      color: Colors.orange,
+                                      borderRadius: BorderRadius.circular(30),
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        '${index + 1}',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    width: 50,
+                                    height: 50,
+                                    decoration: BoxDecoration(
+                                      color: Colors.orange,
+                                      borderRadius: BorderRadius.circular(30),
+                                    ),
+                                    child: Icon(
+                                      Icons.person,
+                                      color: Colors.white,
+                                      size: 30,
+                                    ),
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Player name',
+                                        style: TextStyle(fontSize: 12),
+                                      ),
+                                      Text(
+                                        leaderboard[index].keys.toList()[0],
+                                        style: TextStyle(fontSize: 16),
+                                      )
+                                    ],
+                                  ),
+                                  Icon(
+                                    Icons.arrow_right,
+                                    size: 30,
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Score',
+                                        style: TextStyle(fontSize: 12),
+                                      ),
+                                      Text(
+                                        score().toString(),
+                                        style: TextStyle(fontSize: 16),
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              );
+                            },
+                            separatorBuilder:
+                                (BuildContext context, int index) {
+                              return SizedBox(height: 15);
+                            },
+                          );
                   }
                   return Container();
                 }),

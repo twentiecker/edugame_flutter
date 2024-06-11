@@ -31,20 +31,16 @@ class _CountNumberGameState extends State<CountNumberGame> {
   int subLevel = 3;
 
   void initGame() {
-    for (var i = 0; i < widget.level; i++) {
-      isTrue.add(false);
-    }
+    isTrue = List.generate(widget.level, (index) => false);
     Random().nextInt(2) == 1
-        ? colors.addAll(Colors.primaries)
-        : colors.addAll(Colors.accents);
+        ? colors = List.generate(
+            Colors.primaries.length, (index) => Colors.primaries[index])
+        : colors = List.generate(
+            Colors.accents.length, (index) => Colors.accents[index]);
     colors.shuffle();
-    for (var i = 1; i < 11; i++) {
-      domain.add(i);
-    }
+    domain = List.generate(10, (index) => index + 1);
     domain.shuffle();
-    for (var i = 0; i < isTrue.length; i++) {
-      codomain.add(domain[i]);
-    }
+    codomain = List.generate(isTrue.length, (index) => domain[index]);
     codomain.shuffle();
   }
 
@@ -224,10 +220,6 @@ class _CountNumberGameState extends State<CountNumberGame> {
             ? MyButton(
                 onPressed: () {
                   setState(() {
-                    isTrue = [];
-                    colors = [];
-                    domain = [];
-                    codomain = [];
                     initGame();
                   });
                 },

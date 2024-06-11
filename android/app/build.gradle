@@ -64,4 +64,16 @@ flutter {
     source '../..'
 }
 
+// Note: Its not a good idea to lock dependencies like this but it should work for a while.
+// Firebase / Flutterfire devs: Please update your okio version to what GPRC uses (1.17.5)
+// ======================================================================================== //
+configurations.all {
+    resolutionStrategy {
+        force 'com.squareup.okhttp:okhttp:2.7.5'
+        force 'com.squareup.okio:okio:1.17.5'
+    }
+}
+// ======================================================================================== //
+// ======================================================================================== //
+
 dependencies {}

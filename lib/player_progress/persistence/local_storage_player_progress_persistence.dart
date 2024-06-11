@@ -2,9 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../level_selection/levels.dart';
 import 'player_progress_persistence.dart';
 
 /// An implementation of [PlayerProgressPersistence] that uses
@@ -13,20 +13,18 @@ class LocalStoragePlayerProgressPersistence extends PlayerProgressPersistence {
   final Future<SharedPreferences> instanceFuture =
       SharedPreferences.getInstance();
 
-  List<String> level = [];
-
   @override
   Future<List<String>> getHighestLevelReached() async {
     final prefs = await instanceFuture;
-    for (int i = 0; i < games.length; i++) {
-      level.add('0');
-    }
-    return prefs.getStringList('highestLevelReached') ?? level;
+    debugPrint(
+        'Level from memory: ${prefs.getStringList('highestLevelReached') ?? []}');
+    return prefs.getStringList('highestLevelReached') ?? [];
   }
 
   @override
   Future<void> saveHighestLevelReached(List<String> level) async {
     final prefs = await instanceFuture;
     await prefs.setStringList('highestLevelReached', level);
+    debugPrint('Level saved in memory: $level');
   }
 }

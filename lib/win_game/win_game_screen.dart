@@ -44,9 +44,7 @@ class WinGameScreen extends StatelessWidget {
           }
           docData['score'] = 0;
           firestoreService.addLogDoc(authService.userEmail!, docData);
-        }
-
-        if (doc.data()?[games[index].game] == null) {
+        } else if (doc.data()?[games[index].game] == null) {
           debugPrint('Adding new summary data');
           final Map<String, dynamic> docData = {};
           docData[games[index].game] = 0;

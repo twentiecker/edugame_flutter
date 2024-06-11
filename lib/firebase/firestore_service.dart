@@ -44,9 +44,8 @@ class FirestoreService {
           level[game] = docSnapshot.data()['level'];
         }
         final playerProgress = context.read<PlayerProgress>();
-        playerProgress.setLevelProgress(
+        playerProgress.getLatestFromFirestore(
             level.values.toList().map((e) => e.toString()).toList());
-        debugPrint(playerProgress.highestLevelReached.toString());
       },
       onError: (e) => debugPrint("Error completing: $e"),
     );

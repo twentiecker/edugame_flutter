@@ -46,6 +46,14 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
     final palette = context.watch<Palette>();
     final settingsController = context.watch<SettingsController>();
     final audioController = context.watch<AudioController>();
+    final playerProgress = context.watch<PlayerProgress>();
+
+    if (playerProgress.highestLevelReached.isEmpty) {
+      /// Get highest level from shared preferences local storage and set it to player progress highest level
+      playerProgress.getLatestFromStore();
+      debugPrint(
+          'Highest level reached: ${playerProgress.highestLevelReached}');
+    }
 
     return Scaffold(
       backgroundColor: palette.backgroundMain,
@@ -165,18 +173,17 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
                                           Padding(
                                             padding: EdgeInsets.only(top: 30),
                                             child: ElevatedButton(
-                                              onPressed: () {
+                                              onPressed: () async {
                                                 if (_formKey.currentState!
                                                     .validate()) {
-                                                  authService
-                                                      .userLogin(
-                                                          emailController.text,
-                                                          passController.text)
-                                                      .then((value) {
-                                                    GoRouter.of(context).pop();
-                                                    GoRouter.of(context)
-                                                        .go('/games');
-                                                  });
+                                                  await authService.userLogin(
+                                                      emailController.text,
+                                                      passController.text);
+                                                }
+                                                if (context.mounted) {
+                                                  GoRouter.of(context).pop();
+                                                  GoRouter.of(context)
+                                                      .go('/games');
                                                 }
                                               },
                                               child: Text('Login'),

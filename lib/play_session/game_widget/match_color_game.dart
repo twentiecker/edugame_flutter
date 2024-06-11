@@ -9,9 +9,7 @@ import '../../game_internals/level_state.dart';
 import '../../style/my_button.dart';
 
 class MatchColorGame extends StatefulWidget {
-  final int level;
-
-  const MatchColorGame({Key? key, required this.level}) : super(key: key);
+  const MatchColorGame({Key? key}) : super(key: key);
 
   @override
   State<MatchColorGame> createState() => _MatchColorGameState();
@@ -24,25 +22,24 @@ class _MatchColorGameState extends State<MatchColorGame> {
 
   List<bool> isTrue = [];
   List<Color> colors = [];
-  List<Map<String, String>> domain = [];
-  List<Map<String, String>> codomain = [];
+  List<int> domain = [];
+  List<int> codomain = [];
 
-  int progress = 100;
+  int progress = 0;
   int subLevel = 3;
+  int adjLevel = 4;
 
   void initGame() {
-    for (var i = 0; i < widget.level + 2; i++) {
-      isTrue.add(false);
-    }
+    isTrue = List.generate(adjLevel, (index) => false);
     Random().nextInt(2) == 1
-        ? colors.addAll(Colors.primaries)
-        : colors.addAll(Colors.accents);
+        ? colors = List.generate(
+            Colors.primaries.length, (index) => Colors.primaries[index])
+        : colors = List.generate(
+            Colors.accents.length, (index) => Colors.accents[index]);
     colors.shuffle();
-    for (var i = 0; i < isTrue.length; i++) {
-      domain.add({'data': '$i', 'color': '$i'});
-    }
+    domain = List.generate(isTrue.length, (index) => index);
     domain.shuffle();
-    codomain.addAll(domain);
+    codomain = List.generate(domain.length, (index) => domain[index]);
     codomain.shuffle();
   }
 
@@ -74,13 +71,13 @@ class _MatchColorGameState extends State<MatchColorGame> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     Draggable(
-                      data: domain[index]['data'],
+                      data: domain[index],
                       feedback: Container(
                         height: height,
                         width: width,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(radius),
-                          color: colors[int.parse('${domain[index]['color']}')],
+                          color: colors[domain[index]],
                         ),
                       ),
                       childWhenDragging: SizedBox(
@@ -92,7 +89,7 @@ class _MatchColorGameState extends State<MatchColorGame> {
                         width: width,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(radius),
-                          color: colors[int.parse('${domain[index]['color']}')],
+                          color: colors[domain[index]],
                         ),
                       ),
                     ),
@@ -107,20 +104,18 @@ class _MatchColorGameState extends State<MatchColorGame> {
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(radius),
                             color: isTrue[index]
-                                ? colors[
-                                    int.parse('${codomain[index]['color']}')]
+                                ? colors[codomain[index]]
                                 : Colors.white),
                         child: Container(
                           margin: EdgeInsets.all(height / 100 * 40),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(radius),
-                            color: colors[
-                                int.parse('${codomain[index]['color']}')],
+                            color: colors[codomain[index]],
                           ),
                         ),
                       );
                     }, onAcceptWithDetails: (DragTargetDetails details) {
-                      if (details.data == codomain[index]['data']) {
+                      if (details.data == codomain[index]) {
                         setState(() {
                           isTrue[index] = true;
                         });
@@ -135,15 +130,10 @@ class _MatchColorGameState extends State<MatchColorGame> {
               },
               itemCount: isTrue.length),
         ),
-        progress < levelState.goal
+        progress < levelState.goal && isTrue.every((element) => element == true)
             ? MyButton(
                 onPressed: () {
                   setState(() {
-                    isTrue = [];
-                    colors = [];
-                    domain = [];
-                    codomain = [];
-                    progress = 100;
                     initGame();
                   });
                 },

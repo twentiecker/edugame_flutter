@@ -7,44 +7,54 @@ import 'package:provider/provider.dart';
 import '../../audio/audio_controller.dart';
 import '../../audio/sounds.dart';
 import '../../game_internals/level_state.dart';
+import '../../style/my_button.dart';
 
 class MatchSoundGame extends StatefulWidget {
-  const MatchSoundGame({Key? key}) : super(key: key);
+  final String category;
+  final List<String> images;
+
+  const MatchSoundGame({
+    Key? key,
+    required this.category,
+    required this.images,
+  }) : super(key: key);
 
   @override
   State<MatchSoundGame> createState() => _MatchSoundGameState();
 }
 
 class _MatchSoundGameState extends State<MatchSoundGame> {
-  final List<int> number = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-  List<int> sounds = [];
-  List<bool> isTrue = [];
-  int sound = 0;
+  final double height = 80.0;
+  final double width = 80.0;
+  final double radius = 10.0;
+  final FlutterTts flutterTts = FlutterTts();
 
-  FlutterTts flutterTts = FlutterTts();
+  List<GameData> gameData = [];
+
+  int progress = 0;
+  int subLevel = 3;
+  int adjLevel = 2;
+
+  void initGame() {
+    widget.images.shuffle();
+    flutterTts.setLanguage('id-ID');
+    gameData = List.generate(
+        adjLevel,
+        (i) => GameData(
+              isTrue: List.generate(4, (j) => false),
+              sounds: List.generate(
+                  4,
+                  (j) =>
+                      widget.images[widget.images.length ~/ (i + 1) - j - 1]),
+              sound: widget.images[
+                  widget.images.length ~/ (i + 1) - Random().nextInt(4) - 1],
+            ));
+  }
 
   @override
   void initState() {
     super.initState();
-
-    number.shuffle();
-    final int num1 = number[Random().nextInt(2)];
-    final int num2 = number[2 + Random().nextInt(2)];
-    final int num3 = number[4 + Random().nextInt(3)];
-    final int num4 = number[7 + Random().nextInt(3)];
-
-    sounds.add(num1);
-    sounds.add(num2);
-    sounds.add(num3);
-    sounds.add(num4);
-    sounds.shuffle();
-    sound = sounds[Random().nextInt(4)];
-
-    for (var i = 0; i < sounds.length; i++) {
-      isTrue.add(false);
-    }
-
-    flutterTts.setLanguage('id-ID');
+    initGame();
   }
 
   @override
@@ -52,90 +62,149 @@ class _MatchSoundGameState extends State<MatchSoundGame> {
     final levelState = context.watch<LevelState>();
 
     void winGame() {
-      levelState.setProgress(100);
-      context.read<AudioController>().playSfx(SfxType.wssh);
-      levelState.evaluate();
+      if (gameData.every((element) => element.isTrue.contains(true))) {
+        progress = levelState.progress + levelState.goal ~/ subLevel;
+        levelState.setProgress(progress);
+        context.read<AudioController>().playSfx(SfxType.wssh);
+        levelState.evaluate();
+      }
     }
 
-    return Row(
+    return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.only(left: 50.0),
-          child: InkWell(
-            onTap: () {
-              debugPrint(sound.toString());
-              flutterTts.speak(sound.toString());
-            },
-            child: Container(
-              height: 100,
-              width: 100,
-              color: Colors.white,
-              child: Icon(Icons.volume_up),
-            ),
-          ),
-        ),
         Expanded(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              ListView.separated(
-                shrinkWrap: true,
-                itemCount: sounds.length,
-                itemBuilder: (context, index) {
-                  return InkWell(
+          child: ListView.separated(
+              itemBuilder: (context, i) {
+                return Column(
+                  children: [
+                    InkWell(
                       onTap: () {
-                        if (sound == sounds[index]) {
-                          setState(() {
-                            isTrue[index] = !isTrue[index];
-                          });
-
-                          winGame();
-                        }
+                        debugPrint(gameData[i].sound);
+                        flutterTts.speak(gameData[i].sound);
                       },
-                      child: isTrue[index]
-                          ? Center(
-                              child: Stack(
-                                children: [
-                                  Container(
-                                    height: 100,
-                                    width: 100,
-                                    decoration: BoxDecoration(
-                                        image: DecorationImage(
-                                            image: Image.asset(
-                                                    'assets/images/number/${sounds[index]}.png')
-                                                .image)),
-                                  ),
-                                  Container(
-                                    height: 100,
-                                    width: 100,
-                                    color: Colors.greenAccent.withOpacity(0.8),
-                                    child: Icon(
-                                      Icons.check_circle_outline_rounded,
-                                      size: 50,
-                                      color: Colors.green,
-                                    ),
-                                  )
-                                ],
-                              ),
-                            )
-                          : Container(
-                              height: 100,
-                              width: 100,
-                              decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                      image: Image.asset(
-                                              'assets/images/number/${sounds[index]}.png')
-                                          .image)),
-                            ));
+                      child: Container(
+                        height: height,
+                        width: width,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(radius),
+                          color: Colors.white,
+                        ),
+                        child: Icon(
+                          Icons.volume_up,
+                          size: 35,
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 25),
+                    SizedBox(
+                        width: double.infinity,
+                        height: height,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            ListView.separated(
+                              shrinkWrap: true,
+                              scrollDirection: Axis.horizontal,
+                              itemCount: gameData[i].sounds.length,
+                              itemBuilder: (context, index) {
+                                return gameData[i].isTrue[index] == true
+                                    ? Center(
+                                        child: Stack(
+                                          children: [
+                                            Container(
+                                              height: height,
+                                              width: width,
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          radius),
+                                                  image: DecorationImage(
+                                                      image: Image.asset(
+                                                              'assets/images/${widget.category}/${gameData[i].sounds[index]}.png')
+                                                          .image)),
+                                            ),
+                                            Container(
+                                              height: height,
+                                              width: width,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                        radius),
+                                                color: Colors.greenAccent
+                                                    .withOpacity(0.8),
+                                              ),
+                                              child: Icon(
+                                                Icons
+                                                    .check_circle_outline_rounded,
+                                                size: 35,
+                                                color: Colors.green,
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      )
+                                    : InkWell(
+                                        onTap: () {
+                                          if (gameData[i].sound ==
+                                              gameData[i].sounds[index]) {
+                                            setState(() {
+                                              gameData[i].isTrue[index] = true;
+                                            });
+                                            winGame();
+                                          }
+                                        },
+                                        child: Container(
+                                          height: height,
+                                          width: width,
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(radius),
+                                              image: DecorationImage(
+                                                  image: Image.asset(
+                                                          'assets/images/${widget.category}/${gameData[i].sounds[index]}.png')
+                                                      .image)),
+                                        ),
+                                      );
+                              },
+                              separatorBuilder:
+                                  (BuildContext context, int index) {
+                                return SizedBox(width: 20);
+                              },
+                            ),
+                          ],
+                        )),
+                  ],
+                );
+              },
+              separatorBuilder: (context, index) {
+                return SizedBox(height: 50);
+              },
+              itemCount: gameData.length),
+        ),
+        progress < levelState.goal &&
+                gameData.every((element) => element.isTrue.contains(true))
+            ? MyButton(
+                onPressed: () {
+                  setState(() {
+                    initGame();
+                  });
                 },
-                separatorBuilder: (BuildContext context, int index) {
-                  return SizedBox(height: 40);
-                },
-              ),
-            ],
-          ),
-        )
+                child: const Text('Next'),
+              )
+            : Container()
       ],
     );
   }
+}
+
+class GameData {
+  List<bool> isTrue;
+  List<String> sounds;
+  String sound;
+
+  GameData({
+    required this.isTrue,
+    required this.sounds,
+    required this.sound,
+  });
 }

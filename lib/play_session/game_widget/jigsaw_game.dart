@@ -6,49 +6,30 @@ import '../../audio/sounds.dart';
 import '../../game_internals/level_state.dart';
 
 class JigsawGame extends StatefulWidget {
-  const JigsawGame({Key? key}) : super(key: key);
+  final List<String> images;
+
+  const JigsawGame({Key? key, required this.images}) : super(key: key);
 
   @override
   State<JigsawGame> createState() => _JigsawGameState();
 }
 
 class _JigsawGameState extends State<JigsawGame> {
-  bool isTrue1 = false;
-  bool isTrue2 = false;
-  bool isTrue3 = false;
-  bool isTrue4 = false;
-  bool isTrue5 = false;
-  bool isTrue6 = false;
-  bool isTrue7 = false;
-  bool isTrue8 = false;
-  bool isTrue9 = false;
-  bool isTrue10 = false;
-  bool isTrue11 = false;
-  bool isTrue12 = false;
-  List<String> jigsaw = [
-    '1',
-    '2',
-    '3',
-    '4',
-    '5',
-    '6',
-    '7',
-    '8',
-    '9',
-    '10',
-    '11',
-    '12'
-  ];
-  List<String> pieces = [];
   final double scale = 2 / 1.5;
+
+  List<bool> isTrue = [];
+  List<String> pieces = [];
+
+  void initGame() {
+    isTrue = List.generate(widget.images.length, (index) => false);
+    pieces = List.generate(isTrue.length, (index) => widget.images[index]);
+    pieces.shuffle();
+  }
 
   @override
   void initState() {
     super.initState();
-    for (var x in jigsaw) {
-      pieces.add(x);
-    }
-    pieces.shuffle();
+    initGame();
   }
 
   @override
@@ -56,18 +37,7 @@ class _JigsawGameState extends State<JigsawGame> {
     final levelState = context.watch<LevelState>();
 
     void winGame() {
-      if (isTrue1 &&
-          isTrue2 &&
-          isTrue3 &&
-          isTrue4 &&
-          isTrue5 &&
-          isTrue6 &&
-          isTrue7 &&
-          isTrue8 &&
-          isTrue9 &&
-          isTrue10 &&
-          isTrue11 &&
-          isTrue12) {
+      if (isTrue.every((element) => element == true)) {
         levelState.setProgress(100);
         context.read<AudioController>().playSfx(SfxType.wssh);
         levelState.evaluate();
@@ -91,23 +61,22 @@ class _JigsawGameState extends State<JigsawGame> {
                   List<dynamic> accepted,
                   List<dynamic> rejected,
                 ) {
-                  return isTrue1
+                  return isTrue[0]
                       ? Image.asset(
-                          'assets/images/jigsaw/${jigsaw[0]}.png',
+                          widget.images[0],
                           scale: 1.5,
                         )
                       : Image.asset(
-                          'assets/images/jigsaw/${jigsaw[0]}.png',
+                          widget.images[0],
                           scale: 1.5,
                           color: Colors.grey.withOpacity(0.8),
                           colorBlendMode: BlendMode.modulate,
                         );
                 }, onAcceptWithDetails: (DragTargetDetails details) {
-                  if (details.data == jigsaw[0]) {
+                  if (details.data == widget.images[0]) {
                     setState(() {
-                      isTrue1 = true;
+                      isTrue[0] = true;
                     });
-
                     winGame();
                   }
                 }),
@@ -118,23 +87,22 @@ class _JigsawGameState extends State<JigsawGame> {
                     List<dynamic> accepted,
                     List<dynamic> rejected,
                   ) {
-                    return isTrue2
+                    return isTrue[1]
                         ? Image.asset(
-                            'assets/images/jigsaw/${jigsaw[1]}.png',
+                            widget.images[1],
                             scale: 1.5,
                           )
                         : Image.asset(
-                            'assets/images/jigsaw/${jigsaw[1]}.png',
+                            widget.images[1],
                             scale: 1.5,
                             color: Colors.grey.withOpacity(0.8),
                             colorBlendMode: BlendMode.modulate,
                           );
                   }, onAcceptWithDetails: (DragTargetDetails details) {
-                    if (details.data == jigsaw[1]) {
+                    if (details.data == widget.images[1]) {
                       setState(() {
-                        isTrue2 = true;
+                        isTrue[1] = true;
                       });
-
                       winGame();
                     }
                   }),
@@ -146,23 +114,22 @@ class _JigsawGameState extends State<JigsawGame> {
                     List<dynamic> accepted,
                     List<dynamic> rejected,
                   ) {
-                    return isTrue3
+                    return isTrue[2]
                         ? Image.asset(
-                            'assets/images/jigsaw/${jigsaw[2]}.png',
+                            widget.images[2],
                             scale: 1.5,
                           )
                         : Image.asset(
-                            'assets/images/jigsaw/${jigsaw[2]}.png',
+                            widget.images[2],
                             scale: 1.5,
                             color: Colors.grey.withOpacity(0.8),
                             colorBlendMode: BlendMode.modulate,
                           );
                   }, onAcceptWithDetails: (DragTargetDetails details) {
-                    if (details.data == jigsaw[2]) {
+                    if (details.data == widget.images[2]) {
                       setState(() {
-                        isTrue3 = true;
+                        isTrue[2] = true;
                       });
-
                       winGame();
                     }
                   }),
@@ -174,23 +141,22 @@ class _JigsawGameState extends State<JigsawGame> {
                     List<dynamic> accepted,
                     List<dynamic> rejected,
                   ) {
-                    return isTrue4
+                    return isTrue[3]
                         ? Image.asset(
-                            'assets/images/jigsaw/${jigsaw[3]}.png',
+                            widget.images[3],
                             scale: 1.5,
                           )
                         : Image.asset(
-                            'assets/images/jigsaw/${jigsaw[3]}.png',
+                            widget.images[3],
                             scale: 1.5,
                             color: Colors.grey.withOpacity(0.8),
                             colorBlendMode: BlendMode.modulate,
                           );
                   }, onAcceptWithDetails: (DragTargetDetails details) {
-                    if (details.data == jigsaw[3]) {
+                    if (details.data == widget.images[3]) {
                       setState(() {
-                        isTrue4 = true;
+                        isTrue[3] = true;
                       });
-
                       winGame();
                     }
                   }),
@@ -202,23 +168,22 @@ class _JigsawGameState extends State<JigsawGame> {
                     List<dynamic> accepted,
                     List<dynamic> rejected,
                   ) {
-                    return isTrue5
+                    return isTrue[4]
                         ? Image.asset(
-                            'assets/images/jigsaw/${jigsaw[4]}.png',
+                            widget.images[4],
                             scale: 1.5,
                           )
                         : Image.asset(
-                            'assets/images/jigsaw/${jigsaw[4]}.png',
+                            widget.images[4],
                             scale: 1.5,
                             color: Colors.grey.withOpacity(0.8),
                             colorBlendMode: BlendMode.modulate,
                           );
                   }, onAcceptWithDetails: (DragTargetDetails details) {
-                    if (details.data == jigsaw[4]) {
+                    if (details.data == widget.images[4]) {
                       setState(() {
-                        isTrue5 = true;
+                        isTrue[4] = true;
                       });
-
                       winGame();
                     }
                   }),
@@ -231,23 +196,22 @@ class _JigsawGameState extends State<JigsawGame> {
                     List<dynamic> accepted,
                     List<dynamic> rejected,
                   ) {
-                    return isTrue6
+                    return isTrue[5]
                         ? Image.asset(
-                            'assets/images/jigsaw/${jigsaw[5]}.png',
+                            widget.images[5],
                             scale: 1.5,
                           )
                         : Image.asset(
-                            'assets/images/jigsaw/${jigsaw[5]}.png',
+                            widget.images[5],
                             scale: 1.5,
                             color: Colors.grey.withOpacity(0.8),
                             colorBlendMode: BlendMode.modulate,
                           );
                   }, onAcceptWithDetails: (DragTargetDetails details) {
-                    if (details.data == jigsaw[5]) {
+                    if (details.data == widget.images[5]) {
                       setState(() {
-                        isTrue6 = true;
+                        isTrue[5] = true;
                       });
-
                       winGame();
                     }
                   }),
@@ -260,23 +224,22 @@ class _JigsawGameState extends State<JigsawGame> {
                     List<dynamic> accepted,
                     List<dynamic> rejected,
                   ) {
-                    return isTrue7
+                    return isTrue[6]
                         ? Image.asset(
-                            'assets/images/jigsaw/${jigsaw[6]}.png',
+                            widget.images[6],
                             scale: 1.5,
                           )
                         : Image.asset(
-                            'assets/images/jigsaw/${jigsaw[6]}.png',
+                            widget.images[6],
                             scale: 1.5,
                             color: Colors.grey.withOpacity(0.8),
                             colorBlendMode: BlendMode.modulate,
                           );
                   }, onAcceptWithDetails: (DragTargetDetails details) {
-                    if (details.data == jigsaw[6]) {
+                    if (details.data == widget.images[6]) {
                       setState(() {
-                        isTrue7 = true;
+                        isTrue[6] = true;
                       });
-
                       winGame();
                     }
                   }),
@@ -289,23 +252,22 @@ class _JigsawGameState extends State<JigsawGame> {
                     List<dynamic> accepted,
                     List<dynamic> rejected,
                   ) {
-                    return isTrue8
+                    return isTrue[7]
                         ? Image.asset(
-                            'assets/images/jigsaw/${jigsaw[7]}.png',
+                            widget.images[7],
                             scale: 1.5,
                           )
                         : Image.asset(
-                            'assets/images/jigsaw/${jigsaw[7]}.png',
+                            widget.images[7],
                             scale: 1.5,
                             color: Colors.grey.withOpacity(0.8),
                             colorBlendMode: BlendMode.modulate,
                           );
                   }, onAcceptWithDetails: (DragTargetDetails details) {
-                    if (details.data == jigsaw[7]) {
+                    if (details.data == widget.images[7]) {
                       setState(() {
-                        isTrue8 = true;
+                        isTrue[7] = true;
                       });
-
                       winGame();
                     }
                   }),
@@ -317,23 +279,22 @@ class _JigsawGameState extends State<JigsawGame> {
                     List<dynamic> accepted,
                     List<dynamic> rejected,
                   ) {
-                    return isTrue9
+                    return isTrue[8]
                         ? Image.asset(
-                            'assets/images/jigsaw/${jigsaw[8]}.png',
+                            widget.images[8],
                             scale: 1.5,
                           )
                         : Image.asset(
-                            'assets/images/jigsaw/${jigsaw[8]}.png',
+                            widget.images[8],
                             scale: 1.5,
                             color: Colors.grey.withOpacity(0.8),
                             colorBlendMode: BlendMode.modulate,
                           );
                   }, onAcceptWithDetails: (DragTargetDetails details) {
-                    if (details.data == jigsaw[8]) {
+                    if (details.data == widget.images[8]) {
                       setState(() {
-                        isTrue9 = true;
+                        isTrue[8] = true;
                       });
-
                       winGame();
                     }
                   }),
@@ -346,23 +307,22 @@ class _JigsawGameState extends State<JigsawGame> {
                     List<dynamic> accepted,
                     List<dynamic> rejected,
                   ) {
-                    return isTrue10
+                    return isTrue[9]
                         ? Image.asset(
-                            'assets/images/jigsaw/${jigsaw[9]}.png',
+                            widget.images[9],
                             scale: 1.5,
                           )
                         : Image.asset(
-                            'assets/images/jigsaw/${jigsaw[9]}.png',
+                            widget.images[9],
                             scale: 1.5,
                             color: Colors.grey.withOpacity(0.8),
                             colorBlendMode: BlendMode.modulate,
                           );
                   }, onAcceptWithDetails: (DragTargetDetails details) {
-                    if (details.data == jigsaw[9]) {
+                    if (details.data == widget.images[9]) {
                       setState(() {
-                        isTrue10 = true;
+                        isTrue[9] = true;
                       });
-
                       winGame();
                     }
                   }),
@@ -375,23 +335,22 @@ class _JigsawGameState extends State<JigsawGame> {
                     List<dynamic> accepted,
                     List<dynamic> rejected,
                   ) {
-                    return isTrue11
+                    return isTrue[10]
                         ? Image.asset(
-                            'assets/images/jigsaw/${jigsaw[10]}.png',
+                            widget.images[10],
                             scale: 1.5,
                           )
                         : Image.asset(
-                            'assets/images/jigsaw/${jigsaw[10]}.png',
+                            widget.images[10],
                             scale: 1.5,
                             color: Colors.grey.withOpacity(0.8),
                             colorBlendMode: BlendMode.modulate,
                           );
                   }, onAcceptWithDetails: (DragTargetDetails details) {
-                    if (details.data == jigsaw[10]) {
+                    if (details.data == widget.images[10]) {
                       setState(() {
-                        isTrue11 = true;
+                        isTrue[10] = true;
                       });
-
                       winGame();
                     }
                   }),
@@ -404,23 +363,22 @@ class _JigsawGameState extends State<JigsawGame> {
                     List<dynamic> accepted,
                     List<dynamic> rejected,
                   ) {
-                    return isTrue12
+                    return isTrue[11]
                         ? Image.asset(
-                            'assets/images/jigsaw/${jigsaw[11]}.png',
+                            widget.images[11],
                             scale: 1.5,
                           )
                         : Image.asset(
-                            'assets/images/jigsaw/${jigsaw[11]}.png',
+                            widget.images[11],
                             scale: 1.5,
                             color: Colors.grey.withOpacity(0.8),
                             colorBlendMode: BlendMode.modulate,
                           );
                   }, onAcceptWithDetails: (DragTargetDetails details) {
-                    if (details.data == jigsaw[11]) {
+                    if (details.data == widget.images[11]) {
                       setState(() {
-                        isTrue12 = true;
+                        isTrue[11] = true;
                       });
-
                       winGame();
                     }
                   }),
@@ -440,60 +398,60 @@ class _JigsawGameState extends State<JigsawGame> {
                   Draggable(
                     data: pieces[0],
                     feedback: Image.asset(
-                      'assets/images/jigsaw/${pieces[0]}.png',
+                      pieces[0],
                       scale: 2.3,
                     ),
                     childWhenDragging: Image.asset(
-                      'assets/images/jigsaw/${pieces[0]}.png',
+                      pieces[0],
                       scale: 2.3,
                     ),
                     child: Image.asset(
-                      'assets/images/jigsaw/${pieces[0]}.png',
+                      pieces[0],
                       scale: 2.3,
                     ),
                   ),
                   Draggable(
                     data: pieces[1],
                     feedback: Image.asset(
-                      'assets/images/jigsaw/${pieces[1]}.png',
+                      pieces[1],
                       scale: 2.3,
                     ),
                     childWhenDragging: Image.asset(
-                      'assets/images/jigsaw/${pieces[1]}.png',
+                      pieces[1],
                       scale: 2.3,
                     ),
                     child: Image.asset(
-                      'assets/images/jigsaw/${pieces[1]}.png',
+                      pieces[1],
                       scale: 2.3,
                     ),
                   ),
                   Draggable(
                     data: pieces[2],
                     feedback: Image.asset(
-                      'assets/images/jigsaw/${pieces[2]}.png',
+                      pieces[2],
                       scale: 2.3,
                     ),
                     childWhenDragging: Image.asset(
-                      'assets/images/jigsaw/${pieces[2]}.png',
+                      pieces[2],
                       scale: 2.3,
                     ),
                     child: Image.asset(
-                      'assets/images/jigsaw/${pieces[2]}.png',
+                      pieces[2],
                       scale: 2.3,
                     ),
                   ),
                   Draggable(
                     data: pieces[3],
                     feedback: Image.asset(
-                      'assets/images/jigsaw/${pieces[3]}.png',
+                      pieces[3],
                       scale: 2.3,
                     ),
                     childWhenDragging: Image.asset(
-                      'assets/images/jigsaw/${pieces[3]}.png',
+                      pieces[3],
                       scale: 2.3,
                     ),
                     child: Image.asset(
-                      'assets/images/jigsaw/${pieces[3]}.png',
+                      pieces[3],
                       scale: 2.3,
                     ),
                   ),
@@ -506,60 +464,60 @@ class _JigsawGameState extends State<JigsawGame> {
                   Draggable(
                     data: pieces[4],
                     feedback: Image.asset(
-                      'assets/images/jigsaw/${pieces[4]}.png',
+                      pieces[4],
                       scale: 2.3,
                     ),
                     childWhenDragging: Image.asset(
-                      'assets/images/jigsaw/${pieces[4]}.png',
+                      pieces[4],
                       scale: 2.3,
                     ),
                     child: Image.asset(
-                      'assets/images/jigsaw/${pieces[4]}.png',
+                      pieces[4],
                       scale: 2.3,
                     ),
                   ),
                   Draggable(
                     data: pieces[5],
                     feedback: Image.asset(
-                      'assets/images/jigsaw/${pieces[5]}.png',
+                      pieces[5],
                       scale: 2.3,
                     ),
                     childWhenDragging: Image.asset(
-                      'assets/images/jigsaw/${pieces[5]}.png',
+                      pieces[5],
                       scale: 2.3,
                     ),
                     child: Image.asset(
-                      'assets/images/jigsaw/${pieces[5]}.png',
+                      pieces[5],
                       scale: 2.3,
                     ),
                   ),
                   Draggable(
                     data: pieces[6],
                     feedback: Image.asset(
-                      'assets/images/jigsaw/${pieces[6]}.png',
+                      pieces[6],
                       scale: 2.3,
                     ),
                     childWhenDragging: Image.asset(
-                      'assets/images/jigsaw/${pieces[6]}.png',
+                      pieces[6],
                       scale: 2.3,
                     ),
                     child: Image.asset(
-                      'assets/images/jigsaw/${pieces[6]}.png',
+                      pieces[6],
                       scale: 2.3,
                     ),
                   ),
                   Draggable(
                     data: pieces[7],
                     feedback: Image.asset(
-                      'assets/images/jigsaw/${pieces[7]}.png',
+                      pieces[7],
                       scale: 2.3,
                     ),
                     childWhenDragging: Image.asset(
-                      'assets/images/jigsaw/${pieces[7]}.png',
+                      pieces[7],
                       scale: 2.3,
                     ),
                     child: Image.asset(
-                      'assets/images/jigsaw/${pieces[7]}.png',
+                      pieces[7],
                       scale: 2.3,
                     ),
                   ),
@@ -572,60 +530,60 @@ class _JigsawGameState extends State<JigsawGame> {
                   Draggable(
                     data: pieces[8],
                     feedback: Image.asset(
-                      'assets/images/jigsaw/${pieces[8]}.png',
+                      pieces[8],
                       scale: 2.3,
                     ),
                     childWhenDragging: Image.asset(
-                      'assets/images/jigsaw/${pieces[8]}.png',
+                      pieces[8],
                       scale: 2.3,
                     ),
                     child: Image.asset(
-                      'assets/images/jigsaw/${pieces[8]}.png',
+                      pieces[8],
                       scale: 2.3,
                     ),
                   ),
                   Draggable(
                     data: pieces[9],
                     feedback: Image.asset(
-                      'assets/images/jigsaw/${pieces[9]}.png',
+                      pieces[9],
                       scale: 2.3,
                     ),
                     childWhenDragging: Image.asset(
-                      'assets/images/jigsaw/${pieces[9]}.png',
+                      pieces[9],
                       scale: 2.3,
                     ),
                     child: Image.asset(
-                      'assets/images/jigsaw/${pieces[9]}.png',
+                      pieces[9],
                       scale: 2.3,
                     ),
                   ),
                   Draggable(
                     data: pieces[10],
                     feedback: Image.asset(
-                      'assets/images/jigsaw/${pieces[10]}.png',
+                      pieces[10],
                       scale: 2.3,
                     ),
                     childWhenDragging: Image.asset(
-                      'assets/images/jigsaw/${pieces[10]}.png',
+                      pieces[10],
                       scale: 2.3,
                     ),
                     child: Image.asset(
-                      'assets/images/jigsaw/${pieces[10]}.png',
+                      pieces[10],
                       scale: 2.3,
                     ),
                   ),
                   Draggable(
                     data: pieces[11],
                     feedback: Image.asset(
-                      'assets/images/jigsaw/${pieces[11]}.png',
+                      pieces[11],
                       scale: 2.3,
                     ),
                     childWhenDragging: Image.asset(
-                      'assets/images/jigsaw/${pieces[11]}.png',
+                      pieces[11],
                       scale: 2.3,
                     ),
                     child: Image.asset(
-                      'assets/images/jigsaw/${pieces[11]}.png',
+                      pieces[11],
                       scale: 2.3,
                     ),
                   ),

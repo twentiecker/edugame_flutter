@@ -10,8 +10,13 @@ import '../../style/my_button.dart';
 
 class MatchShapeGame extends StatefulWidget {
   final int level;
+  final List<String> images;
 
-  const MatchShapeGame({Key? key, required this.level}) : super(key: key);
+  const MatchShapeGame({
+    Key? key,
+    required this.level,
+    required this.images,
+  }) : super(key: key);
 
   @override
   State<MatchShapeGame> createState() => _MatchShapeGameState();
@@ -22,32 +27,30 @@ class _MatchShapeGameState extends State<MatchShapeGame> {
 
   List<bool> isTrue = [];
   List<Color> colors = [];
-  List<String> shapes = [];
   List<Map<String, String>> domain = [];
   List<Map<String, String>> codomain = [];
 
-  int progress = 100;
+  int progress = 0;
   int subLevel = 3;
 
   void initGame() {
-    if (shapes.isEmpty) {
-      for (var i = 1; i < 16; i++) {
-        shapes.add('$i');
-      }
-    }
-    shapes.shuffle();
-    for (var i = 0; i < widget.level + 2; i++) {
-      isTrue.add(false);
-    }
+    widget.images.shuffle();
+    isTrue = List.generate(widget.level + 2, (index) => false);
     Random().nextInt(2) == 1
-        ? colors.addAll(Colors.primaries)
-        : colors.addAll(Colors.accents);
+        ? colors = List.generate(
+            Colors.primaries.length, (index) => Colors.primaries[index])
+        : colors = List.generate(
+            Colors.accents.length, (index) => Colors.accents[index]);
     colors.shuffle();
-    for (var i = 0; i < isTrue.length; i++) {
-      domain.add({'data': '$i', 'shape': '$i'});
-    }
+    domain = List.generate(
+      isTrue.length,
+      (index) => {
+        'data': '$index',
+        'shape': widget.images[index],
+      },
+    );
     domain.shuffle();
-    codomain.addAll(domain);
+    codomain = List.generate(domain.length, (index) => domain[index]);
     codomain.shuffle();
   }
 
@@ -81,19 +84,19 @@ class _MatchShapeGameState extends State<MatchShapeGame> {
                       Draggable(
                         data: domain[index]['data'],
                         feedback: Image.asset(
-                          'assets/images/shape2d/${shapes[int.parse('${domain[index]['shape']}')]}.png',
+                          domain[index]['shape']!,
                           scale: scale,
-                          color: colors[int.parse('${domain[index]['shape']}')],
+                          color: colors[int.parse('${domain[index]['data']}')],
                         ),
                         childWhenDragging: Image.asset(
-                          'assets/images/shape2d/${shapes[int.parse('${domain[index]['shape']}')]}.png',
+                          domain[index]['shape']!,
                           scale: scale,
-                          color: colors[int.parse('${domain[index]['shape']}')],
+                          color: colors[int.parse('${domain[index]['data']}')],
                         ),
                         child: Image.asset(
-                          'assets/images/shape2d/${shapes[int.parse('${domain[index]['shape']}')]}.png',
+                          domain[index]['shape']!,
                           scale: scale,
-                          color: colors[int.parse('${domain[index]['shape']}')],
+                          color: colors[int.parse('${domain[index]['data']}')],
                         ),
                       ),
                       DragTarget(builder: (
@@ -103,13 +106,13 @@ class _MatchShapeGameState extends State<MatchShapeGame> {
                       ) {
                         return isTrue[index]
                             ? Image.asset(
-                                'assets/images/shape2d/${shapes[int.parse('${codomain[index]['shape']}')]}.png',
+                                codomain[index]['shape']!,
                                 scale: scale,
                                 color: colors[
-                                    int.parse('${codomain[index]['shape']}')],
+                                    int.parse('${codomain[index]['data']}')],
                               )
                             : Image.asset(
-                                'assets/images/shape2d/${shapes[int.parse('${codomain[index]['shape']}')]}.png',
+                                codomain[index]['shape']!,
                                 scale: scale,
                                 color: Colors.black38,
                               );
@@ -128,15 +131,10 @@ class _MatchShapeGameState extends State<MatchShapeGame> {
                   return SizedBox(height: 25);
                 },
                 itemCount: isTrue.length)),
-        progress < levelState.goal
+        progress < levelState.goal && isTrue.every((element) => element == true)
             ? MyButton(
                 onPressed: () {
                   setState(() {
-                    isTrue = [];
-                    colors = [];
-                    domain = [];
-                    codomain = [];
-                    progress = 100;
                     initGame();
                   });
                 },

@@ -20,18 +20,6 @@ import '../style/confetti.dart';
 import '../style/my_button.dart';
 import '../style/palette.dart';
 import 'game_screen/color_game.dart';
-import 'game_widget/complete_pattern_game.dart';
-import 'game_widget/count_number_game.dart';
-import 'game_widget/flappy_bird_game/flappy_bird_game.dart';
-import 'game_widget/greater_number_game.dart';
-import 'game_widget/group_game.dart';
-import 'game_widget/jigsaw_game.dart';
-import 'game_widget/match_shape_game.dart';
-import 'game_widget/match_slice_game.dart';
-import 'game_widget/match_sound_game.dart';
-import 'game_widget/memory_game/memory_game.dart';
-import 'game_widget/puzzle_game.dart';
-import 'game_widget/spell_game.dart';
 
 /// This widget defines the entirety of the screen that the player sees when
 /// they are playing a level.
@@ -110,55 +98,26 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
                   ),
                   // const Spacer(),
                   Expanded(
-                      // The actual UI of the game.
-                      child: Builder(
-                    builder: (BuildContext context) {
-                      switch (widget.index) {
-                        case 0:
-                          return ColorGame(
-                            level: widget.level.number,
-                          );
-                        case 1:
-                          return MatchShapeGame(
-                            level: widget.level.number,
-                          );
-                        case 2:
-                          return CompletePatternGame(
-                            level: widget.level.number,
-                          );
-                        case 3:
-                          return PuzzleGame();
-                        case 4:
-                          return FlappyBirdGame();
-                        case 5:
-                          return GreaterNumberGame();
-                        case 6:
-                          return CountNumberGame(
-                            level: widget.level.number,
-                          );
-                        case 7:
-                          return MatchSoundGame();
-                        case 8:
-                          return MemoryGame();
-                        case 9:
-                          return MatchSliceGame();
-                        case 10:
-                          return SpellGame();
-                        case 11:
-                          return JigsawGame();
-                        case 12:
-                          return GroupGame();
-                        case 13:
-                          return NumberGame(
-                            level: widget.level.number,
-                          );
-                        default:
-                          return Center(
-                            child: Text("Game isn't Available Now!"),
-                          );
-                      }
-                    },
-                  )),
+                    // The actual UI of the game.
+                    child: Builder(
+                      builder: (BuildContext context) {
+                        switch (widget.index) {
+                          case 0:
+                            return ColorGame(
+                              level: widget.level.number,
+                            );
+                          case 1:
+                            return NumberGame(
+                              level: widget.level.number,
+                            );
+                          default:
+                            return Center(
+                              child: Text("Game isn't Available Now!"),
+                            );
+                        }
+                      },
+                    ),
+                  ),
                   // const Spacer(),
                   Padding(
                     padding: const EdgeInsets.all(8.0),

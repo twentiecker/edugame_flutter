@@ -21,13 +21,13 @@ class GameMenuScreen extends StatelessWidget {
     final AuthService authService = AuthService();
 
     if (playerProgress.highestLevelReached.isEmpty) {
-      debugPrint(
-          'Highest level has been set: ${playerProgress.highestLevelReached}');
-
-      /// Get highest level from firestore and set it to player progress highest level
+      /// Get highest level from firestore database and set it to player progress highest level
       for (var game in games) {
         firestoreService.readLogDoc(context, authService.userEmail!, game.game);
       }
+    } else if (playerProgress.highestLevelReached.length != games.length) {
+      playerProgress.setAdditionalLevel(
+          games.length - playerProgress.highestLevelReached.length);
     }
 
     return Scaffold(
