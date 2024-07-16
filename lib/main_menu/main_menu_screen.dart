@@ -101,6 +101,114 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
                 stream: authService.userState(),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   return snapshot.hasData
+                      ? Container()
+                      : MyButton(
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: const Text('Signup Page'),
+                                  content: SizedBox(
+                                    height: 230,
+                                    child: Form(
+                                      key: _formKey,
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Column(
+                                            children: [
+                                              TextFormField(
+                                                controller: emailController,
+                                                textInputAction:
+                                                    TextInputAction.next,
+                                                autovalidateMode:
+                                                    AutovalidateMode
+                                                        .onUserInteraction,
+                                                validator: (value) {
+                                                  if (value == null ||
+                                                      value.isEmpty) {
+                                                    return 'Please enter the email';
+                                                  } else if (!RegExp(
+                                                          r"(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'"
+                                                          r'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-'
+                                                          r'\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*'
+                                                          r'[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4]'
+                                                          r'[0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9]'
+                                                          r'[0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\'
+                                                          r'x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])')
+                                                      .hasMatch(value)) {
+                                                    return 'Enter a valid email adsress';
+                                                  }
+                                                  return null;
+                                                },
+                                              ),
+                                              TextFormField(
+                                                controller: passController,
+                                                textInputAction:
+                                                    TextInputAction.next,
+                                                obscureText: true,
+                                                enableSuggestions: false,
+                                                autocorrect: false,
+                                                autovalidateMode:
+                                                    AutovalidateMode
+                                                        .onUserInteraction,
+                                                validator: (value) {
+                                                  if (value == null ||
+                                                      value.isEmpty) {
+                                                    return 'Please enter the password';
+                                                  }
+                                                  return null;
+                                                },
+                                              ),
+                                            ],
+                                          ),
+                                          Padding(
+                                            padding: EdgeInsets.only(top: 30),
+                                            child: ElevatedButton(
+                                              onPressed: () async {
+                                                if (_formKey.currentState!
+                                                    .validate()) {
+                                                  if (await authService
+                                                      .userSignup(
+                                                          emailController.text,
+                                                          passController
+                                                              .text)) {
+                                                    await authService.userLogin(
+                                                        emailController.text,
+                                                        passController.text);
+                                                    if (context.mounted) {
+                                                      GoRouter.of(context)
+                                                          .pop();
+                                                      GoRouter.of(context)
+                                                          .go('/games');
+                                                    }
+                                                  } else {
+                                                    debugPrint(
+                                                        'Anuu..., ora iso daftar, soale email e wes enek COK!');
+                                                  }
+                                                }
+                                              },
+                                              child: Text('Login'),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
+                            );
+                          },
+                          child: const Text('Sign Up'),
+                        );
+                }),
+            MainMenuScreen._gap,
+            StreamBuilder(
+                stream: authService.userState(),
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  return snapshot.hasData
                       ? MyButton(
                           onPressed: () {
                             audioController.playSfx(SfxType.buttonTap);
@@ -206,11 +314,6 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
               child: const Text('Leaderboard'),
             ),
             MainMenuScreen._gap,
-            // MyButton(
-            //   onPressed: () => authService.userSignup(),
-            //   child: const Text('Sign Up'),
-            // ),
-            // MainMenuScreen._gap,
             MyButton(
               onPressed: () => GoRouter.of(context).push('/settings'),
               child: const Text('Settings'),

@@ -4,23 +4,26 @@ import 'package:flutter/cupertino.dart';
 class AuthService {
   final userEmail = FirebaseAuth.instance.currentUser?.email;
 
-  Future<void> userSignup() async {
+  Future<bool> userSignup(String email, String password) async {
     try {
       final credential =
           await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: 'coba2@coba.com',
-        password: '1234567890',
+        email: email,
+        password: password,
       );
       debugPrint(credential.user!.email);
       debugPrint('Sign-up successfully');
+      return true;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         debugPrint('The password provided is too weak.');
       } else if (e.code == 'email-already-in-use') {
         debugPrint('The account already exists for that email.');
       }
+      return false;
     } catch (e) {
       debugPrint(e.toString());
+      return false;
     }
   }
 
