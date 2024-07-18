@@ -9,9 +9,7 @@ import '../../game_internals/level_state.dart';
 import '../../style/my_button.dart';
 
 class CountNumberGame extends StatefulWidget {
-  final int level;
-
-  const CountNumberGame({Key? key, required this.level}) : super(key: key);
+  const CountNumberGame({Key? key}) : super(key: key);
 
   @override
   State<CountNumberGame> createState() => _CountNumberGameState();
@@ -29,9 +27,10 @@ class _CountNumberGameState extends State<CountNumberGame> {
 
   int progress = 0;
   int subLevel = 3;
+  int adjLevel = 1;
 
   void initGame() {
-    isTrue = List.generate(widget.level, (index) => false);
+    isTrue = List.generate(adjLevel, (index) => false);
     Random().nextInt(2) == 1
         ? colors = List.generate(
             Colors.primaries.length, (index) => Colors.primaries[index])
@@ -63,170 +62,177 @@ class _CountNumberGameState extends State<CountNumberGame> {
       }
     }
 
-    return Column(
-      children: [
-        ListView.separated(
-            shrinkWrap: true,
-            itemBuilder: (context, index) {
-              return Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Container(
-                    padding: EdgeInsets.all(5.0),
-                    width: 250,
-                    height: 105,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(radius),
+    return Padding(
+      padding: const EdgeInsets.only(top: 64.0),
+      child: Column(
+        children: [
+          ListView.separated(
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Container(
+                      padding: EdgeInsets.all(5.0),
+                      width: 250,
+                      height: 105,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(radius),
+                      ),
+                      child: GridView.count(
+                        crossAxisCount: 5,
+                        mainAxisSpacing: 5,
+                        crossAxisSpacing: 5,
+                        shrinkWrap: true,
+                        children: List.generate(codomain[index], (_) {
+                          return Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: Image.asset(
+                              'assets/images/shape2d/${codomain[index]}.png',
+                              color: colors[codomain[index]],
+                            ),
+                          );
+                        }),
+                      ),
                     ),
-                    child: GridView.count(
-                      crossAxisCount: 5,
-                      mainAxisSpacing: 5,
-                      crossAxisSpacing: 5,
-                      shrinkWrap: true,
-                      children: List.generate(codomain[index], (_) {
-                        return Padding(
-                          padding: const EdgeInsets.all(4.0),
-                          child: Image.asset(
-                            'assets/images/shape2d/${codomain[index]}.png',
-                            color: colors[codomain[index]],
+                    DragTarget(builder: (
+                      BuildContext context,
+                      List<dynamic> accepted,
+                      List<dynamic> rejected,
+                    ) {
+                      return Container(
+                        height: height,
+                        width: width,
+                        padding: EdgeInsets.all(10.0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(radius),
+                          color: Colors.white,
+                        ),
+                        child: isTrue[index]
+                            ? Center(
+                                child: Text(
+                                  '${codomain[index]}',
+                                  style: TextStyle(
+                                      fontFamily: 'Permanent Marker',
+                                      fontSize: 50,
+                                      height: 1,
+                                      color: colors[index]),
+                                ),
+                              )
+                            : Text(''),
+                      );
+                    }, onAcceptWithDetails: (DragTargetDetails details) {
+                      if (details.data == '${codomain[index]}') {
+                        setState(() {
+                          isTrue[index] = true;
+                        });
+                        winGame();
+                      }
+                    })
+                  ],
+                );
+              },
+              separatorBuilder: (context, index) {
+                return SizedBox(height: 15);
+              },
+              itemCount: isTrue.length),
+          SizedBox(height: 50),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              SizedBox(
+                height: height,
+                child: ListView.separated(
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) {
+                    return Draggable(
+                      data: '${codomain[index]}',
+                      feedback: Container(
+                        height: height,
+                        width: width,
+                        padding: EdgeInsets.all(10.0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(radius),
+                          color: Colors.white,
+                        ),
+                        child: Center(
+                          child: Text(
+                            '${codomain[index]}',
+                            style: TextStyle(
+                                fontFamily: 'Permanent Marker',
+                                fontSize: 50,
+                                height: 1,
+                                color: colors[index]),
                           ),
-                        );
-                      }),
-                    ),
-                  ),
-                  DragTarget(builder: (
-                    BuildContext context,
-                    List<dynamic> accepted,
-                    List<dynamic> rejected,
-                  ) {
-                    return Container(
-                      height: height,
-                      width: width,
-                      padding: EdgeInsets.all(10.0),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(radius),
-                        color: Colors.white,
+                        ),
                       ),
-                      child: isTrue[index]
-                          ? Center(
-                              child: Text(
-                                '${codomain[index]}',
-                                style: TextStyle(
-                                    fontFamily: 'Permanent Marker',
-                                    fontSize: 50,
-                                    height: 1,
-                                    color: colors[index]),
-                              ),
-                            )
-                          : Text(''),
+                      childWhenDragging: Container(
+                        height: height,
+                        width: width,
+                        padding: EdgeInsets.all(10.0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(radius),
+                          color: Colors.white,
+                        ),
+                        child: Center(
+                          child: Text(
+                            '${codomain[index]}',
+                            style: TextStyle(
+                                fontFamily: 'Permanent Marker',
+                                fontSize: 50,
+                                height: 1,
+                                color: colors[index]),
+                          ),
+                        ),
+                      ),
+                      child: Container(
+                        height: height,
+                        width: width,
+                        padding: EdgeInsets.all(10.0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(radius),
+                          color: Colors.white,
+                        ),
+                        child: Center(
+                          child: Text(
+                            '${codomain[index]}',
+                            style: TextStyle(
+                                fontFamily: 'Permanent Marker',
+                                fontSize: 50,
+                                height: 1,
+                                color: colors[index]),
+                          ),
+                        ),
+                      ),
                     );
-                  }, onAcceptWithDetails: (DragTargetDetails details) {
-                    if (details.data == '${codomain[index]}') {
-                      setState(() {
-                        isTrue[index] = true;
-                      });
-                      winGame();
-                    }
-                  })
-                ],
-              );
-            },
-            separatorBuilder: (context, index) {
-              return SizedBox(height: 15);
-            },
-            itemCount: isTrue.length),
-        SizedBox(height: 50),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            SizedBox(
-              height: height,
-              child: ListView.separated(
-                shrinkWrap: true,
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) {
-                  return Draggable(
-                    data: '${codomain[index]}',
-                    feedback: Container(
-                      height: height,
-                      width: width,
-                      padding: EdgeInsets.all(10.0),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(radius),
-                        color: Colors.white,
-                      ),
-                      child: Center(
-                        child: Text(
-                          '${codomain[index]}',
-                          style: TextStyle(
-                              fontFamily: 'Permanent Marker',
-                              fontSize: 50,
-                              height: 1,
-                              color: colors[index]),
-                        ),
-                      ),
-                    ),
-                    childWhenDragging: Container(
-                      height: height,
-                      width: width,
-                      padding: EdgeInsets.all(10.0),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(radius),
-                        color: Colors.white,
-                      ),
-                      child: Center(
-                        child: Text(
-                          '${codomain[index]}',
-                          style: TextStyle(
-                              fontFamily: 'Permanent Marker',
-                              fontSize: 50,
-                              height: 1,
-                              color: colors[index]),
-                        ),
-                      ),
-                    ),
-                    child: Container(
-                      height: height,
-                      width: width,
-                      padding: EdgeInsets.all(10.0),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(radius),
-                        color: Colors.white,
-                      ),
-                      child: Center(
-                        child: Text(
-                          '${codomain[index]}',
-                          style: TextStyle(
-                              fontFamily: 'Permanent Marker',
-                              fontSize: 50,
-                              height: 1,
-                              color: colors[index]),
-                        ),
-                      ),
-                    ),
-                  );
-                },
-                separatorBuilder: (BuildContext context, int index) {
-                  return SizedBox(width: 19);
-                },
-                itemCount: isTrue.length,
+                  },
+                  separatorBuilder: (BuildContext context, int index) {
+                    return SizedBox(width: 19);
+                  },
+                  itemCount: isTrue.length,
+                ),
               ),
-            ),
-          ],
-        ),
-        Spacer(),
-        progress < levelState.goal && isTrue.every((element) => element == true)
-            ? MyButton(
-                onPressed: () {
-                  setState(() {
-                    initGame();
-                  });
-                },
-                child: const Text('Next'),
-              )
-            : Container()
-      ],
+            ],
+          ),
+          Spacer(),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 64.0),
+            child: progress < levelState.goal &&
+                    isTrue.every((element) => element == true)
+                ? MyButton(
+                    onPressed: () {
+                      setState(() {
+                        initGame();
+                      });
+                    },
+                    child: const Text('Next'),
+                  )
+                : Container(),
+          )
+        ],
+      ),
     );
   }
 }

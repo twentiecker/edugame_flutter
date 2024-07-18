@@ -82,120 +82,128 @@ class _CompletePatternGameState extends State<CompletePatternGame> {
       }
     }
 
-    return Column(
-      children: [
-        Expanded(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              SizedBox(
-                width: width,
-                child: Column(
-                  children: [
-                    ListView.separated(
-                        shrinkWrap: true,
-                        itemBuilder: (context, index) {
-                          return Draggable(
-                            data: domain[index]['data'],
-                            feedback: Container(
-                              height: height,
-                              width: width,
-                              padding: EdgeInsets.all(10.0),
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(radius),
+    return Padding(
+      padding: const EdgeInsets.only(top: 64.0),
+      child: Column(
+        children: [
+          Expanded(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                SizedBox(
+                  width: width,
+                  child: Column(
+                    children: [
+                      ListView.separated(
+                          shrinkWrap: true,
+                          itemBuilder: (context, index) {
+                            return Draggable(
+                              data: domain[index]['data'],
+                              feedback: Container(
+                                height: height,
+                                width: width,
+                                padding: EdgeInsets.all(10.0),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(radius),
+                                ),
+                                child: Image.asset(
+                                  domain[index]['shape']!,
+                                  color:
+                                      colors[int.parse(domain[index]['data']!)],
+                                ),
                               ),
-                              child: Image.asset(
-                                domain[index]['shape']!,
-                                color:
-                                    colors[int.parse(domain[index]['data']!)],
+                              childWhenDragging: SizedBox(
+                                height: height,
+                                width: width,
                               ),
-                            ),
-                            childWhenDragging: SizedBox(
-                              height: height,
-                              width: width,
-                            ),
-                            child: Container(
-                              height: height,
-                              width: width,
-                              padding: EdgeInsets.all(10.0),
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(radius),
+                              child: Container(
+                                height: height,
+                                width: width,
+                                padding: EdgeInsets.all(10.0),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(radius),
+                                ),
+                                child: Image.asset(
+                                  domain[index]['shape']!,
+                                  color:
+                                      colors[int.parse(domain[index]['data']!)],
+                                ),
                               ),
-                              child: Image.asset(
-                                domain[index]['shape']!,
-                                color:
-                                    colors[int.parse(domain[index]['data']!)],
-                              ),
-                            ),
-                          );
-                        },
-                        separatorBuilder: (context, index) {
-                          return SizedBox(height: 20);
-                        },
-                        itemCount: isTrue.length),
-                  ],
-                ),
-              ),
-              SizedBox(
-                width: width,
-                child: Column(
-                  children: [
-                    ListView.separated(
-                        shrinkWrap: true,
-                        itemBuilder: (context, index) {
-                          return DragTarget(builder: (
-                            BuildContext context,
-                            List<dynamic> accepted,
-                            List<dynamic> rejected,
-                          ) {
-                            return Container(
-                              height: height,
-                              width: width,
-                              padding: EdgeInsets.all(10.0),
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(radius),
-                              ),
-                              child: isTrue[index]
-                                  ? Image.asset(
-                                      codomain[index]['shape']!,
-                                      color: colors[
-                                          int.parse(codomain[index]['data']!)],
-                                    )
-                                  : Text(''),
                             );
-                          }, onAcceptWithDetails: (DragTargetDetails details) {
-                            if (details.data == codomain[index]['data']) {
-                              setState(() {
-                                isTrue[index] = true;
-                              });
-                              winGame();
-                            }
-                          });
-                        },
-                        separatorBuilder: (context, index) {
-                          return SizedBox(height: 20);
-                        },
-                        itemCount: isTrue.length)
-                  ],
+                          },
+                          separatorBuilder: (context, index) {
+                            return SizedBox(height: 20);
+                          },
+                          itemCount: isTrue.length),
+                    ],
+                  ),
                 ),
-              )
-            ],
+                SizedBox(
+                  width: width,
+                  child: Column(
+                    children: [
+                      ListView.separated(
+                          shrinkWrap: true,
+                          itemBuilder: (context, index) {
+                            return DragTarget(builder: (
+                              BuildContext context,
+                              List<dynamic> accepted,
+                              List<dynamic> rejected,
+                            ) {
+                              return Container(
+                                height: height,
+                                width: width,
+                                padding: EdgeInsets.all(10.0),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(radius),
+                                ),
+                                child: isTrue[index]
+                                    ? Image.asset(
+                                        codomain[index]['shape']!,
+                                        color: colors[int.parse(
+                                            codomain[index]['data']!)],
+                                      )
+                                    : Text(''),
+                              );
+                            }, onAcceptWithDetails:
+                                (DragTargetDetails details) {
+                              if (details.data == codomain[index]['data']) {
+                                setState(() {
+                                  isTrue[index] = true;
+                                });
+                                winGame();
+                              }
+                            });
+                          },
+                          separatorBuilder: (context, index) {
+                            return SizedBox(height: 20);
+                          },
+                          itemCount: isTrue.length)
+                    ],
+                  ),
+                )
+              ],
+            ),
           ),
-        ),
-        progress < levelState.goal && isTrue.every((element) => element == true)
-            ? MyButton(
-                onPressed: () {
-                  setState(() {
-                    initGame();
-                  });
-                },
-                child: const Text('Next'),
-              )
-            : Container()
-      ],
+          Padding(
+            padding: const EdgeInsets.only(bottom: 64.0),
+            child: progress < levelState.goal &&
+                    isTrue.every((element) => element == true)
+                ? MyButton(
+                    onPressed: () {
+                      setState(() {
+                        initGame();
+                      });
+                    },
+                    child: const Text('Next'),
+                  )
+                : Container(),
+          )
+        ],
+      ),
     );
   }
 }

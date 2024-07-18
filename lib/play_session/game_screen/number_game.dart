@@ -21,7 +21,7 @@ class NumberGame extends StatelessWidget {
     return Builder(builder: (BuildContext context) {
       switch (level) {
         case 1:
-          return CountNumberGame(level: level);
+          return CountNumberGame();
         case 2:
           return MemoryGame(
             images: List.generate(
@@ -38,7 +38,11 @@ class NumberGame extends StatelessWidget {
                 15, (index) => 'assets/images/shape2d/${index + 1}.png'),
           );
         case 5:
-          return GreaterNumberGame();
+          return GreaterNumberGame(
+            isGreater: false,
+            images: List.generate(
+                16, (index) => 'assets/images/group/${index + 1}.png'),
+          );
         case 6:
           return JigsawGame(
             images: List.generate(
@@ -58,7 +62,6 @@ class NumberGame extends StatelessWidget {
           return SpellGame();
         case 10:
           return MatchShapeGame(
-            level: level,
             images: List.generate(
                 15, (index) => 'assets/images/shape2d/${index + 1}.png'),
           );

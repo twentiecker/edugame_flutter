@@ -72,129 +72,136 @@ class _PuzzleGameState extends State<PuzzleGame> {
       }
     }
 
-    return Column(
-      children: [
-        SizedBox(
-          width: width,
-          child: ListView.builder(
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                return DragTarget(builder: (
-                  BuildContext context,
-                  List<dynamic> accepted,
-                  List<dynamic> rejected,
-                ) {
-                  return SizedBox(
-                    width: width,
-                    height: height,
-                    child: isTrue[index]
-                        ? Image.asset(
-                            codomain[index],
-                            fit: BoxFit.cover,
-                          )
-                        : Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              border: Border.all(
-                                color: palette.backgroundLevelSelection,
-                                width: 2,
+    return Padding(
+      padding: const EdgeInsets.only(top: 64.0),
+      child: Column(
+        children: [
+          SizedBox(
+            width: width,
+            child: ListView.builder(
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  return DragTarget(builder: (
+                    BuildContext context,
+                    List<dynamic> accepted,
+                    List<dynamic> rejected,
+                  ) {
+                    return SizedBox(
+                      width: width,
+                      height: height,
+                      child: isTrue[index]
+                          ? Image.asset(
+                              codomain[index],
+                              fit: BoxFit.cover,
+                            )
+                          : Container(
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                border: Border.all(
+                                  color: palette.backgroundLevelSelection,
+                                  width: 2,
+                                ),
                               ),
-                            ),
-                            child: Center(
-                              child: Text(
-                                '${index + 1}',
-                                style: TextStyle(
-                                  fontFamily: 'Permanent Marker',
-                                  fontSize: 80,
-                                  height: 1,
+                              child: Center(
+                                child: Text(
+                                  '${index + 1}',
+                                  style: TextStyle(
+                                    fontFamily: 'Permanent Marker',
+                                    fontSize: 80,
+                                    height: 1,
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                  );
-                }, onAcceptWithDetails: (DragTargetDetails details) {
-                  if (details.data == codomain[index]) {
-                    setState(() {
-                      isTrue[index] = true;
-                    });
-                    winGame();
-                  }
-                });
-              },
-              itemCount: isTrue.length),
-        ),
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Container(
-            height: scrollHeight,
-            padding: EdgeInsets.symmetric(
-              vertical: (scrollHeight - cardHeight) / 2,
-            ),
-            child: ListView.separated(
-                scrollDirection: Axis.horizontal,
-                shrinkWrap: true,
-                itemBuilder: (context, index) {
-                  return Draggable(
-                    data: domain[index],
-                    feedback: Container(
-                      padding: EdgeInsets.all(5.0),
-                      width: cardWidth,
-                      height: cardHeight,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(radius),
-                      ),
-                      child: Image.asset(
-                        domain[index],
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    childWhenDragging: Container(
-                      padding: EdgeInsets.all(5.0),
-                      width: cardWidth,
-                      height: cardHeight,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(radius),
-                      ),
-                      child: Image.asset(
-                        domain[index],
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    child: Container(
-                      padding: EdgeInsets.all(5.0),
-                      width: cardWidth,
-                      height: cardHeight,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(radius),
-                      ),
-                      child: Image.asset(
-                        domain[index],
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  );
-                },
-                separatorBuilder: (context, index) {
-                  return SizedBox(width: 10);
+                    );
+                  }, onAcceptWithDetails: (DragTargetDetails details) {
+                    if (details.data == codomain[index]) {
+                      setState(() {
+                        isTrue[index] = true;
+                      });
+                      winGame();
+                    }
+                  });
                 },
                 itemCount: isTrue.length),
           ),
-        ),
-        Spacer(),
-        progress < levelState.goal && isTrue.every((element) => element == true)
-            ? MyButton(
-                onPressed: () {
-                  setState(() {
-                    initGame();
-                  });
-                },
-                child: const Text('Next'),
-              )
-            : Container()
-      ],
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Container(
+              height: scrollHeight,
+              padding: EdgeInsets.symmetric(
+                vertical: (scrollHeight - cardHeight) / 2,
+              ),
+              child: ListView.separated(
+                  scrollDirection: Axis.horizontal,
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    return Draggable(
+                      data: domain[index],
+                      feedback: Container(
+                        padding: EdgeInsets.all(5.0),
+                        width: cardWidth,
+                        height: cardHeight,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(radius),
+                        ),
+                        child: Image.asset(
+                          domain[index],
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      childWhenDragging: Container(
+                        padding: EdgeInsets.all(5.0),
+                        width: cardWidth,
+                        height: cardHeight,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(radius),
+                        ),
+                        child: Image.asset(
+                          domain[index],
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      child: Container(
+                        padding: EdgeInsets.all(5.0),
+                        width: cardWidth,
+                        height: cardHeight,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(radius),
+                        ),
+                        child: Image.asset(
+                          domain[index],
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    );
+                  },
+                  separatorBuilder: (context, index) {
+                    return SizedBox(width: 10);
+                  },
+                  itemCount: isTrue.length),
+            ),
+          ),
+          Spacer(),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 64.0),
+            child: progress < levelState.goal &&
+                    isTrue.every((element) => element == true)
+                ? MyButton(
+                    onPressed: () {
+                      setState(() {
+                        initGame();
+                      });
+                    },
+                    child: const Text('Next'),
+                  )
+                : Container(),
+          )
+        ],
+      ),
     );
   }
 }

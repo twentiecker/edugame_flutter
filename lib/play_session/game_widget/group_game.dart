@@ -23,25 +23,6 @@ class _GroupGameState extends State<GroupGame> {
   final double radius = 10.0;
 
   List<bool> isTrue = [];
-
-  // List<Color> colors = [
-  //   Colors.red,
-  //   Colors.green,
-  //   Colors.blue,
-  //   Colors.yellow,
-  //   Colors.orange,
-  //   Colors.purple,
-  //   Colors.brown
-  // ];
-  // List<String> colorNames = [
-  //   'red',
-  //   'green',
-  //   'blue',
-  //   'yellow',
-  //   'orange',
-  //   'purple',
-  //   'brown'
-  // ];
   List<BaseColor> baseColor = [
     BaseColor(name: 'red', color: Colors.red),
     BaseColor(name: 'green', color: Colors.green),
@@ -93,144 +74,150 @@ class _GroupGameState extends State<GroupGame> {
       }
     }
 
-    return Column(
-      children: [
-        ListView.separated(
-            shrinkWrap: true,
-            itemBuilder: (context, index) {
-              return Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  for (var i = index * 0 + index * 4; i < index * 4 + 4; i++)
-                    Draggable(
-                      data: gameColor[i],
-                      feedback: SizedBox(
-                        width: width,
-                        height: height,
-                        child: Image.asset(
-                          gameColor[i].image,
-                          color: gameColor[i].color,
-                          colorBlendMode: BlendMode.modulate,
-                          scale: 4,
-                        ),
-                      ),
-                      childWhenDragging: Container(
-                        width: width,
-                        height: height,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(radius),
-                            color: Colors.white),
-                        child: Image.asset(
-                          gameColor[i].image,
-                          color: gameColor[i].color,
-                          colorBlendMode: BlendMode.modulate,
-                          scale: 4,
-                        ),
-                      ),
-                      child: Container(
-                        width: width,
-                        height: height,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(radius),
-                            color: Colors.white),
-                        child: Image.asset(
-                          gameColor[i].image,
-                          color: gameColor[i].color,
-                          colorBlendMode: BlendMode.modulate,
-                          scale: 4,
-                        ),
-                      ),
-                    ),
-                ],
-              );
-            },
-            separatorBuilder: (context, index) {
-              return SizedBox(height: 10);
-            },
-            itemCount: adjLevel),
-        SizedBox(height: 50),
-        SizedBox(
-          height: 100,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              ListView.separated(
-                scrollDirection: Axis.horizontal,
-                shrinkWrap: true,
-                itemBuilder: (context, index) {
-                  return DragTarget(builder: (
-                    BuildContext context,
-                    List<dynamic> accepted,
-                    List<dynamic> rejected,
-                  ) {
-                    return isTrue[index]
-                        ? Stack(
-                            children: [
-                              Image.asset(
-                                'assets/images/group/basket.png',
-                                color: baseColor[index].color,
-                                colorBlendMode: BlendMode.modulate,
-                                scale: 4.5,
-                              ),
-                              for (var data in basket[index])
-                                Positioned(
-                                  top: 20,
-                                  left: 35,
-                                  child: Image.asset(
-                                    '${data.image}',
-                                    color: baseColor[index].color,
-                                    colorBlendMode: BlendMode.modulate,
-                                    scale: 4,
-                                  ),
-                                ),
-                              Image.asset(
-                                'assets/images/group/front.png',
-                                color: baseColor[index].color,
-                                colorBlendMode: BlendMode.modulate,
-                                scale: 4.5,
-                              ),
-                            ],
-                          )
-                        : Image.asset(
-                            'assets/images/group/basket.png',
-                            color: baseColor[index].color,
+    return Padding(
+      padding: const EdgeInsets.only(top: 64.0),
+      child: Column(
+        children: [
+          ListView.separated(
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    for (var i = index * 0 + index * 4; i < index * 4 + 4; i++)
+                      Draggable(
+                        data: gameColor[i],
+                        feedback: SizedBox(
+                          width: width,
+                          height: height,
+                          child: Image.asset(
+                            gameColor[i].image,
+                            color: gameColor[i].color,
                             colorBlendMode: BlendMode.modulate,
-                            scale: 4.5,
-                          );
-                  }, onAcceptWithDetails: (DragTargetDetails details) {
-                    if (details.data.name == baseColor[index].name) {
-                      setState(() {
-                        isTrue[index] = true;
-                        if (!basket[index].contains(details.data)) {
-                          basket[index].add(details.data);
-                          winGame();
-                        }
-                      });
-                    }
-                  });
-                },
-                separatorBuilder: (context, index) {
-                  return SizedBox(width: 20);
-                },
-                itemCount: 3,
-              ),
-            ],
+                            scale: 4,
+                          ),
+                        ),
+                        childWhenDragging: Container(
+                          width: width,
+                          height: height,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(radius),
+                              color: Colors.white),
+                          child: Image.asset(
+                            gameColor[i].image,
+                            color: gameColor[i].color,
+                            colorBlendMode: BlendMode.modulate,
+                            scale: 4,
+                          ),
+                        ),
+                        child: Container(
+                          width: width,
+                          height: height,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(radius),
+                              color: Colors.white),
+                          child: Image.asset(
+                            gameColor[i].image,
+                            color: gameColor[i].color,
+                            colorBlendMode: BlendMode.modulate,
+                            scale: 4,
+                          ),
+                        ),
+                      ),
+                  ],
+                );
+              },
+              separatorBuilder: (context, index) {
+                return SizedBox(height: 10);
+              },
+              itemCount: adjLevel),
+          SizedBox(height: 50),
+          SizedBox(
+            height: 100,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                ListView.separated(
+                  scrollDirection: Axis.horizontal,
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    return DragTarget(builder: (
+                      BuildContext context,
+                      List<dynamic> accepted,
+                      List<dynamic> rejected,
+                    ) {
+                      return isTrue[index]
+                          ? Stack(
+                              children: [
+                                Image.asset(
+                                  'assets/images/group/basket.png',
+                                  color: baseColor[index].color,
+                                  colorBlendMode: BlendMode.modulate,
+                                  scale: 4.5,
+                                ),
+                                for (var data in basket[index])
+                                  Positioned(
+                                    top: 20,
+                                    left: 35,
+                                    child: Image.asset(
+                                      '${data.image}',
+                                      color: baseColor[index].color,
+                                      colorBlendMode: BlendMode.modulate,
+                                      scale: 4,
+                                    ),
+                                  ),
+                                Image.asset(
+                                  'assets/images/group/front.png',
+                                  color: baseColor[index].color,
+                                  colorBlendMode: BlendMode.modulate,
+                                  scale: 4.5,
+                                ),
+                              ],
+                            )
+                          : Image.asset(
+                              'assets/images/group/basket.png',
+                              color: baseColor[index].color,
+                              colorBlendMode: BlendMode.modulate,
+                              scale: 4.5,
+                            );
+                    }, onAcceptWithDetails: (DragTargetDetails details) {
+                      if (details.data.name == baseColor[index].name) {
+                        setState(() {
+                          isTrue[index] = true;
+                          if (!basket[index].contains(details.data)) {
+                            basket[index].add(details.data);
+                            winGame();
+                          }
+                        });
+                      }
+                    });
+                  },
+                  separatorBuilder: (context, index) {
+                    return SizedBox(width: 20);
+                  },
+                  itemCount: 3,
+                ),
+              ],
+            ),
           ),
-        ),
-        Spacer(),
-        progress < levelState.goal &&
-                basket[0].length + basket[1].length + basket[2].length ==
-                    gameColor.length
-            ? MyButton(
-                onPressed: () {
-                  setState(() {
-                    initGame();
-                  });
-                },
-                child: const Text('Next'),
-              )
-            : Container()
-      ],
+          Spacer(),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 64.0),
+            child: progress < levelState.goal &&
+                    basket[0].length + basket[1].length + basket[2].length ==
+                        gameColor.length
+                ? MyButton(
+                    onPressed: () {
+                      setState(() {
+                        initGame();
+                      });
+                    },
+                    child: const Text('Next'),
+                  )
+                : Container(),
+          )
+        ],
+      ),
     );
   }
 }

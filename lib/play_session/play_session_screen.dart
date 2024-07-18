@@ -83,52 +83,91 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
               // This is the main layout of the play session screen,
               // with a settings button on top, the actual play area
               // in the middle, and a back button at the bottom.
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: InkResponse(
-                      onTap: () => GoRouter.of(context).push('/settings'),
-                      child: Image.asset(
-                        'assets/images/settings.png',
-                        semanticLabel: 'Settings',
-                      ),
-                    ),
-                  ),
-                  // const Spacer(),
-                  Expanded(
-                    // The actual UI of the game.
-                    child: Builder(
-                      builder: (BuildContext context) {
-                        switch (widget.index) {
-                          case 0:
-                            return ColorGame(
-                              level: widget.level.number,
-                            );
-                          case 1:
-                            return NumberGame(
-                              level: widget.level.number,
-                            );
-                          default:
-                            return Center(
-                              child: Text("Game isn't Available Now!"),
-                            );
-                        }
-                      },
-                    ),
-                  ),
-                  // const Spacer(),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: MyButton(
-                      onPressed: () =>
-                          GoRouter.of(context).go('/play/${widget.index}'),
-                      child: const Text('Back'),
-                    ),
-                  ),
-                ],
+              Builder(
+                builder: (BuildContext context) {
+                  switch (widget.index) {
+                    case 0:
+                      return ColorGame(
+                        level: widget.level.number,
+                      );
+                    case 1:
+                      return NumberGame(
+                        level: widget.level.number,
+                      );
+                    default:
+                      return Center(
+                        child: Text("Game isn't Available Now!"),
+                      );
+                  }
+                },
               ),
+              Align(
+                alignment: Alignment.topRight,
+                child: InkResponse(
+                  onTap: () => GoRouter.of(context).push('/settings'),
+                  child: Image.asset(
+                    'assets/images/settings.png',
+                    semanticLabel: 'Settings',
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: MyButton(
+                    onPressed: () =>
+                        GoRouter.of(context).go('/play/${widget.index}'),
+                    child: const Text('Back'),
+                  ),
+                ),
+              ),
+              // Column(
+              //   mainAxisAlignment: MainAxisAlignment.center,
+              //   children: [
+              //     Align(
+              //       alignment: Alignment.centerRight,
+              //       child: InkResponse(
+              //         onTap: () => GoRouter.of(context).push('/settings'),
+              //         child: Image.asset(
+              //           'assets/images/settings.png',
+              //           semanticLabel: 'Settings',
+              //         ),
+              //       ),
+              //     ),
+              //     // const Spacer(),
+              //     Expanded(
+              //       // The actual UI of the game.
+              //       child: Builder(
+              //         builder: (BuildContext context) {
+              //           switch (widget.index) {
+              //             case 0:
+              //               return ColorGame(
+              //                 level: widget.level.number,
+              //               );
+              //             case 1:
+              //               return NumberGame(
+              //                 level: widget.level.number,
+              //               );
+              //             default:
+              //               return Center(
+              //                 child: Text("Game isn't Available Now!"),
+              //               );
+              //           }
+              //         },
+              //       ),
+              //     ),
+              //     // const Spacer(),
+              //     Padding(
+              //       padding: const EdgeInsets.all(8.0),
+              //       child: MyButton(
+              //         onPressed: () =>
+              //             GoRouter.of(context).go('/play/${widget.index}'),
+              //         child: const Text('Back'),
+              //       ),
+              //     ),
+              //   ],
+              // ),
               // This is the confetti animation that is overlaid on top of the
               // game when the player wins.
               SizedBox.expand(

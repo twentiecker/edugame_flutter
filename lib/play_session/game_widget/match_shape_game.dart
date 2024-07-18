@@ -9,14 +9,9 @@ import '../../game_internals/level_state.dart';
 import '../../style/my_button.dart';
 
 class MatchShapeGame extends StatefulWidget {
-  final int level;
   final List<String> images;
 
-  const MatchShapeGame({
-    Key? key,
-    required this.level,
-    required this.images,
-  }) : super(key: key);
+  const MatchShapeGame({Key? key, required this.images}) : super(key: key);
 
   @override
   State<MatchShapeGame> createState() => _MatchShapeGameState();
@@ -32,10 +27,11 @@ class _MatchShapeGameState extends State<MatchShapeGame> {
 
   int progress = 0;
   int subLevel = 3;
+  int adjLevel = 4;
 
   void initGame() {
     widget.images.shuffle();
-    isTrue = List.generate(widget.level + 2, (index) => false);
+    isTrue = List.generate(adjLevel, (index) => false);
     Random().nextInt(2) == 1
         ? colors = List.generate(
             Colors.primaries.length, (index) => Colors.primaries[index])
@@ -73,75 +69,85 @@ class _MatchShapeGameState extends State<MatchShapeGame> {
       }
     }
 
-    return Column(
-      children: [
-        Expanded(
-            child: ListView.separated(
-                itemBuilder: (context, index) {
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Draggable(
-                        data: domain[index]['data'],
-                        feedback: Image.asset(
-                          domain[index]['shape']!,
-                          scale: scale,
-                          color: colors[int.parse('${domain[index]['data']}')],
+    return Padding(
+      padding: const EdgeInsets.only(top: 64.0),
+      child: Column(
+        children: [
+          Expanded(
+              child: ListView.separated(
+                  itemBuilder: (context, index) {
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Draggable(
+                          data: domain[index]['data'],
+                          feedback: Image.asset(
+                            domain[index]['shape']!,
+                            scale: scale,
+                            color:
+                                colors[int.parse('${domain[index]['data']}')],
+                          ),
+                          childWhenDragging: Image.asset(
+                            domain[index]['shape']!,
+                            scale: scale,
+                            color:
+                                colors[int.parse('${domain[index]['data']}')],
+                          ),
+                          child: Image.asset(
+                            domain[index]['shape']!,
+                            scale: scale,
+                            color:
+                                colors[int.parse('${domain[index]['data']}')],
+                          ),
                         ),
-                        childWhenDragging: Image.asset(
-                          domain[index]['shape']!,
-                          scale: scale,
-                          color: colors[int.parse('${domain[index]['data']}')],
-                        ),
-                        child: Image.asset(
-                          domain[index]['shape']!,
-                          scale: scale,
-                          color: colors[int.parse('${domain[index]['data']}')],
-                        ),
-                      ),
-                      DragTarget(builder: (
-                        BuildContext context,
-                        List<dynamic> accepted,
-                        List<dynamic> rejected,
-                      ) {
-                        return isTrue[index]
-                            ? Image.asset(
-                                codomain[index]['shape']!,
-                                scale: scale,
-                                color: colors[
-                                    int.parse('${codomain[index]['data']}')],
-                              )
-                            : Image.asset(
-                                codomain[index]['shape']!,
-                                scale: scale,
-                                color: Colors.black38,
-                              );
-                      }, onAcceptWithDetails: (DragTargetDetails details) {
-                        if (details.data == codomain[index]['data']) {
-                          setState(() {
-                            isTrue[index] = true;
-                          });
-                          winGame();
-                        }
-                      })
-                    ],
-                  );
-                },
-                separatorBuilder: (context, index) {
-                  return SizedBox(height: 25);
-                },
-                itemCount: isTrue.length)),
-        progress < levelState.goal && isTrue.every((element) => element == true)
-            ? MyButton(
-                onPressed: () {
-                  setState(() {
-                    initGame();
-                  });
-                },
-                child: const Text('Next'),
-              )
-            : Container()
-      ],
+                        DragTarget(builder: (
+                          BuildContext context,
+                          List<dynamic> accepted,
+                          List<dynamic> rejected,
+                        ) {
+                          return isTrue[index]
+                              ? Image.asset(
+                                  codomain[index]['shape']!,
+                                  scale: scale,
+                                  color: colors[
+                                      int.parse('${codomain[index]['data']}')],
+                                )
+                              : Image.asset(
+                                  codomain[index]['shape']!,
+                                  scale: scale,
+                                  color: Colors.black38,
+                                );
+                        }, onAcceptWithDetails: (DragTargetDetails details) {
+                          if (details.data == codomain[index]['data']) {
+                            setState(() {
+                              isTrue[index] = true;
+                            });
+                            winGame();
+                          }
+                        })
+                      ],
+                    );
+                  },
+                  separatorBuilder: (context, index) {
+                    return SizedBox(height: 25);
+                  },
+                  itemCount: isTrue.length)),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 64.0),
+            child: progress < levelState.goal &&
+                    isTrue.every((element) => element == true)
+                ? MyButton(
+                    onPressed: () {
+                      setState(() {
+                        initGame();
+                      });
+                    },
+                    child: const Text('Next'),
+                  )
+                : Container(),
+          )
+        ],
+      ),
     );
   }
 }

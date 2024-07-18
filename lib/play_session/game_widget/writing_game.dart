@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart' hide Ink;
 import 'package:google_mlkit_digital_ink_recognition/google_mlkit_digital_ink_recognition.dart';
+import 'package:provider/provider.dart';
+
+import '../../audio/audio_controller.dart';
+import '../../audio/sounds.dart';
+import '../../game_internals/level_state.dart';
+import '../../style/my_button.dart';
 
 class WritingGame extends StatefulWidget {
-  const WritingGame({Key? key}) : super(key: key);
+  final List<String> data;
+
+  const WritingGame({Key? key, required this.data}) : super(key: key);
 
   @override
   State<WritingGame> createState() => _WritingGameState();
@@ -11,24 +19,31 @@ class WritingGame extends StatefulWidget {
 class _WritingGameState extends State<WritingGame> {
   final DigitalInkRecognizerModelManager _modelManager =
       DigitalInkRecognizerModelManager();
-  var _language = 'en';
-
-  // Codes from https://developers.google.com/ml-kit/vision/digital-ink-recognition/base-models?hl=en#text
-  final _languages = [
-    'en',
-    'es',
-    'fr',
-    'hi',
-    'it',
-    'ja',
-    'pt',
-    'ru',
-    'zh-Hani',
-  ];
-  var _digitalInkRecognizer = DigitalInkRecognizer(languageCode: 'en');
+  final _language = 'en';
+  final _digitalInkRecognizer = DigitalInkRecognizer(languageCode: 'en');
   final Ink _ink = Ink();
   List<StrokePoint> _points = [];
   String _recognizedText = '';
+  String question = '';
+  bool result = false;
+
+  int progress = 0;
+  int subLevel = 3;
+  int adjLevel = 2;
+
+  void initGame() {
+    _isModelDownloaded();
+    _clearPad();
+    widget.data.shuffle();
+    question = widget.data[0];
+    result = false;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    initGame();
+  }
 
   @override
   void dispose() {
@@ -38,47 +53,75 @@ class _WritingGameState extends State<WritingGame> {
 
   @override
   Widget build(BuildContext context) {
+    final levelState = context.watch<LevelState>();
+
+    void winGame() {
+      if (result) {
+        progress = levelState.progress + levelState.goal ~/ subLevel;
+        levelState.setProgress(progress);
+        context.read<AudioController>().playSfx(SfxType.wssh);
+        levelState.evaluate();
+      }
+    }
+
     return Scaffold(
-      appBar: AppBar(title: Text('Digital Ink Recognition')),
       body: SafeArea(
         child: Column(
           children: [
-            SizedBox(height: 8),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              padding: EdgeInsets.only(top: 64, left: 16, right: 16),
+              child: Column(
                 children: [
-                  _buildDropdown(),
-                  ElevatedButton(
-                    onPressed: _isModelDownloaded,
-                    child: Text('Check Model'),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      ElevatedButton(
+                        onPressed: result
+                            ? () {}
+                            : () async {
+                                await _recogniseText();
+                                setState(() {
+                                  winGame();
+                                });
+                              },
+                        child: Text('Read Text'),
+                      ),
+                      Container(
+                        width: 80,
+                        height: 80,
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10.0)),
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: Text(
+                            question,
+                            style: TextStyle(
+                              fontSize: 45,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                      ElevatedButton(
+                        onPressed: _clearPad,
+                        child: Text('Clear Pad'),
+                      ),
+                    ],
                   ),
-                  ElevatedButton(
-                    onPressed: _downloadModel,
-                    child: Icon(Icons.download),
-                  ),
-                  ElevatedButton(
-                    onPressed: _deleteModel,
-                    child: Icon(Icons.delete),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(height: 8),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  ElevatedButton(
-                    onPressed: _recogniseText,
-                    child: Text('Read Text'),
-                  ),
-                  ElevatedButton(
-                    onPressed: _clearPad,
-                    child: Text('Clear Pad'),
-                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: progress < levelState.goal && result
+                        ? MyButton(
+                            onPressed: () {
+                              setState(() {
+                                initGame();
+                              });
+                            },
+                            child: const Text('Next'),
+                          )
+                        : Container(),
+                  )
                 ],
               ),
             ),
@@ -115,43 +158,11 @@ class _WritingGameState extends State<WritingGame> {
                 ),
               ),
             ),
-            if (_recognizedText.isNotEmpty)
-              Text(
-                'Candidates: $_recognizedText',
-                style: TextStyle(fontSize: 23),
-              ),
           ],
         ),
       ),
     );
   }
-
-  Widget _buildDropdown() => DropdownButton<String>(
-        value: _language,
-        icon: const Icon(Icons.arrow_downward),
-        elevation: 16,
-        style: const TextStyle(color: Colors.blue),
-        underline: Container(
-          height: 2,
-          color: Colors.blue,
-        ),
-        onChanged: (String? lang) {
-          if (lang != null) {
-            setState(() {
-              _language = lang;
-              _digitalInkRecognizer.close();
-              _digitalInkRecognizer =
-                  DigitalInkRecognizer(languageCode: _language);
-            });
-          }
-        },
-        items: _languages.map<DropdownMenuItem<String>>((lang) {
-          return DropdownMenuItem<String>(
-            value: lang,
-            child: Text(lang),
-          );
-        }).toList(),
-      );
 
   void _clearPad() {
     setState(() {
@@ -162,23 +173,9 @@ class _WritingGameState extends State<WritingGame> {
   }
 
   Future<void> _isModelDownloaded() async {
-    Toast().show(
-        'Checking if model is downloaded...',
-        _modelManager
-            .isModelDownloaded(_language)
-            .then((value) => value ? 'downloaded' : 'not downloaded'),
-        context,
-        this);
-  }
-
-  Future<void> _deleteModel() async {
-    Toast().show(
-        'Deleting model...',
-        _modelManager
-            .deleteModel(_language)
-            .then((value) => value ? 'success' : 'failed'),
-        context,
-        this);
+    await _modelManager.isModelDownloaded(_language)
+        ? debugPrint('Model is ready')
+        : _downloadModel();
   }
 
   Future<void> _downloadModel() async {
@@ -200,14 +197,12 @@ class _WritingGameState extends State<WritingGame> {
         barrierDismissible: true);
     try {
       final candidates = await _digitalInkRecognizer.recognize(_ink);
-      _recognizedText = '';
-      for (final candidate in candidates) {
-        _recognizedText += '\n${candidate.text}';
-      }
+      _recognizedText = candidates[0].text;
+      _recognizedText == question ? result = true : result = false;
       setState(() {});
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(e.toString()),
+        content: Text('Please write something!'),
       ));
     }
     Navigator.pop(context);

@@ -81,67 +81,78 @@ class _SpellGameState extends State<SpellGame> {
       }
     }
 
-    return Column(
-      children: [
-        InkWell(
-          onTap: () {
-            flutterTts.setSpeechRate(0.3);
-            flutterTts.speak(word);
-          },
-          child: Stack(
+    return Padding(
+      padding: const EdgeInsets.only(top: 64.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Column(
             children: [
-              Container(
-                width: 100,
-                height: 100,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10),
+              InkWell(
+                onTap: () {
+                  flutterTts.setSpeechRate(0.3);
+                  flutterTts.speak(word);
+                },
+                child: Stack(
+                  children: [
+                    Container(
+                      width: 100,
+                      height: 100,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    Positioned(
+                        left: 28,
+                        top: 28,
+                        child: Text(word,
+                            style: TextStyle(
+                              fontSize: 30,
+                              fontWeight: FontWeight.bold,
+                            ))),
+                    Positioned(left: 3, top: 3, child: Icon(Icons.volume_up)),
+                  ],
                 ),
               ),
-              Positioned(
-                  left: 28,
-                  top: 28,
-                  child: Text(word,
-                      style: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
-                      ))),
-              Positioned(left: 3, top: 3, child: Icon(Icons.volume_up)),
+              SizedBox(height: 10),
+              _lastWords == ''
+                  ? Text('Jawaban: -', style: TextStyle(fontSize: 25))
+                  : Text('Jawaban: $_lastWords',
+                      style: TextStyle(fontSize: 25)),
+              SizedBox(height: 10),
+              _lastWords != ''
+                  ? ElevatedButton(
+                      onPressed: () {
+                        if (isTrue) {
+                          winGame();
+                        } else {
+                          flutterTts.speak('Coba lagi');
+                          setState(() {
+                            _lastWords = '';
+                          });
+                        }
+                      },
+                      child: Text('Cek Jawaban'))
+                  : Container(),
+              SizedBox(height: 50),
+              Text(
+                _speechToText.isListening
+                    ? 'You can talk now'
+                    : 'Tap the microphone to start talking',
+              ),
+              SizedBox(height: 10),
+              ElevatedButton(
+                  onPressed: _speechToText.isNotListening
+                      ? _startListening
+                      : _stopListening,
+                  child: Icon(_speechToText.isNotListening
+                      ? Icons.mic
+                      : Icons.mic_off)),
             ],
           ),
-        ),
-        SizedBox(height: 10),
-        _lastWords == ''
-            ? Text('Jawaban: -', style: TextStyle(fontSize: 25))
-            : Text('Jawaban: $_lastWords', style: TextStyle(fontSize: 25)),
-        SizedBox(height: 10),
-        _lastWords != ''
-            ? ElevatedButton(
-                onPressed: () {
-                  if (isTrue) {
-                    winGame();
-                  } else {
-                    flutterTts.speak('Coba lagi');
-                    setState(() {
-                      _lastWords = '';
-                    });
-                  }
-                },
-                child: Text('Cek Jawaban'))
-            : Container(),
-        SizedBox(height: 50),
-        Text(
-          _speechToText.isListening
-              ? 'You can talk now'
-              : 'Tap the microphone to start talking',
-        ),
-        SizedBox(height: 10),
-        ElevatedButton(
-            onPressed:
-                _speechToText.isNotListening ? _startListening : _stopListening,
-            child:
-                Icon(_speechToText.isNotListening ? Icons.mic : Icons.mic_off)),
-      ],
+        ],
+      ),
     );
   }
 }

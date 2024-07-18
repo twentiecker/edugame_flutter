@@ -70,129 +70,137 @@ class _MatchSoundGameState extends State<MatchSoundGame> {
       }
     }
 
-    return Column(
-      children: [
-        Expanded(
-          child: ListView.separated(
-              itemBuilder: (context, i) {
-                return Column(
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        debugPrint(gameData[i].sound);
-                        flutterTts.speak(gameData[i].sound);
-                      },
-                      child: Container(
-                        height: height,
-                        width: width,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(radius),
-                          color: Colors.white,
-                        ),
-                        child: Icon(
-                          Icons.volume_up,
-                          size: 35,
+    return Padding(
+      padding: const EdgeInsets.only(top: 64.0),
+      child: Column(
+        children: [
+          Expanded(
+            child: ListView.separated(
+                itemBuilder: (context, i) {
+                  return Column(
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          debugPrint(gameData[i].sound);
+                          flutterTts.speak(gameData[i].sound);
+                        },
+                        child: Container(
+                          height: height,
+                          width: width,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(radius),
+                            color: Colors.white,
+                          ),
+                          child: Icon(
+                            Icons.volume_up,
+                            size: 35,
+                          ),
                         ),
                       ),
-                    ),
-                    SizedBox(height: 25),
-                    SizedBox(
-                        width: double.infinity,
-                        height: height,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            ListView.separated(
-                              shrinkWrap: true,
-                              scrollDirection: Axis.horizontal,
-                              itemCount: gameData[i].sounds.length,
-                              itemBuilder: (context, index) {
-                                return gameData[i].isTrue[index] == true
-                                    ? Center(
-                                        child: Stack(
-                                          children: [
-                                            Container(
-                                              height: height,
-                                              width: width,
-                                              decoration: BoxDecoration(
+                      SizedBox(height: 25),
+                      SizedBox(
+                          width: double.infinity,
+                          height: height,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              ListView.separated(
+                                shrinkWrap: true,
+                                scrollDirection: Axis.horizontal,
+                                itemCount: gameData[i].sounds.length,
+                                itemBuilder: (context, index) {
+                                  return gameData[i].isTrue[index] == true
+                                      ? Center(
+                                          child: Stack(
+                                            children: [
+                                              Container(
+                                                height: height,
+                                                width: width,
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            radius),
+                                                    image: DecorationImage(
+                                                        image: Image.asset(
+                                                                'assets/images/${widget.category}/${gameData[i].sounds[index]}.png')
+                                                            .image)),
+                                              ),
+                                              Container(
+                                                height: height,
+                                                width: width,
+                                                decoration: BoxDecoration(
                                                   borderRadius:
                                                       BorderRadius.circular(
                                                           radius),
-                                                  image: DecorationImage(
-                                                      image: Image.asset(
-                                                              'assets/images/${widget.category}/${gameData[i].sounds[index]}.png')
-                                                          .image)),
-                                            ),
-                                            Container(
-                                              height: height,
-                                              width: width,
-                                              decoration: BoxDecoration(
+                                                  color: Colors.greenAccent
+                                                      .withOpacity(0.8),
+                                                ),
+                                                child: Icon(
+                                                  Icons
+                                                      .check_circle_outline_rounded,
+                                                  size: 35,
+                                                  color: Colors.green,
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        )
+                                      : InkWell(
+                                          onTap: () {
+                                            if (gameData[i].sound ==
+                                                gameData[i].sounds[index]) {
+                                              setState(() {
+                                                gameData[i].isTrue[index] =
+                                                    true;
+                                              });
+                                              winGame();
+                                            }
+                                          },
+                                          child: Container(
+                                            height: height,
+                                            width: width,
+                                            decoration: BoxDecoration(
                                                 borderRadius:
                                                     BorderRadius.circular(
                                                         radius),
-                                                color: Colors.greenAccent
-                                                    .withOpacity(0.8),
-                                              ),
-                                              child: Icon(
-                                                Icons
-                                                    .check_circle_outline_rounded,
-                                                size: 35,
-                                                color: Colors.green,
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                      )
-                                    : InkWell(
-                                        onTap: () {
-                                          if (gameData[i].sound ==
-                                              gameData[i].sounds[index]) {
-                                            setState(() {
-                                              gameData[i].isTrue[index] = true;
-                                            });
-                                            winGame();
-                                          }
-                                        },
-                                        child: Container(
-                                          height: height,
-                                          width: width,
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(radius),
-                                              image: DecorationImage(
-                                                  image: Image.asset(
-                                                          'assets/images/${widget.category}/${gameData[i].sounds[index]}.png')
-                                                      .image)),
-                                        ),
-                                      );
-                              },
-                              separatorBuilder:
-                                  (BuildContext context, int index) {
-                                return SizedBox(width: 20);
-                              },
-                            ),
-                          ],
-                        )),
-                  ],
-                );
-              },
-              separatorBuilder: (context, index) {
-                return SizedBox(height: 50);
-              },
-              itemCount: gameData.length),
-        ),
-        progress < levelState.goal &&
-                gameData.every((element) => element.isTrue.contains(true))
-            ? MyButton(
-                onPressed: () {
-                  setState(() {
-                    initGame();
-                  });
+                                                image: DecorationImage(
+                                                    image: Image.asset(
+                                                            'assets/images/${widget.category}/${gameData[i].sounds[index]}.png')
+                                                        .image)),
+                                          ),
+                                        );
+                                },
+                                separatorBuilder:
+                                    (BuildContext context, int index) {
+                                  return SizedBox(width: 20);
+                                },
+                              ),
+                            ],
+                          )),
+                    ],
+                  );
                 },
-                child: const Text('Next'),
-              )
-            : Container()
-      ],
+                separatorBuilder: (context, index) {
+                  return SizedBox(height: 50);
+                },
+                itemCount: gameData.length),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 64.0),
+            child: progress < levelState.goal &&
+                    gameData.every((element) => element.isTrue.contains(true))
+                ? MyButton(
+                    onPressed: () {
+                      setState(() {
+                        initGame();
+                      });
+                    },
+                    child: const Text('Next'),
+                  )
+                : Container(),
+          )
+        ],
+      ),
     );
   }
 }

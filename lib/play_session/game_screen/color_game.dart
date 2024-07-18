@@ -73,7 +73,7 @@ class ColorGame extends StatelessWidget {
             ],
           );
         case 10:
-          return WritingGame();
+          return WritingGame(data: List.generate(10, (index) => '$index'));
         default:
           return Center(
             child: Text("Game isn't Available Now!"),
