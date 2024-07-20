@@ -4,6 +4,7 @@
 
 import 'dart:developer' as dev;
 
+import 'package:camera/camera.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +19,8 @@ import 'player_progress/player_progress.dart';
 import 'router.dart';
 import 'settings/settings.dart';
 import 'style/palette.dart';
+
+List<CameraDescription> cameras = [];
 
 void main() async {
   // Basic logging setup.
@@ -43,6 +46,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  cameras = await availableCameras();
 
   runApp(MyApp());
 }

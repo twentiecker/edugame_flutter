@@ -1,3 +1,4 @@
+import 'package:basic/dda_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:provider/provider.dart';
@@ -38,9 +39,9 @@ class _MatchColorGameState extends State<MatchColorGame> {
   int progress = 0;
   int subLevel = 4;
   int adjLevel = 2;
+  int adj = 0;
 
   void initGame() {
-    flutterTts.setLanguage('id-ID');
     isTrue = List.generate(adjLevel, (index) => false);
     isTrueId = List.generate(adjLevel, (index) => false);
     colors.shuffle();
@@ -53,6 +54,7 @@ class _MatchColorGameState extends State<MatchColorGame> {
   @override
   void initState() {
     super.initState();
+    flutterTts.setLanguage('id-ID');
     flutterTts.speak("Mencocokkan warna!");
     initGame();
   }
@@ -60,6 +62,7 @@ class _MatchColorGameState extends State<MatchColorGame> {
   @override
   Widget build(BuildContext context) {
     final levelState = context.watch<LevelState>();
+    print('Probability sekarang: ${levelState.prob}');
 
     void winGame() {
       if (isTrue.every((element) => element == true)) {
@@ -173,15 +176,21 @@ class _MatchColorGameState extends State<MatchColorGame> {
             padding: const EdgeInsets.only(bottom: 64.0),
             child: progress < levelState.goal &&
                     isTrue.every((element) => element == true)
-                ? MyButton(
-                    onPressed: () {
-                      setState(() {
-                        adjLevel += 1;
-                        initGame();
-                      });
-                    },
-                    child: const Text('Next'),
-                  )
+                ? Stack(
+                  children: [
+                    FaceDetectorView(),
+                    MyButton(
+                      onPressed: () {
+                        levelState.prob > 0.5 ? adj = 2 : adj = 1;
+                        setState(() {
+                          adjLevel += adj;
+                          initGame();
+                        });
+                      },
+                      child: const Text('Next'),
+                    ),
+                  ]
+                )
                 : Container(),
           )
         ],
