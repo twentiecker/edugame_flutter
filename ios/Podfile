@@ -31,7 +31,7 @@ target 'Runner' do
   use_frameworks!
   use_modular_headers!
 
-  pod 'GoogleMLKit/FaceDetection', '6.0.0'
+  pod 'GoogleMLKit/FaceDetection', '2.2.0'
   pod 'GoogleMLKit/DigitalInkRecognition', '6.0.0'
 
   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
