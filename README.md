@@ -222,3 +222,11 @@ or
 
 These warning come from the various plugins that are used by the template. They are not harmful 
 and can be ignored. The warnings are meant for the plugin authors, not for you, the game developer.
+
+## Additional information
+
+Disable using camera and camera_process dependency to complete build the ios app
+- pubspec.yaml -> comment camera and camera_process dependency
+- dda_service.dart -> comment all code
+- match_color_game.dart -> comment import 'package:basic/dda_service.dart' in line 1 and "FaceDetectorView()" in line 181
+- main.dart -> comment "import 'package:camera/camera.dart'" in line 7, "List<CameraDescription> cameras = []" in line 23, and "cameras = await availableCameras()" in line 49

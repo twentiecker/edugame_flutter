@@ -1,4 +1,4 @@
-import 'package:basic/dda_service.dart';
+// import 'package:basic/dda_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:provider/provider.dart';
@@ -178,7 +178,7 @@ class _MatchColorGameState extends State<MatchColorGame> {
                     isTrue.every((element) => element == true)
                 ? Stack(
                   children: [
-                    FaceDetectorView(),
+                    // FaceDetectorView(),
                     MyButton(
                       onPressed: () {
                         levelState.prob > 0.5 ? adj = 2 : adj = 1;
