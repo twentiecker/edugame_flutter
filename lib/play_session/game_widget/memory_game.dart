@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 import 'package:provider/provider.dart';
 
 import '../../audio/audio_controller.dart';
 import '../../audio/sounds.dart';
+import '../../dda_service.dart';
 import '../../game_internals/level_state.dart';
 import '../../style/my_button.dart';
 
@@ -17,8 +19,10 @@ class MemoryGame extends StatefulWidget {
 
 class _MemoryGameState extends State<MemoryGame> {
   final String hiddenCard = 'assets/images/memory/question.png';
+  final FlutterTts flutterTts = FlutterTts();
 
   List<bool> isTrue = [];
+  List<bool> isTrueTemp = [];
   List<String> cardList = [];
   List<String> hiddenList = [];
   List<Map<int, String>> matchCheck = [];
@@ -27,12 +31,14 @@ class _MemoryGameState extends State<MemoryGame> {
   int match = 0;
 
   int progress = 0;
-  int subLevel = 3;
+  int subLevel = 4;
   int adjLevel = 1;
+  int adj = 0;
 
   void initGame() {
     widget.images.shuffle();
-    isTrue = List.generate(adjLevel * 4, (index) => false);
+    isTrue = List.generate(adjLevel * 2, (index) => false);
+    isTrueTemp = List.generate(adjLevel * 2, (index) => false);
     cardList = List.generate(
         isTrue.length, (index) => widget.images[index % (isTrue.length ~/ 2)]);
     cardList.shuffle();
@@ -42,6 +48,8 @@ class _MemoryGameState extends State<MemoryGame> {
   @override
   void initState() {
     super.initState();
+    flutterTts.setLanguage('id-ID');
+    flutterTts.speak("Mengingat gambar!");
     initGame();
   }
 
@@ -83,7 +91,7 @@ class _MemoryGameState extends State<MemoryGame> {
                 ),
                 padding: const EdgeInsets.all(20.0),
                 itemBuilder: (context, index) {
-                  return isTrue[index]
+                  return isTrue[index] || isTrueTemp[index]
                       ? Container(
                           padding: const EdgeInsets.all(16.0),
                           decoration: BoxDecoration(
@@ -102,6 +110,7 @@ class _MemoryGameState extends State<MemoryGame> {
                               () {
                                 hiddenList[index] = cardList[index];
                                 matchCheck.add({index: cardList[index]});
+                                isTrueTemp[index] = true;
                               },
                             );
                             if (matchCheck.length == 2) {
@@ -113,6 +122,7 @@ class _MemoryGameState extends State<MemoryGame> {
                                   isTrue[matchCheck[0].keys.first] = true;
                                   isTrue[matchCheck[1].keys.first] = true;
                                 });
+                                isTrueTemp = isTrue;
                                 matchCheck.clear();
                                 winGame();
                               } else {
@@ -127,6 +137,10 @@ class _MemoryGameState extends State<MemoryGame> {
                                           hiddenCard;
                                       hiddenList[matchCheck[1].keys.first] =
                                           hiddenCard;
+                                      isTrueTemp[matchCheck[0].keys.first] =
+                                          false;
+                                      isTrueTemp[matchCheck[1].keys.first] =
+                                          false;
                                       matchCheck.clear();
                                     });
                                   },
@@ -154,16 +168,58 @@ class _MemoryGameState extends State<MemoryGame> {
             padding: const EdgeInsets.only(bottom: 64.0),
             child: progress < levelState.goal &&
                     isTrue.every((element) => element == true)
-                ? MyButton(
-                    onPressed: () {
-                      setState(() {
-                        tries = 0;
-                        match = 0;
-                        initGame();
-                      });
-                    },
-                    child: const Text('Next'),
-                  )
+                ? levelState.isDda
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Stack(children: [
+                            FaceDetectorView(),
+                            MyButton(
+                              onPressed: () {
+                                if ((levelState.prob > 0 &&
+                                        levelState.prob <
+                                            levelState.sadThreshold) &&
+                                    adjLevel != 1) {
+                                  adj = -1;
+                                } else if ((levelState.prob >=
+                                            levelState.sadThreshold &&
+                                        levelState.prob <=
+                                            levelState.happyThreshold) ||
+                                    levelState.prob == 0) {
+                                  adj = 1;
+                                } else if (levelState.prob >
+                                    levelState.happyThreshold) {
+                                  adj = 2;
+                                  if (adjLevel + adj > 6) {
+                                    adj = 1;
+                                  }
+                                } else {
+                                  adj = 0;
+                                }
+                                tries = 0;
+                                match = 0;
+                                setState(() {
+                                  adjLevel += adj;
+                                  initGame();
+                                });
+                              },
+                              child: const Text('Next'),
+                            ),
+                          ]),
+                        ],
+                      )
+                    : MyButton(
+                        onPressed: () {
+                          adj = 1;
+                          tries = 0;
+                          match = 0;
+                          setState(() {
+                            adjLevel += adj;
+                            initGame();
+                          });
+                        },
+                        child: const Text('Next'),
+                      )
                 : Container(),
           )
         ],
