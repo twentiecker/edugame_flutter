@@ -1,4 +1,3 @@
-import 'package:basic/play_session/game_widget/writing_game.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../game_widget/complete_pattern_game.dart';
@@ -9,7 +8,6 @@ import '../game_widget/match_slice_game.dart';
 import '../game_widget/match_sound_game.dart';
 import '../game_widget/memory_game.dart';
 import '../game_widget/puzzle_game.dart';
-import '../game_widget/spell_game.dart';
 
 class ColorGame extends StatelessWidget {
   final int level;
@@ -28,34 +26,27 @@ class ColorGame extends StatelessWidget {
                 15, (index) => 'assets/images/shape2d/${index + 1}.png'),
           );
         case 3:
-          return JigsawGame(
-            images: List.generate(
-                12, (index) => 'assets/images/jigsaw/${index + 1}c.png'),
-          );
-        case 4:
           return MatchSliceGame(
             images: List.generate(
                 10, (index) => 'assets/images/slice/${index + 1}c.png'),
             isColor: true,
           );
-        case 5:
-          return MemoryGame(
-            images: List.generate(
-                14, (index) => 'assets/images/memory/${index + 1}c.png'),
-          );
-        case 6:
+        case 4:
           return PuzzleGame(
             imageKey: 'c',
             imageNum: 7,
           );
-        case 7:
-          return SpellGame();
-        case 8:
-          return GroupGame(
+        case 5:
+          return JigsawGame(
             images: List.generate(
-                16, (index) => 'assets/images/group/${index + 1}.png'),
+                12, (index) => 'assets/images/jigsaw/${index + 1}c.png'),
           );
-        case 9:
+        case 6:
+          return MemoryGame(
+            images: List.generate(
+                14, (index) => 'assets/images/memory/${index + 1}c.png'),
+          );
+        case 7:
           return MatchSoundGame(
             category: 'color',
             images: [
@@ -72,8 +63,11 @@ class ColorGame extends StatelessWidget {
               'abu-abu',
             ],
           );
-        case 10:
-          return WritingGame(data: List.generate(10, (index) => '$index'));
+        case 8:
+          return GroupGame(
+            images: List.generate(
+                16, (index) => 'assets/images/group/${index + 1}.png'),
+          );
         default:
           return Center(
             child: Text("Game isn't Available Now!"),

@@ -1,11 +1,12 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 import 'package:provider/provider.dart';
 
 import '../../audio/audio_controller.dart';
 import '../../audio/sounds.dart';
+import '../../dda_service.dart';
 import '../../game_internals/level_state.dart';
+import '../../model/base_color.dart';
 import '../../style/my_button.dart';
 
 class MatchSliceGame extends StatefulWidget {
@@ -28,24 +29,30 @@ class _MatchSliceGameState extends State<MatchSliceGame> {
   final double lineHeight = 115.0;
   final double lineWidth = 2.0;
   final double scale = 3;
+  final FlutterTts flutterTts = FlutterTts();
 
   List<bool> isTrue = [];
-  List<Color> colors = [];
+  List<BaseColor> colors = [
+    BaseColor(name: 'merah', color: Colors.red),
+    BaseColor(name: 'merah muda', color: Colors.pink),
+    BaseColor(name: 'ungu', color: Colors.purple),
+    BaseColor(name: 'biru', color: Colors.blue),
+    BaseColor(name: 'hijau', color: Colors.green),
+    BaseColor(name: 'kuning', color: Colors.yellow),
+    BaseColor(name: 'jingga', color: Colors.orange),
+    BaseColor(name: 'coklat', color: Colors.brown)
+  ];
   List<Map<String, String>> domain = [];
   List<Map<String, String>> codomain = [];
 
   int progress = 0;
-  int subLevel = 3;
-  int adjLevel = 4;
+  int subLevel = 5;
+  int adjLevel = 2;
+  int adj = 0;
 
   void initGame() {
     widget.images.shuffle();
     isTrue = List.generate(adjLevel, (index) => false);
-    Random().nextInt(2) == 1
-        ? colors = List.generate(
-            Colors.primaries.length, (index) => Colors.primaries[index])
-        : colors = List.generate(
-            Colors.accents.length, (index) => Colors.accents[index]);
     colors.shuffle();
     domain = List.generate(
         isTrue.length,
@@ -61,6 +68,8 @@ class _MatchSliceGameState extends State<MatchSliceGame> {
   @override
   void initState() {
     super.initState();
+    flutterTts.setLanguage('id-ID');
+    flutterTts.speak("Mencocokkan potongan gambar!");
     initGame();
   }
 
@@ -81,175 +90,192 @@ class _MatchSliceGameState extends State<MatchSliceGame> {
       padding: const EdgeInsets.only(top: 64.0),
       child: Column(
         children: [
-          Row(
-            children: [
-              Expanded(
-                child: Column(
-                  children: [
-                    SizedBox(
-                      width: 2 * width + lineWidth,
-                      child: ListView.separated(
-                          shrinkWrap: true,
-                          itemBuilder: (context, index) {
-                            return Row(
-                              children: [
-                                Draggable(
-                                  data: domain[index]['data'],
-                                  feedback: Container(
-                                    alignment: Alignment.centerRight,
-                                    height: height,
-                                    width: width,
-                                    child: widget.isColor
-                                        ? Image.asset(
-                                            domain[index]['image']!,
-                                            scale: scale,
-                                            color: colors[int.parse(
-                                                domain[index]['data']!)],
-                                          )
-                                        : Image.asset(domain[index]['image']!),
-                                  ),
-                                  childWhenDragging: Container(
-                                    alignment: Alignment.centerRight,
-                                    height: height,
-                                    width: width,
-                                    child: widget.isColor
-                                        ? Image.asset(
-                                            domain[index]['image']!,
-                                            scale: scale,
-                                            color: colors[int.parse(
-                                                domain[index]['data']!)],
-                                          )
-                                        : Image.asset(domain[index]['image']!),
-                                  ),
-                                  child: Container(
-                                    alignment: Alignment.centerRight,
-                                    height: height,
-                                    width: width,
-                                    child: widget.isColor
-                                        ? Image.asset(
-                                            domain[index]['image']!,
-                                            scale: scale,
-                                            color: colors[int.parse(
-                                                domain[index]['data']!)],
-                                          )
-                                        : Image.asset(domain[index]['image']!),
-                                  ),
-                                ),
-                                Container(
+          Expanded(
+            child: ListView.separated(
+                itemBuilder: (context, index) {
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Row(
+                        children: [
+                          Draggable(
+                            data: domain[index]['data'],
+                            feedback: Container(
+                              alignment: Alignment.centerRight,
+                              height: height,
+                              width: width,
+                              child: widget.isColor
+                                  ? Image.asset(
+                                      domain[index]['image']!,
+                                      scale: scale,
+                                      color: colors[
+                                              int.parse(domain[index]['data']!)]
+                                          .color,
+                                    )
+                                  : Image.asset(domain[index]['image']!),
+                            ),
+                            childWhenDragging: Container(
+                              alignment: Alignment.centerRight,
+                              height: height,
+                              width: width,
+                              child: widget.isColor
+                                  ? Image.asset(
+                                      domain[index]['image']!,
+                                      scale: scale,
+                                      color: colors[
+                                              int.parse(domain[index]['data']!)]
+                                          .color,
+                                    )
+                                  : Image.asset(domain[index]['image']!),
+                            ),
+                            child: Container(
+                              alignment: Alignment.centerRight,
+                              height: height,
+                              width: width,
+                              child: widget.isColor
+                                  ? Image.asset(
+                                      domain[index]['image']!,
+                                      scale: scale,
+                                      color: colors[
+                                              int.parse(domain[index]['data']!)]
+                                          .color,
+                                    )
+                                  : Image.asset(domain[index]['image']!),
+                            ),
+                          ),
+                          Container(
+                            width: lineWidth,
+                            height: lineHeight,
+                            color: Colors.black,
+                          ),
+                          Container(
+                            width: width,
+                            height: height,
+                            color: Colors.white,
+                          )
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          DragTarget(builder: (
+                            BuildContext context,
+                            List<dynamic> accepted,
+                            List<dynamic> rejected,
+                          ) {
+                            return Container(
+                              alignment: Alignment.centerRight,
+                              height: height,
+                              width: width,
+                              child: isTrue[index]
+                                  ? widget.isColor
+                                      ? Image.asset(
+                                          codomain[index]['image']!,
+                                          scale: scale,
+                                          color: colors[int.parse(
+                                                  codomain[index]['data']!)]
+                                              .color,
+                                        )
+                                      : Image.asset(codomain[index]['image']!)
+                                  : Container(
+                                      height: height,
+                                      width: width,
+                                      color: Colors.white,
+                                    ),
+                            );
+                          }, onAcceptWithDetails: (DragTargetDetails details) {
+                            if (details.data == codomain[index]['data']) {
+                              setState(() {
+                                isTrue[index] = true;
+                              });
+                              winGame();
+                            }
+                          }),
+                          isTrue[index]
+                              ? Container(height: lineHeight)
+                              : Container(
                                   width: lineWidth,
                                   height: lineHeight,
                                   color: Colors.black,
                                 ),
-                                Container(
-                                  width: width,
-                                  height: height,
-                                  color: Colors.white,
-                                )
-                              ],
-                            );
-                          },
-                          separatorBuilder: (context, index) {
-                            return SizedBox(height: 15);
-                          },
-                          itemCount: isTrue.length),
-                    )
-                  ],
-                ),
-              ),
-              Expanded(
-                child: Column(
-                  children: [
-                    SizedBox(
-                      width: 2 * width + lineWidth,
-                      child: ListView.separated(
-                          shrinkWrap: true,
-                          itemBuilder: (context, index) {
-                            return Row(
-                              children: [
-                                DragTarget(builder: (
-                                  BuildContext context,
-                                  List<dynamic> accepted,
-                                  List<dynamic> rejected,
-                                ) {
-                                  return Container(
-                                    alignment: Alignment.centerRight,
-                                    height: height,
-                                    width: width,
-                                    child: isTrue[index]
-                                        ? widget.isColor
-                                            ? Image.asset(
-                                                codomain[index]['image']!,
-                                                scale: scale,
-                                                color: colors[int.parse(
-                                                    codomain[index]['data']!)],
-                                              )
-                                            : Image.asset(
-                                                codomain[index]['image']!)
-                                        : Container(
-                                            height: height,
-                                            width: width,
-                                            color: Colors.white,
-                                          ),
-                                  );
-                                }, onAcceptWithDetails:
-                                    (DragTargetDetails details) {
-                                  if (details.data == codomain[index]['data']) {
-                                    setState(() {
-                                      isTrue[index] = true;
-                                    });
-                                    winGame();
-                                  }
-                                }),
-                                isTrue[index]
-                                    ? Container(height: lineHeight)
-                                    : Container(
-                                        width: lineWidth,
-                                        height: lineHeight,
-                                        color: Colors.black,
-                                      ),
-                                Container(
-                                  alignment: Alignment.centerLeft,
-                                  width: width,
-                                  height: height,
-                                  child: Transform.flip(
-                                    flipX: true,
-                                    child: widget.isColor
-                                        ? Image.asset(
-                                            codomain[index]['image']!,
-                                            scale: scale,
-                                            color: colors[int.parse(
-                                                codomain[index]['data']!)],
-                                          )
-                                        : Image.asset(
-                                            codomain[index]['image']!),
-                                  ),
-                                )
-                              ],
-                            );
-                          },
-                          separatorBuilder: (context, index) {
-                            return SizedBox(height: 15);
-                          },
-                          itemCount: isTrue.length),
-                    )
-                  ],
-                ),
-              )
-            ],
+                          Container(
+                            alignment: Alignment.centerLeft,
+                            width: width,
+                            height: height,
+                            child: Transform.flip(
+                              flipX: true,
+                              child: widget.isColor
+                                  ? Image.asset(
+                                      codomain[index]['image']!,
+                                      scale: scale,
+                                      color: colors[int.parse(
+                                              codomain[index]['data']!)]
+                                          .color,
+                                    )
+                                  : Image.asset(codomain[index]['image']!),
+                            ),
+                          )
+                        ],
+                      )
+                    ],
+                  );
+                },
+                separatorBuilder: (context, index) {
+                  return SizedBox(height: 20);
+                },
+                itemCount: isTrue.length),
           ),
-          Spacer(),
           Padding(
             padding: const EdgeInsets.only(bottom: 64.0),
             child: progress < levelState.goal &&
                     isTrue.every((element) => element == true)
-                ? MyButton(
-                    onPressed: () {
-                      setState(() {
-                        initGame();
-                      });
-                    },
-                    child: const Text('Next'),
-                  )
+                ? levelState.isDda
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Stack(children: [
+                            FaceDetectorView(),
+                            MyButton(
+                              onPressed: () {
+                                if ((levelState.prob > 0 &&
+                                        levelState.prob <
+                                            levelState.sadThreshold) &&
+                                    adjLevel != 1) {
+                                  adj = -1;
+                                } else if ((levelState.prob >=
+                                            levelState.sadThreshold &&
+                                        levelState.prob <=
+                                            levelState.happyThreshold) ||
+                                    levelState.prob == 0) {
+                                  adj = 1;
+                                } else if (levelState.prob >
+                                    levelState.happyThreshold) {
+                                  adj = 2;
+                                  if ((adjLevel + adj) >= colors.length) {
+                                    adj = 1;
+                                  }
+                                } else {
+                                  adj = 0;
+                                }
+                                setState(() {
+                                  adjLevel += adj;
+                                  initGame();
+                                });
+                              },
+                              child: const Text('Next'),
+                            ),
+                          ]),
+                        ],
+                      )
+                    : MyButton(
+                        onPressed: () {
+                          adj = 1;
+                          setState(() {
+                            adjLevel += adj;
+                            initGame();
+                          });
+                        },
+                        child: const Text('Next'),
+                      )
                 : Container(),
           )
         ],

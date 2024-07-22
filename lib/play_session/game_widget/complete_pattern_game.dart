@@ -37,8 +37,6 @@ class _CompletePatternGameState extends State<CompletePatternGame> {
     BaseColor(name: 'jingga', color: Colors.orange),
     BaseColor(name: 'coklat', color: Colors.brown)
   ];
-
-  // List<Color> colors = [];
   List<Map<String, String>> domain = [];
   List<Map<String, String>> codomain = [];
 
