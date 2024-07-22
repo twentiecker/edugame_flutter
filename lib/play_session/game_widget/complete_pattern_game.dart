@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 import 'package:provider/provider.dart';
 
 import '../../audio/audio_controller.dart';
@@ -21,6 +22,7 @@ class _CompletePatternGameState extends State<CompletePatternGame> {
   final double height = 80.0;
   final double width = 80.0;
   final double radius = 10.0;
+  final FlutterTts flutterTts = FlutterTts();
 
   List<bool> isTrue = [];
   List<Color> colors = [];
@@ -66,6 +68,8 @@ class _CompletePatternGameState extends State<CompletePatternGame> {
   @override
   void initState() {
     super.initState();
+    flutterTts.setLanguage('id-ID');
+    flutterTts.speak("Mencocokkan pola!");
     initGame();
   }
 

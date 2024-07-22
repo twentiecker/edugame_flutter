@@ -40,8 +40,6 @@ class _MatchColorGameState extends State<MatchColorGame> {
   int subLevel = 4;
   int adjLevel = 2;
   int adj = 0;
-  double sadThreshold = 0.1;
-  double happyThreshold = 0.3;
 
   void initGame() {
     isTrue = List.generate(adjLevel, (index) => false);
@@ -64,7 +62,6 @@ class _MatchColorGameState extends State<MatchColorGame> {
   @override
   Widget build(BuildContext context) {
     final levelState = context.watch<LevelState>();
-    debugPrint('Probability sekarang: ${levelState.prob}');
 
     void winGame() {
       if (isTrue.every((element) => element == true)) {
@@ -187,14 +184,14 @@ class _MatchColorGameState extends State<MatchColorGame> {
                             MyButton(
                               onPressed: () {
                                 if ((levelState.prob > 0 &&
-                                        levelState.prob < sadThreshold) &&
+                                        levelState.prob < levelState.sadThreshold) &&
                                     adjLevel != 1) {
                                   adj = -1;
-                                } else if ((levelState.prob >= sadThreshold &&
-                                        levelState.prob <= happyThreshold) ||
+                                } else if ((levelState.prob >= levelState.sadThreshold &&
+                                        levelState.prob <= levelState.happyThreshold) ||
                                     levelState.prob == 0) {
                                   adj = 1;
-                                } else if (levelState.prob > happyThreshold) {
+                                } else if (levelState.prob > levelState.happyThreshold) {
                                   adj = 2;
                                   if ((adjLevel + adj) >= colors.length) {
                                     adj = 1;

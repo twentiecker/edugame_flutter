@@ -23,7 +23,9 @@ class LevelState extends ChangeNotifier {
 
   double get prob => _prob;
 
-  bool isDda = false;
+  bool isDda = true;
+  double sadThreshold = 0.1;
+  double happyThreshold = 0.3;
 
   void setProgress(int value) {
     _progress = value;
