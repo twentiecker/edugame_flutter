@@ -25,13 +25,25 @@ class _CompletePatternGameState extends State<CompletePatternGame> {
   final FlutterTts flutterTts = FlutterTts();
 
   List<bool> isTrue = [];
-  List<Color> colors = [];
+  List<BaseColor> colors = [
+    BaseColor(name: 'merah', color: Colors.red),
+    BaseColor(name: 'merah muda', color: Colors.pink),
+    BaseColor(name: 'ungu', color: Colors.purple),
+    BaseColor(name: 'biru', color: Colors.blue),
+    BaseColor(name: 'hijau', color: Colors.green),
+    BaseColor(name: 'kuning', color: Colors.yellow),
+    BaseColor(name: 'jingga', color: Colors.orange),
+    BaseColor(name: 'coklat', color: Colors.brown)
+  ];
+
+  // List<Color> colors = [];
   List<Map<String, String>> domain = [];
   List<Map<String, String>> codomain = [];
 
   int progress = 0;
   int subLevel = 3;
   int adjLevel = 4;
+  int adj = 0;
 
   late int difficulty;
 
@@ -48,11 +60,6 @@ class _CompletePatternGameState extends State<CompletePatternGame> {
         if (isTrue.where((element) => element == false).length == 2) break;
       }
     }
-    Random().nextInt(2) == 1
-        ? colors = List.generate(
-            Colors.primaries.length, (index) => Colors.primaries[index])
-        : colors = List.generate(
-            Colors.accents.length, (index) => Colors.accents[index]);
     colors.shuffle();
     domain = List.generate(
         isTrue.length,
@@ -196,14 +203,54 @@ class _CompletePatternGameState extends State<CompletePatternGame> {
             padding: const EdgeInsets.only(bottom: 64.0),
             child: progress < levelState.goal &&
                     isTrue.every((element) => element == true)
-                ? MyButton(
-                    onPressed: () {
-                      setState(() {
-                        initGame();
-                      });
-                    },
-                    child: const Text('Next'),
-                  )
+                ? levelState.isDda
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Stack(children: [
+                            FaceDetectorView(),
+                            MyButton(
+                              onPressed: () {
+                                if ((levelState.prob > 0 &&
+                                        levelState.prob <
+                                            levelState.sadThreshold) &&
+                                    adjLevel != 1) {
+                                  adj = -1;
+                                } else if ((levelState.prob >=
+                                            levelState.sadThreshold &&
+                                        levelState.prob <=
+                                            levelState.happyThreshold) ||
+                                    levelState.prob == 0) {
+                                  adj = 1;
+                                } else if (levelState.prob >
+                                    levelState.happyThreshold) {
+                                  adj = 2;
+                                  if ((adjLevel + adj) >= colors.length) {
+                                    adj = 1;
+                                  }
+                                } else {
+                                  adj = 0;
+                                }
+                                setState(() {
+                                  adjLevel += adj;
+                                  initGame();
+                                });
+                              },
+                              child: const Text('Next'),
+                            ),
+                          ]),
+                        ],
+                      )
+                    : MyButton(
+                        onPressed: () {
+                          adj = 1;
+                          setState(() {
+                            adjLevel += adj;
+                            initGame();
+                          });
+                        },
+                        child: const Text('Next'),
+                      )
                 : Container(),
           )
         ],

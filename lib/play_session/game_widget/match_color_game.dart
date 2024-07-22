@@ -6,6 +6,7 @@ import '../../audio/audio_controller.dart';
 import '../../audio/sounds.dart';
 import '../../dda_service.dart';
 import '../../game_internals/level_state.dart';
+import '../../model/base_color.dart';
 import '../../style/my_button.dart';
 
 class MatchColorGame extends StatefulWidget {
@@ -184,14 +185,18 @@ class _MatchColorGameState extends State<MatchColorGame> {
                             MyButton(
                               onPressed: () {
                                 if ((levelState.prob > 0 &&
-                                        levelState.prob < levelState.sadThreshold) &&
+                                        levelState.prob <
+                                            levelState.sadThreshold) &&
                                     adjLevel != 1) {
                                   adj = -1;
-                                } else if ((levelState.prob >= levelState.sadThreshold &&
-                                        levelState.prob <= levelState.happyThreshold) ||
+                                } else if ((levelState.prob >=
+                                            levelState.sadThreshold &&
+                                        levelState.prob <=
+                                            levelState.happyThreshold) ||
                                     levelState.prob == 0) {
                                   adj = 1;
-                                } else if (levelState.prob > levelState.happyThreshold) {
+                                } else if (levelState.prob >
+                                    levelState.happyThreshold) {
                                   adj = 2;
                                   if ((adjLevel + adj) >= colors.length) {
                                     adj = 1;
@@ -225,14 +230,4 @@ class _MatchColorGameState extends State<MatchColorGame> {
       ),
     );
   }
-}
-
-class BaseColor {
-  String name;
-  Color color;
-
-  BaseColor({
-    required this.name,
-    required this.color,
-  });
 }
