@@ -23,6 +23,8 @@ class LevelState extends ChangeNotifier {
 
   double get prob => _prob;
 
+  bool isDda = false;
+
   void setProgress(int value) {
     _progress = value;
     notifyListeners();

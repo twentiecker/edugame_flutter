@@ -1,10 +1,10 @@
-// import 'package:basic/dda_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:provider/provider.dart';
 
 import '../../audio/audio_controller.dart';
 import '../../audio/sounds.dart';
+import '../../dda_service.dart';
 import '../../game_internals/level_state.dart';
 import '../../style/my_button.dart';
 
@@ -40,6 +40,8 @@ class _MatchColorGameState extends State<MatchColorGame> {
   int subLevel = 4;
   int adjLevel = 2;
   int adj = 0;
+  double sadThreshold = 0.1;
+  double happyThreshold = 0.3;
 
   void initGame() {
     isTrue = List.generate(adjLevel, (index) => false);
@@ -62,7 +64,7 @@ class _MatchColorGameState extends State<MatchColorGame> {
   @override
   Widget build(BuildContext context) {
     final levelState = context.watch<LevelState>();
-    print('Probability sekarang: ${levelState.prob}');
+    debugPrint('Probability sekarang: ${levelState.prob}');
 
     void winGame() {
       if (isTrue.every((element) => element == true)) {
@@ -176,21 +178,50 @@ class _MatchColorGameState extends State<MatchColorGame> {
             padding: const EdgeInsets.only(bottom: 64.0),
             child: progress < levelState.goal &&
                     isTrue.every((element) => element == true)
-                ? Stack(
-                  children: [
-                    // FaceDetectorView(),
-                    MyButton(
-                      onPressed: () {
-                        levelState.prob > 0.5 ? adj = 2 : adj = 1;
-                        setState(() {
-                          adjLevel += adj;
-                          initGame();
-                        });
-                      },
-                      child: const Text('Next'),
-                    ),
-                  ]
-                )
+                ? levelState.isDda
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Stack(children: [
+                            FaceDetectorView(),
+                            MyButton(
+                              onPressed: () {
+                                if ((levelState.prob > 0 &&
+                                        levelState.prob < sadThreshold) &&
+                                    adjLevel != 1) {
+                                  adj = -1;
+                                } else if ((levelState.prob >= sadThreshold &&
+                                        levelState.prob <= happyThreshold) ||
+                                    levelState.prob == 0) {
+                                  adj = 1;
+                                } else if (levelState.prob > happyThreshold) {
+                                  adj = 2;
+                                  if ((adjLevel + adj) >= colors.length) {
+                                    adj = 1;
+                                  }
+                                } else {
+                                  adj = 0;
+                                }
+                                setState(() {
+                                  adjLevel += adj;
+                                  initGame();
+                                });
+                              },
+                              child: const Text('Next'),
+                            ),
+                          ]),
+                        ],
+                      )
+                    : MyButton(
+                        onPressed: () {
+                          adj = 1;
+                          setState(() {
+                            adjLevel += adj;
+                            initGame();
+                          });
+                        },
+                        child: const Text('Next'),
+                      )
                 : Container(),
           )
         ],
