@@ -6,7 +6,9 @@ import 'package:provider/provider.dart';
 
 import '../../audio/audio_controller.dart';
 import '../../audio/sounds.dart';
+import '../../dda_service.dart';
 import '../../game_internals/level_state.dart';
+import '../../model/base_color.dart';
 import '../../style/my_button.dart';
 
 class CompletePatternGame extends StatefulWidget {
@@ -41,8 +43,8 @@ class _CompletePatternGameState extends State<CompletePatternGame> {
   List<Map<String, String>> codomain = [];
 
   int progress = 0;
-  int subLevel = 3;
-  int adjLevel = 4;
+  int subLevel = 5;
+  int adjLevel = 2;
   int adj = 0;
 
   late int difficulty;
@@ -121,7 +123,8 @@ class _CompletePatternGameState extends State<CompletePatternGame> {
                                 child: Image.asset(
                                   domain[index]['shape']!,
                                   color:
-                                      colors[int.parse(domain[index]['data']!)],
+                                      colors[int.parse(domain[index]['data']!)]
+                                          .color,
                                 ),
                               ),
                               childWhenDragging: SizedBox(
@@ -139,7 +142,8 @@ class _CompletePatternGameState extends State<CompletePatternGame> {
                                 child: Image.asset(
                                   domain[index]['shape']!,
                                   color:
-                                      colors[int.parse(domain[index]['data']!)],
+                                      colors[int.parse(domain[index]['data']!)]
+                                          .color,
                                 ),
                               ),
                             );
@@ -175,7 +179,8 @@ class _CompletePatternGameState extends State<CompletePatternGame> {
                                     ? Image.asset(
                                         codomain[index]['shape']!,
                                         color: colors[int.parse(
-                                            codomain[index]['data']!)],
+                                                codomain[index]['data']!)]
+                                            .color,
                                       )
                                     : Text(''),
                               );
