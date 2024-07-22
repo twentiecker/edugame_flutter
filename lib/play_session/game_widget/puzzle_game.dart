@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 import 'package:provider/provider.dart';
 
 import '../../audio/audio_controller.dart';
@@ -28,6 +29,7 @@ class _PuzzleGameState extends State<PuzzleGame> {
   final double scrollHeight = 250.0;
   final double cardHeight = 100.0;
   final double cardWidth = 186.0;
+  final FlutterTts flutterTts = FlutterTts();
 
   List<bool> isTrue = [];
   List<String> images = [];
@@ -35,7 +37,7 @@ class _PuzzleGameState extends State<PuzzleGame> {
   List<String> codomain = [];
 
   int progress = 0;
-  int subLevel = 3;
+  int subLevel = 5;
   int adjLevel = 3;
   int next = 0;
 
@@ -53,6 +55,8 @@ class _PuzzleGameState extends State<PuzzleGame> {
   @override
   void initState() {
     super.initState();
+    flutterTts.setLanguage('id-ID');
+    flutterTts.speak("Menyusun 3 potongan gambar!");
     images = List.generate(widget.imageNum, (index) => '$index');
     images.shuffle();
     initGame();
