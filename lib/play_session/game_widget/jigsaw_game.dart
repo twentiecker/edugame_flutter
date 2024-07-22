@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 import 'package:provider/provider.dart';
 
 import '../../audio/audio_controller.dart';
@@ -16,6 +17,8 @@ class JigsawGame extends StatefulWidget {
 
 class _JigsawGameState extends State<JigsawGame> {
   final double scale = 2 / 1.5;
+  final double opacity = 0.6;
+  final FlutterTts flutterTts = FlutterTts();
 
   List<bool> isTrue = [];
   List<String> pieces = [];
@@ -29,6 +32,8 @@ class _JigsawGameState extends State<JigsawGame> {
   @override
   void initState() {
     super.initState();
+    flutterTts.setLanguage('id-ID');
+    flutterTts.speak("Menyusun teka-teki gambar!");
     initGame();
   }
 
@@ -71,7 +76,7 @@ class _JigsawGameState extends State<JigsawGame> {
                         : Image.asset(
                             widget.images[0],
                             scale: 1.5,
-                            color: Colors.grey.withOpacity(0.8),
+                            color: Colors.grey.withOpacity(opacity),
                             colorBlendMode: BlendMode.modulate,
                           );
                   }, onAcceptWithDetails: (DragTargetDetails details) {
@@ -97,7 +102,7 @@ class _JigsawGameState extends State<JigsawGame> {
                           : Image.asset(
                               widget.images[1],
                               scale: 1.5,
-                              color: Colors.grey.withOpacity(0.8),
+                              color: Colors.grey.withOpacity(opacity),
                               colorBlendMode: BlendMode.modulate,
                             );
                     }, onAcceptWithDetails: (DragTargetDetails details) {
@@ -124,7 +129,7 @@ class _JigsawGameState extends State<JigsawGame> {
                           : Image.asset(
                               widget.images[2],
                               scale: 1.5,
-                              color: Colors.grey.withOpacity(0.8),
+                              color: Colors.grey.withOpacity(opacity),
                               colorBlendMode: BlendMode.modulate,
                             );
                     }, onAcceptWithDetails: (DragTargetDetails details) {
@@ -151,7 +156,7 @@ class _JigsawGameState extends State<JigsawGame> {
                           : Image.asset(
                               widget.images[3],
                               scale: 1.5,
-                              color: Colors.grey.withOpacity(0.8),
+                              color: Colors.grey.withOpacity(opacity),
                               colorBlendMode: BlendMode.modulate,
                             );
                     }, onAcceptWithDetails: (DragTargetDetails details) {
@@ -178,7 +183,7 @@ class _JigsawGameState extends State<JigsawGame> {
                           : Image.asset(
                               widget.images[4],
                               scale: 1.5,
-                              color: Colors.grey.withOpacity(0.8),
+                              color: Colors.grey.withOpacity(opacity),
                               colorBlendMode: BlendMode.modulate,
                             );
                     }, onAcceptWithDetails: (DragTargetDetails details) {
@@ -206,7 +211,7 @@ class _JigsawGameState extends State<JigsawGame> {
                           : Image.asset(
                               widget.images[5],
                               scale: 1.5,
-                              color: Colors.grey.withOpacity(0.8),
+                              color: Colors.grey.withOpacity(opacity),
                               colorBlendMode: BlendMode.modulate,
                             );
                     }, onAcceptWithDetails: (DragTargetDetails details) {
@@ -234,7 +239,7 @@ class _JigsawGameState extends State<JigsawGame> {
                           : Image.asset(
                               widget.images[6],
                               scale: 1.5,
-                              color: Colors.grey.withOpacity(0.8),
+                              color: Colors.grey.withOpacity(opacity),
                               colorBlendMode: BlendMode.modulate,
                             );
                     }, onAcceptWithDetails: (DragTargetDetails details) {
@@ -262,7 +267,7 @@ class _JigsawGameState extends State<JigsawGame> {
                           : Image.asset(
                               widget.images[7],
                               scale: 1.5,
-                              color: Colors.grey.withOpacity(0.8),
+                              color: Colors.grey.withOpacity(opacity),
                               colorBlendMode: BlendMode.modulate,
                             );
                     }, onAcceptWithDetails: (DragTargetDetails details) {
@@ -289,7 +294,7 @@ class _JigsawGameState extends State<JigsawGame> {
                           : Image.asset(
                               widget.images[8],
                               scale: 1.5,
-                              color: Colors.grey.withOpacity(0.8),
+                              color: Colors.grey.withOpacity(opacity),
                               colorBlendMode: BlendMode.modulate,
                             );
                     }, onAcceptWithDetails: (DragTargetDetails details) {
@@ -317,7 +322,7 @@ class _JigsawGameState extends State<JigsawGame> {
                           : Image.asset(
                               widget.images[9],
                               scale: 1.5,
-                              color: Colors.grey.withOpacity(0.8),
+                              color: Colors.grey.withOpacity(opacity),
                               colorBlendMode: BlendMode.modulate,
                             );
                     }, onAcceptWithDetails: (DragTargetDetails details) {
@@ -345,7 +350,7 @@ class _JigsawGameState extends State<JigsawGame> {
                           : Image.asset(
                               widget.images[10],
                               scale: 1.5,
-                              color: Colors.grey.withOpacity(0.8),
+                              color: Colors.grey.withOpacity(opacity),
                               colorBlendMode: BlendMode.modulate,
                             );
                     }, onAcceptWithDetails: (DragTargetDetails details) {
@@ -373,7 +378,7 @@ class _JigsawGameState extends State<JigsawGame> {
                           : Image.asset(
                               widget.images[11],
                               scale: 1.5,
-                              color: Colors.grey.withOpacity(0.8),
+                              color: Colors.grey.withOpacity(opacity),
                               colorBlendMode: BlendMode.modulate,
                             );
                     }, onAcceptWithDetails: (DragTargetDetails details) {
