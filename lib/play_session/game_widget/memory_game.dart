@@ -187,6 +187,9 @@ class _MemoryGameState extends State<MemoryGame> {
                                             levelState.happyThreshold) ||
                                     levelState.prob == 0) {
                                   adj = 1;
+                                  if (adjLevel + adj > 6) {
+                                    adj = 0;
+                                  }
                                 } else if (levelState.prob >
                                     levelState.happyThreshold) {
                                   adj = 2;
@@ -211,6 +214,9 @@ class _MemoryGameState extends State<MemoryGame> {
                     : MyButton(
                         onPressed: () {
                           adj = 1;
+                          if (adjLevel + adj > 6) {
+                            adj = 0;
+                          }
                           tries = 0;
                           match = 0;
                           setState(() {

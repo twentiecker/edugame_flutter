@@ -8,6 +8,7 @@ import '../../audio/audio_controller.dart';
 import '../../audio/sounds.dart';
 import '../../dda_service.dart';
 import '../../game_internals/level_state.dart';
+import '../../model/game_data.dart';
 import '../../style/my_button.dart';
 
 class MatchSoundGame extends StatefulWidget {
@@ -239,16 +240,4 @@ class _MatchSoundGameState extends State<MatchSoundGame> {
       ),
     );
   }
-}
-
-class GameData {
-  List<bool> isTrue;
-  List<String> sounds;
-  String sound;
-
-  GameData({
-    required this.isTrue,
-    required this.sounds,
-    required this.sound,
-  });
 }

@@ -1,11 +1,15 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 import 'package:provider/provider.dart';
 
 import '../../audio/audio_controller.dart';
 import '../../audio/sounds.dart';
+import '../../dda_service.dart';
 import '../../game_internals/level_state.dart';
+import '../../model/base_color.dart';
+import '../../model/game_color.dart';
 import '../../style/my_button.dart';
 
 class GroupGame extends StatefulWidget {
@@ -21,6 +25,7 @@ class _GroupGameState extends State<GroupGame> {
   final double height = 90.0;
   final double width = 90.0;
   final double radius = 10.0;
+  final FlutterTts flutterTts = FlutterTts();
 
   List<bool> isTrue = [];
   List<BaseColor> baseColor = [
@@ -38,7 +43,8 @@ class _GroupGameState extends State<GroupGame> {
 
   int progress = 0;
   int subLevel = 3;
-  int adjLevel = 3;
+  int adjLevel = 1;
+  int adj = 0;
 
   void initGame() {
     widget.images.shuffle();
@@ -57,6 +63,8 @@ class _GroupGameState extends State<GroupGame> {
   @override
   void initState() {
     super.initState();
+    flutterTts.setLanguage('id-ID');
+    flutterTts.speak("Menempatkan gambar sesuai warna!");
     initGame();
   }
 
@@ -85,45 +93,80 @@ class _GroupGameState extends State<GroupGame> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     for (var i = index * 0 + index * 4; i < index * 4 + 4; i++)
-                      Draggable(
-                        data: gameColor[i],
-                        feedback: SizedBox(
-                          width: width,
-                          height: height,
-                          child: Image.asset(
-                            gameColor[i].image,
-                            color: gameColor[i].color,
-                            colorBlendMode: BlendMode.modulate,
-                            scale: 4,
-                          ),
-                        ),
-                        childWhenDragging: Container(
-                          width: width,
-                          height: height,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(radius),
-                              color: Colors.white),
-                          child: Image.asset(
-                            gameColor[i].image,
-                            color: gameColor[i].color,
-                            colorBlendMode: BlendMode.modulate,
-                            scale: 4,
-                          ),
-                        ),
-                        child: Container(
-                          width: width,
-                          height: height,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(radius),
-                              color: Colors.white),
-                          child: Image.asset(
-                            gameColor[i].image,
-                            color: gameColor[i].color,
-                            colorBlendMode: BlendMode.modulate,
-                            scale: 4,
-                          ),
-                        ),
-                      ),
+                      basket[0].contains(gameColor[i]) ||
+                              basket[1].contains(gameColor[i]) ||
+                              basket[2].contains(gameColor[i])
+                          ? Stack(
+                              children: [
+                                Container(
+                                  width: width,
+                                  height: height,
+                                  decoration: BoxDecoration(
+                                      borderRadius:
+                                          BorderRadius.circular(radius),
+                                      color: Colors.green),
+                                  child: Image.asset(
+                                    gameColor[i].image,
+                                    color: gameColor[i].color,
+                                    colorBlendMode: BlendMode.modulate,
+                                    scale: 4,
+                                  ),
+                                ),
+                                Container(
+                                  width: width,
+                                  height: height,
+                                  decoration: BoxDecoration(
+                                      borderRadius:
+                                          BorderRadius.circular(radius),
+                                      color: Colors.lightGreenAccent
+                                          .withOpacity(0.8)),
+                                  child: Icon(
+                                    Icons.check_circle_outline_rounded,
+                                    size: 35,
+                                    color: Colors.green,
+                                  ),
+                                )
+                              ],
+                            )
+                          : Draggable(
+                              data: gameColor[i],
+                              feedback: SizedBox(
+                                width: width,
+                                height: height,
+                                child: Image.asset(
+                                  gameColor[i].image,
+                                  color: gameColor[i].color,
+                                  colorBlendMode: BlendMode.modulate,
+                                  scale: 4,
+                                ),
+                              ),
+                              childWhenDragging: Container(
+                                width: width,
+                                height: height,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(radius),
+                                    color: Colors.white),
+                                child: Image.asset(
+                                  gameColor[i].image,
+                                  color: gameColor[i].color,
+                                  colorBlendMode: BlendMode.modulate,
+                                  scale: 4,
+                                ),
+                              ),
+                              child: Container(
+                                width: width,
+                                height: height,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(radius),
+                                    color: Colors.white),
+                                child: Image.asset(
+                                  gameColor[i].image,
+                                  color: gameColor[i].color,
+                                  colorBlendMode: BlendMode.modulate,
+                                  scale: 4,
+                                ),
+                              ),
+                            ),
                   ],
                 );
               },
@@ -206,40 +249,66 @@ class _GroupGameState extends State<GroupGame> {
             child: progress < levelState.goal &&
                     basket[0].length + basket[1].length + basket[2].length ==
                         gameColor.length
-                ? MyButton(
-                    onPressed: () {
-                      setState(() {
-                        initGame();
-                      });
-                    },
-                    child: const Text('Next'),
-                  )
+                ? levelState.isDda
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Stack(children: [
+                            FaceDetectorView(),
+                            MyButton(
+                              onPressed: () {
+                                if ((levelState.prob > 0 &&
+                                        levelState.prob <
+                                            levelState.sadThreshold) &&
+                                    adjLevel != 1) {
+                                  adj = -1;
+                                } else if ((levelState.prob >=
+                                            levelState.sadThreshold &&
+                                        levelState.prob <=
+                                            levelState.happyThreshold) ||
+                                    levelState.prob == 0) {
+                                  adj = 1;
+                                  if ((adjLevel + adj) * 4 >
+                                      widget.images.length) {
+                                    adj = 0;
+                                  }
+                                } else if (levelState.prob >
+                                    levelState.happyThreshold) {
+                                  adj = 2;
+                                  if ((adjLevel + adj) * 4 >
+                                      widget.images.length) {
+                                    adj = 1;
+                                  }
+                                } else {
+                                  adj = 0;
+                                }
+                                setState(() {
+                                  adjLevel += adj;
+                                  initGame();
+                                });
+                              },
+                              child: const Text('Next'),
+                            ),
+                          ]),
+                        ],
+                      )
+                    : MyButton(
+                        onPressed: () {
+                          adj = 1;
+                          if ((adjLevel + adj) * 4 > widget.images.length) {
+                            adj = 0;
+                          }
+                          setState(() {
+                            adjLevel += adj;
+                            initGame();
+                          });
+                        },
+                        child: const Text('Next'),
+                      )
                 : Container(),
           )
         ],
       ),
     );
   }
-}
-
-class BaseColor {
-  String name;
-  Color color;
-
-  BaseColor({
-    required this.name,
-    required this.color,
-  });
-}
-
-class GameColor {
-  String name;
-  Color color;
-  String image;
-
-  GameColor({
-    required this.name,
-    required this.color,
-    required this.image,
-  });
 }

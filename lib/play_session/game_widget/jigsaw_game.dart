@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../../audio/audio_controller.dart';
 import '../../audio/sounds.dart';
 import '../../game_internals/level_state.dart';
+import '../../model/piece_data.dart';
 
 class JigsawGame extends StatefulWidget {
   final List<String> images;
@@ -21,12 +22,18 @@ class _JigsawGameState extends State<JigsawGame> {
   final FlutterTts flutterTts = FlutterTts();
 
   List<bool> isTrue = [];
-  List<String> pieces = [];
+  List<PieceData> pieces = [];
 
   void initGame() {
     isTrue = List.generate(widget.images.length, (index) => false);
-    pieces = List.generate(isTrue.length, (index) => widget.images[index]);
+    pieces = List.generate(
+        isTrue.length,
+        (index) =>
+            PieceData(id: index, image: widget.images[index], isTrue: false));
     pieces.shuffle();
+    for (var i = 0; i < pieces.length; i++) {
+      pieces[i].id = i;
+    }
   }
 
   @override
@@ -80,9 +87,10 @@ class _JigsawGameState extends State<JigsawGame> {
                             colorBlendMode: BlendMode.modulate,
                           );
                   }, onAcceptWithDetails: (DragTargetDetails details) {
-                    if (details.data == widget.images[0]) {
+                    if (details.data.image == widget.images[0]) {
                       setState(() {
                         isTrue[0] = true;
+                        pieces[int.parse('${details.data.id}')].isTrue = true;
                       });
                       winGame();
                     }
@@ -106,9 +114,10 @@ class _JigsawGameState extends State<JigsawGame> {
                               colorBlendMode: BlendMode.modulate,
                             );
                     }, onAcceptWithDetails: (DragTargetDetails details) {
-                      if (details.data == widget.images[1]) {
+                      if (details.data.image == widget.images[1]) {
                         setState(() {
                           isTrue[1] = true;
+                          pieces[int.parse('${details.data.id}')].isTrue = true;
                         });
                         winGame();
                       }
@@ -133,9 +142,10 @@ class _JigsawGameState extends State<JigsawGame> {
                               colorBlendMode: BlendMode.modulate,
                             );
                     }, onAcceptWithDetails: (DragTargetDetails details) {
-                      if (details.data == widget.images[2]) {
+                      if (details.data.image == widget.images[2]) {
                         setState(() {
                           isTrue[2] = true;
+                          pieces[int.parse('${details.data.id}')].isTrue = true;
                         });
                         winGame();
                       }
@@ -160,9 +170,10 @@ class _JigsawGameState extends State<JigsawGame> {
                               colorBlendMode: BlendMode.modulate,
                             );
                     }, onAcceptWithDetails: (DragTargetDetails details) {
-                      if (details.data == widget.images[3]) {
+                      if (details.data.image == widget.images[3]) {
                         setState(() {
                           isTrue[3] = true;
+                          pieces[int.parse('${details.data.id}')].isTrue = true;
                         });
                         winGame();
                       }
@@ -187,9 +198,10 @@ class _JigsawGameState extends State<JigsawGame> {
                               colorBlendMode: BlendMode.modulate,
                             );
                     }, onAcceptWithDetails: (DragTargetDetails details) {
-                      if (details.data == widget.images[4]) {
+                      if (details.data.image == widget.images[4]) {
                         setState(() {
                           isTrue[4] = true;
+                          pieces[int.parse('${details.data.id}')].isTrue = true;
                         });
                         winGame();
                       }
@@ -215,9 +227,10 @@ class _JigsawGameState extends State<JigsawGame> {
                               colorBlendMode: BlendMode.modulate,
                             );
                     }, onAcceptWithDetails: (DragTargetDetails details) {
-                      if (details.data == widget.images[5]) {
+                      if (details.data.image == widget.images[5]) {
                         setState(() {
                           isTrue[5] = true;
+                          pieces[int.parse('${details.data.id}')].isTrue = true;
                         });
                         winGame();
                       }
@@ -243,9 +256,10 @@ class _JigsawGameState extends State<JigsawGame> {
                               colorBlendMode: BlendMode.modulate,
                             );
                     }, onAcceptWithDetails: (DragTargetDetails details) {
-                      if (details.data == widget.images[6]) {
+                      if (details.data.image == widget.images[6]) {
                         setState(() {
                           isTrue[6] = true;
+                          pieces[int.parse('${details.data.id}')].isTrue = true;
                         });
                         winGame();
                       }
@@ -271,9 +285,10 @@ class _JigsawGameState extends State<JigsawGame> {
                               colorBlendMode: BlendMode.modulate,
                             );
                     }, onAcceptWithDetails: (DragTargetDetails details) {
-                      if (details.data == widget.images[7]) {
+                      if (details.data.image == widget.images[7]) {
                         setState(() {
                           isTrue[7] = true;
+                          pieces[int.parse('${details.data.id}')].isTrue = true;
                         });
                         winGame();
                       }
@@ -298,9 +313,10 @@ class _JigsawGameState extends State<JigsawGame> {
                               colorBlendMode: BlendMode.modulate,
                             );
                     }, onAcceptWithDetails: (DragTargetDetails details) {
-                      if (details.data == widget.images[8]) {
+                      if (details.data.image == widget.images[8]) {
                         setState(() {
                           isTrue[8] = true;
+                          pieces[int.parse('${details.data.id}')].isTrue = true;
                         });
                         winGame();
                       }
@@ -326,9 +342,10 @@ class _JigsawGameState extends State<JigsawGame> {
                               colorBlendMode: BlendMode.modulate,
                             );
                     }, onAcceptWithDetails: (DragTargetDetails details) {
-                      if (details.data == widget.images[9]) {
+                      if (details.data.image == widget.images[9]) {
                         setState(() {
                           isTrue[9] = true;
+                          pieces[int.parse('${details.data.id}')].isTrue = true;
                         });
                         winGame();
                       }
@@ -354,9 +371,10 @@ class _JigsawGameState extends State<JigsawGame> {
                               colorBlendMode: BlendMode.modulate,
                             );
                     }, onAcceptWithDetails: (DragTargetDetails details) {
-                      if (details.data == widget.images[10]) {
+                      if (details.data.image == widget.images[10]) {
                         setState(() {
                           isTrue[10] = true;
+                          pieces[int.parse('${details.data.id}')].isTrue = true;
                         });
                         winGame();
                       }
@@ -382,9 +400,10 @@ class _JigsawGameState extends State<JigsawGame> {
                               colorBlendMode: BlendMode.modulate,
                             );
                     }, onAcceptWithDetails: (DragTargetDetails details) {
-                      if (details.data == widget.images[11]) {
+                      if (details.data.image == widget.images[11]) {
                         setState(() {
                           isTrue[11] = true;
+                          pieces[int.parse('${details.data.id}')].isTrue = true;
                         });
                         winGame();
                       }
@@ -402,198 +421,426 @@ class _JigsawGameState extends State<JigsawGame> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    Draggable(
-                      data: pieces[0],
-                      feedback: Image.asset(
-                        pieces[0],
-                        scale: 2.3,
-                      ),
-                      childWhenDragging: Image.asset(
-                        pieces[0],
-                        scale: 2.3,
-                      ),
-                      child: Image.asset(
-                        pieces[0],
-                        scale: 2.3,
-                      ),
-                    ),
-                    Draggable(
-                      data: pieces[1],
-                      feedback: Image.asset(
-                        pieces[1],
-                        scale: 2.3,
-                      ),
-                      childWhenDragging: Image.asset(
-                        pieces[1],
-                        scale: 2.3,
-                      ),
-                      child: Image.asset(
-                        pieces[1],
-                        scale: 2.3,
-                      ),
-                    ),
-                    Draggable(
-                      data: pieces[2],
-                      feedback: Image.asset(
-                        pieces[2],
-                        scale: 2.3,
-                      ),
-                      childWhenDragging: Image.asset(
-                        pieces[2],
-                        scale: 2.3,
-                      ),
-                      child: Image.asset(
-                        pieces[2],
-                        scale: 2.3,
-                      ),
-                    ),
-                    Draggable(
-                      data: pieces[3],
-                      feedback: Image.asset(
-                        pieces[3],
-                        scale: 2.3,
-                      ),
-                      childWhenDragging: Image.asset(
-                        pieces[3],
-                        scale: 2.3,
-                      ),
-                      child: Image.asset(
-                        pieces[3],
-                        scale: 2.3,
-                      ),
-                    ),
+                    pieces[0].isTrue
+                        ? Stack(
+                            children: [
+                              Image.asset(
+                                pieces[0].image,
+                                scale: 2.3,
+                              ),
+                              Image.asset(
+                                pieces[0].image,
+                                scale: 2.3,
+                                color: Colors.lightGreenAccent.withOpacity(0.8),
+                              ),
+                              Icon(
+                                Icons.check_circle_outline_rounded,
+                                size: 35,
+                                color: Colors.green,
+                              )
+                            ],
+                          )
+                        : Draggable(
+                            data: pieces[0],
+                            feedback: Image.asset(
+                              pieces[0].image,
+                              scale: 2.3,
+                            ),
+                            childWhenDragging: Image.asset(
+                              pieces[0].image,
+                              scale: 2.3,
+                            ),
+                            child: Image.asset(
+                              pieces[0].image,
+                              scale: 2.3,
+                            ),
+                          ),
+                    pieces[1].isTrue
+                        ? Stack(
+                            children: [
+                              Image.asset(
+                                pieces[1].image,
+                                scale: 2.3,
+                              ),
+                              Image.asset(
+                                pieces[1].image,
+                                scale: 2.3,
+                                color: Colors.lightGreenAccent.withOpacity(0.8),
+                              ),
+                              Icon(
+                                Icons.check_circle_outline_rounded,
+                                size: 35,
+                                color: Colors.green,
+                              )
+                            ],
+                          )
+                        : Draggable(
+                            data: pieces[1],
+                            feedback: Image.asset(
+                              pieces[1].image,
+                              scale: 2.3,
+                            ),
+                            childWhenDragging: Image.asset(
+                              pieces[1].image,
+                              scale: 2.3,
+                            ),
+                            child: Image.asset(
+                              pieces[1].image,
+                              scale: 2.3,
+                            ),
+                          ),
+                    pieces[2].isTrue
+                        ? Stack(
+                            children: [
+                              Image.asset(
+                                pieces[2].image,
+                                scale: 2.3,
+                              ),
+                              Image.asset(
+                                pieces[2].image,
+                                scale: 2.3,
+                                color: Colors.lightGreenAccent.withOpacity(0.8),
+                              ),
+                              Icon(
+                                Icons.check_circle_outline_rounded,
+                                size: 35,
+                                color: Colors.green,
+                              )
+                            ],
+                          )
+                        : Draggable(
+                            data: pieces[2],
+                            feedback: Image.asset(
+                              pieces[2].image,
+                              scale: 2.3,
+                            ),
+                            childWhenDragging: Image.asset(
+                              pieces[2].image,
+                              scale: 2.3,
+                            ),
+                            child: Image.asset(
+                              pieces[2].image,
+                              scale: 2.3,
+                            ),
+                          ),
+                    pieces[3].isTrue
+                        ? Stack(
+                            children: [
+                              Image.asset(
+                                pieces[3].image,
+                                scale: 2.3,
+                              ),
+                              Image.asset(
+                                pieces[3].image,
+                                scale: 2.3,
+                                color: Colors.lightGreenAccent.withOpacity(0.8),
+                              ),
+                              Icon(
+                                Icons.check_circle_outline_rounded,
+                                size: 35,
+                                color: Colors.green,
+                              )
+                            ],
+                          )
+                        : Draggable(
+                            data: pieces[3],
+                            feedback: Image.asset(
+                              pieces[3].image,
+                              scale: 2.3,
+                            ),
+                            childWhenDragging: Image.asset(
+                              pieces[3].image,
+                              scale: 2.3,
+                            ),
+                            child: Image.asset(
+                              pieces[3].image,
+                              scale: 2.3,
+                            ),
+                          ),
                   ],
                 ),
                 SizedBox(height: 10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    Draggable(
-                      data: pieces[4],
-                      feedback: Image.asset(
-                        pieces[4],
-                        scale: 2.3,
-                      ),
-                      childWhenDragging: Image.asset(
-                        pieces[4],
-                        scale: 2.3,
-                      ),
-                      child: Image.asset(
-                        pieces[4],
-                        scale: 2.3,
-                      ),
-                    ),
-                    Draggable(
-                      data: pieces[5],
-                      feedback: Image.asset(
-                        pieces[5],
-                        scale: 2.3,
-                      ),
-                      childWhenDragging: Image.asset(
-                        pieces[5],
-                        scale: 2.3,
-                      ),
-                      child: Image.asset(
-                        pieces[5],
-                        scale: 2.3,
-                      ),
-                    ),
-                    Draggable(
-                      data: pieces[6],
-                      feedback: Image.asset(
-                        pieces[6],
-                        scale: 2.3,
-                      ),
-                      childWhenDragging: Image.asset(
-                        pieces[6],
-                        scale: 2.3,
-                      ),
-                      child: Image.asset(
-                        pieces[6],
-                        scale: 2.3,
-                      ),
-                    ),
-                    Draggable(
-                      data: pieces[7],
-                      feedback: Image.asset(
-                        pieces[7],
-                        scale: 2.3,
-                      ),
-                      childWhenDragging: Image.asset(
-                        pieces[7],
-                        scale: 2.3,
-                      ),
-                      child: Image.asset(
-                        pieces[7],
-                        scale: 2.3,
-                      ),
-                    ),
+                    pieces[4].isTrue
+                        ? Stack(
+                            children: [
+                              Image.asset(
+                                pieces[4].image,
+                                scale: 2.3,
+                              ),
+                              Image.asset(
+                                pieces[4].image,
+                                scale: 2.3,
+                                color: Colors.lightGreenAccent.withOpacity(0.8),
+                              ),
+                              Icon(
+                                Icons.check_circle_outline_rounded,
+                                size: 35,
+                                color: Colors.green,
+                              )
+                            ],
+                          )
+                        : Draggable(
+                            data: pieces[4],
+                            feedback: Image.asset(
+                              pieces[4].image,
+                              scale: 2.3,
+                            ),
+                            childWhenDragging: Image.asset(
+                              pieces[4].image,
+                              scale: 2.3,
+                            ),
+                            child: Image.asset(
+                              pieces[4].image,
+                              scale: 2.3,
+                            ),
+                          ),
+                    pieces[5].isTrue
+                        ? Stack(
+                            children: [
+                              Image.asset(
+                                pieces[5].image,
+                                scale: 2.3,
+                              ),
+                              Image.asset(
+                                pieces[5].image,
+                                scale: 2.3,
+                                color: Colors.lightGreenAccent.withOpacity(0.8),
+                              ),
+                              Icon(
+                                Icons.check_circle_outline_rounded,
+                                size: 35,
+                                color: Colors.green,
+                              )
+                            ],
+                          )
+                        : Draggable(
+                            data: pieces[5],
+                            feedback: Image.asset(
+                              pieces[5].image,
+                              scale: 2.3,
+                            ),
+                            childWhenDragging: Image.asset(
+                              pieces[5].image,
+                              scale: 2.3,
+                            ),
+                            child: Image.asset(
+                              pieces[5].image,
+                              scale: 2.3,
+                            ),
+                          ),
+                    pieces[6].isTrue
+                        ? Stack(
+                            children: [
+                              Image.asset(
+                                pieces[6].image,
+                                scale: 2.3,
+                              ),
+                              Image.asset(
+                                pieces[6].image,
+                                scale: 2.3,
+                                color: Colors.lightGreenAccent.withOpacity(0.8),
+                              ),
+                              Icon(
+                                Icons.check_circle_outline_rounded,
+                                size: 35,
+                                color: Colors.green,
+                              )
+                            ],
+                          )
+                        : Draggable(
+                            data: pieces[6],
+                            feedback: Image.asset(
+                              pieces[6].image,
+                              scale: 2.3,
+                            ),
+                            childWhenDragging: Image.asset(
+                              pieces[6].image,
+                              scale: 2.3,
+                            ),
+                            child: Image.asset(
+                              pieces[6].image,
+                              scale: 2.3,
+                            ),
+                          ),
+                    pieces[7].isTrue
+                        ? Stack(
+                            children: [
+                              Image.asset(
+                                pieces[7].image,
+                                scale: 2.3,
+                              ),
+                              Image.asset(
+                                pieces[7].image,
+                                scale: 2.3,
+                                color: Colors.lightGreenAccent.withOpacity(0.8),
+                              ),
+                              Icon(
+                                Icons.check_circle_outline_rounded,
+                                size: 35,
+                                color: Colors.green,
+                              )
+                            ],
+                          )
+                        : Draggable(
+                            data: pieces[7],
+                            feedback: Image.asset(
+                              pieces[7].image,
+                              scale: 2.3,
+                            ),
+                            childWhenDragging: Image.asset(
+                              pieces[7].image,
+                              scale: 2.3,
+                            ),
+                            child: Image.asset(
+                              pieces[7].image,
+                              scale: 2.3,
+                            ),
+                          ),
                   ],
                 ),
                 SizedBox(height: 10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    Draggable(
-                      data: pieces[8],
-                      feedback: Image.asset(
-                        pieces[8],
-                        scale: 2.3,
-                      ),
-                      childWhenDragging: Image.asset(
-                        pieces[8],
-                        scale: 2.3,
-                      ),
-                      child: Image.asset(
-                        pieces[8],
-                        scale: 2.3,
-                      ),
-                    ),
-                    Draggable(
-                      data: pieces[9],
-                      feedback: Image.asset(
-                        pieces[9],
-                        scale: 2.3,
-                      ),
-                      childWhenDragging: Image.asset(
-                        pieces[9],
-                        scale: 2.3,
-                      ),
-                      child: Image.asset(
-                        pieces[9],
-                        scale: 2.3,
-                      ),
-                    ),
-                    Draggable(
-                      data: pieces[10],
-                      feedback: Image.asset(
-                        pieces[10],
-                        scale: 2.3,
-                      ),
-                      childWhenDragging: Image.asset(
-                        pieces[10],
-                        scale: 2.3,
-                      ),
-                      child: Image.asset(
-                        pieces[10],
-                        scale: 2.3,
-                      ),
-                    ),
-                    Draggable(
-                      data: pieces[11],
-                      feedback: Image.asset(
-                        pieces[11],
-                        scale: 2.3,
-                      ),
-                      childWhenDragging: Image.asset(
-                        pieces[11],
-                        scale: 2.3,
-                      ),
-                      child: Image.asset(
-                        pieces[11],
-                        scale: 2.3,
-                      ),
-                    ),
+                    pieces[8].isTrue
+                        ? Stack(
+                            children: [
+                              Image.asset(
+                                pieces[8].image,
+                                scale: 2.3,
+                              ),
+                              Image.asset(
+                                pieces[8].image,
+                                scale: 2.3,
+                                color: Colors.lightGreenAccent.withOpacity(0.8),
+                              ),
+                              Icon(
+                                Icons.check_circle_outline_rounded,
+                                size: 35,
+                                color: Colors.green,
+                              )
+                            ],
+                          )
+                        : Draggable(
+                            data: pieces[8],
+                            feedback: Image.asset(
+                              pieces[8].image,
+                              scale: 2.3,
+                            ),
+                            childWhenDragging: Image.asset(
+                              pieces[8].image,
+                              scale: 2.3,
+                            ),
+                            child: Image.asset(
+                              pieces[8].image,
+                              scale: 2.3,
+                            ),
+                          ),
+                    pieces[9].isTrue
+                        ? Stack(
+                            children: [
+                              Image.asset(
+                                pieces[9].image,
+                                scale: 2.3,
+                              ),
+                              Image.asset(
+                                pieces[9].image,
+                                scale: 2.3,
+                                color: Colors.lightGreenAccent.withOpacity(0.8),
+                              ),
+                              Icon(
+                                Icons.check_circle_outline_rounded,
+                                size: 35,
+                                color: Colors.green,
+                              )
+                            ],
+                          )
+                        : Draggable(
+                            data: pieces[9],
+                            feedback: Image.asset(
+                              pieces[9].image,
+                              scale: 2.3,
+                            ),
+                            childWhenDragging: Image.asset(
+                              pieces[9].image,
+                              scale: 2.3,
+                            ),
+                            child: Image.asset(
+                              pieces[9].image,
+                              scale: 2.3,
+                            ),
+                          ),
+                    pieces[10].isTrue
+                        ? Stack(
+                            children: [
+                              Image.asset(
+                                pieces[10].image,
+                                scale: 2.3,
+                              ),
+                              Image.asset(
+                                pieces[10].image,
+                                scale: 2.3,
+                                color: Colors.lightGreenAccent.withOpacity(0.8),
+                              ),
+                              Icon(
+                                Icons.check_circle_outline_rounded,
+                                size: 35,
+                                color: Colors.green,
+                              )
+                            ],
+                          )
+                        : Draggable(
+                            data: pieces[10],
+                            feedback: Image.asset(
+                              pieces[10].image,
+                              scale: 2.3,
+                            ),
+                            childWhenDragging: Image.asset(
+                              pieces[10].image,
+                              scale: 2.3,
+                            ),
+                            child: Image.asset(
+                              pieces[10].image,
+                              scale: 2.3,
+                            ),
+                          ),
+                    pieces[11].isTrue
+                        ? Stack(
+                            children: [
+                              Image.asset(
+                                pieces[11].image,
+                                scale: 2.3,
+                              ),
+                              Image.asset(
+                                pieces[11].image,
+                                scale: 2.3,
+                                color: Colors.lightGreenAccent.withOpacity(0.8),
+                              ),
+                              Icon(
+                                Icons.check_circle_outline_rounded,
+                                size: 35,
+                                color: Colors.green,
+                              )
+                            ],
+                          )
+                        : Draggable(
+                            data: pieces[11],
+                            feedback: Image.asset(
+                              pieces[11].image,
+                              scale: 2.3,
+                            ),
+                            childWhenDragging: Image.asset(
+                              pieces[11].image,
+                              scale: 2.3,
+                            ),
+                            child: Image.asset(
+                              pieces[11].image,
+                              scale: 2.3,
+                            ),
+                          ),
                   ],
                 ),
               ],

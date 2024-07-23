@@ -247,6 +247,9 @@ class _MatchSliceGameState extends State<MatchSliceGame> {
                                             levelState.happyThreshold) ||
                                     levelState.prob == 0) {
                                   adj = 1;
+                                  if ((adjLevel + adj) >= colors.length) {
+                                    adj = 0;
+                                  }
                                 } else if (levelState.prob >
                                     levelState.happyThreshold) {
                                   adj = 2;
@@ -269,6 +272,9 @@ class _MatchSliceGameState extends State<MatchSliceGame> {
                     : MyButton(
                         onPressed: () {
                           adj = 1;
+                          if ((adjLevel + adj) >= colors.length) {
+                            adj = 0;
+                          }
                           setState(() {
                             adjLevel += adj;
                             initGame();
