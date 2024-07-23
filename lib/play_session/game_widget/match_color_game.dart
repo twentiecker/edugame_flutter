@@ -198,7 +198,7 @@ class _MatchColorGameState extends State<MatchColorGame> {
                                 } else if (levelState.prob >
                                     levelState.happyThreshold) {
                                   adj = 2;
-                                  if ((adjLevel + adj) >= colors.length) {
+                                  if ((adjLevel + adj) > colors.length) {
                                     adj = 1;
                                   }
                                 } else {

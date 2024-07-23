@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 
 import '../../audio/audio_controller.dart';
 import '../../audio/sounds.dart';
+import '../../dda_service.dart';
 import '../../game_internals/level_state.dart';
 import '../../style/my_button.dart';
 
@@ -32,28 +33,26 @@ class _MatchSoundGameState extends State<MatchSoundGame> {
   List<GameData> gameData = [];
 
   int progress = 0;
-  int subLevel = 3;
-  int adjLevel = 2;
+  int subLevel = 5;
+  int adjLevel = 1;
+  int adj = 0;
 
   void initGame() {
-    widget.images.shuffle();
-    flutterTts.setLanguage('id-ID');
-    gameData = List.generate(
-        adjLevel,
-        (i) => GameData(
-              isTrue: List.generate(4, (j) => false),
-              sounds: List.generate(
-                  4,
-                  (j) =>
-                      widget.images[widget.images.length ~/ (i + 1) - j - 1]),
-              sound: widget.images[
-                  widget.images.length ~/ (i + 1) - Random().nextInt(4) - 1],
-            ));
+    gameData = List.generate(adjLevel, (i) {
+      widget.images.shuffle();
+      return GameData(
+        isTrue: List.generate(4, (j) => false),
+        sounds: List.generate(4, (j) => widget.images[j]),
+        sound: widget.images[Random().nextInt(4)],
+      );
+    });
   }
 
   @override
   void initState() {
     super.initState();
+    flutterTts.setLanguage('id-ID');
+    flutterTts.speak("Memilih warna!");
     initGame();
   }
 
@@ -189,14 +188,51 @@ class _MatchSoundGameState extends State<MatchSoundGame> {
             padding: const EdgeInsets.only(bottom: 64.0),
             child: progress < levelState.goal &&
                     gameData.every((element) => element.isTrue.contains(true))
-                ? MyButton(
-                    onPressed: () {
-                      setState(() {
-                        initGame();
-                      });
-                    },
-                    child: const Text('Next'),
-                  )
+                ? levelState.isDda
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Stack(children: [
+                            FaceDetectorView(),
+                            MyButton(
+                              onPressed: () {
+                                if ((levelState.prob > 0 &&
+                                        levelState.prob <
+                                            levelState.sadThreshold) &&
+                                    adjLevel != 1) {
+                                  adj = -1;
+                                } else if ((levelState.prob >=
+                                            levelState.sadThreshold &&
+                                        levelState.prob <=
+                                            levelState.happyThreshold) ||
+                                    levelState.prob == 0) {
+                                  adj = 1;
+                                } else if (levelState.prob >
+                                    levelState.happyThreshold) {
+                                  adj = 2;
+                                } else {
+                                  adj = 0;
+                                }
+                                setState(() {
+                                  adjLevel += adj;
+                                  initGame();
+                                });
+                              },
+                              child: const Text('Next'),
+                            ),
+                          ]),
+                        ],
+                      )
+                    : MyButton(
+                        onPressed: () {
+                          adj = 1;
+                          setState(() {
+                            adjLevel += adj;
+                            initGame();
+                          });
+                        },
+                        child: const Text('Next'),
+                      )
                 : Container(),
           )
         ],
