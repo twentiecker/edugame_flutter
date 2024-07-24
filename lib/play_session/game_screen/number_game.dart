@@ -40,28 +40,34 @@ class NumberGame extends StatelessWidget {
           );
         case 5:
           return GreaterNumberGame(
-            isGreater: false,
+            isGreater: true,
             images: List.generate(
                 16, (index) => 'assets/images/group/${index + 1}.png'),
           );
         case 6:
+          return GreaterNumberGame(
+            isGreater: false,
+            images: List.generate(
+                16, (index) => 'assets/images/group/${index + 1}.png'),
+          );
+        case 7:
           return JigsawGame(
             images: List.generate(
                 12, (index) => 'assets/images/jigsaw/${index + 1}.png'),
           );
-        case 7:
+        case 8:
           return MatchSliceGame(
             images: List.generate(
                 6, (index) => 'assets/images/slice/${index + 1}.png'),
           );
-        case 8:
+        case 9:
           return PuzzleGame(
             imageKey: 'n',
             imageNum: 10,
           );
-        case 9:
-          return SpellGame();
         case 10:
+          return SpellGame();
+        case 11:
           return MatchShapeGame(
             images: List.generate(
                 15, (index) => 'assets/images/shape2d/${index + 1}.png'),
