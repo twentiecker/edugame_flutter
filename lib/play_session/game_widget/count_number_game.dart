@@ -40,7 +40,7 @@ class _CountNumberGameState extends State<CountNumberGame> {
 
   int progress = 0;
   int subLevel = 5;
-  int adjLevel = 3;
+  int adjLevel = 1;
   int adj = 0;
   int randomId = 0;
 
@@ -58,7 +58,7 @@ class _CountNumberGameState extends State<CountNumberGame> {
   void initState() {
     super.initState();
     flutterTts.setLanguage('id-ID');
-    flutterTts.speak("Menghitung benda!");
+    flutterTts.speak("Menghitung objek!");
     initGame();
   }
 
