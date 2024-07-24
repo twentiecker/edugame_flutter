@@ -35,7 +35,8 @@ class NumberGame extends StatelessWidget {
         case 4:
           return CompletePatternGame(
             images: List.generate(
-                15, (index) => 'assets/images/shape2d/${index + 1}.png'),
+                20, (index) => 'assets/images/number/${index + 1}.png'),
+            isColor: false,
           );
         case 5:
           return GreaterNumberGame(

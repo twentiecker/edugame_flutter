@@ -13,8 +13,13 @@ import '../../style/my_button.dart';
 
 class CompletePatternGame extends StatefulWidget {
   final List<String> images;
+  final bool isColor;
 
-  const CompletePatternGame({Key? key, required this.images}) : super(key: key);
+  const CompletePatternGame({
+    Key? key,
+    required this.images,
+    required this.isColor,
+  }) : super(key: key);
 
   @override
   State<CompletePatternGame> createState() => _CompletePatternGameState();
@@ -118,12 +123,16 @@ class _CompletePatternGameState extends State<CompletePatternGame> {
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(radius),
                                 ),
-                                child: Image.asset(
-                                  domain[index]['shape']!,
-                                  color:
-                                      colors[int.parse(domain[index]['data']!)]
-                                          .color,
-                                ),
+                                child: widget.isColor
+                                    ? Image.asset(
+                                        domain[index]['shape']!,
+                                        color: colors[int.parse(
+                                                domain[index]['data']!)]
+                                            .color,
+                                      )
+                                    : Image.asset(
+                                        domain[index]['shape']!,
+                                      ),
                               ),
                               childWhenDragging: SizedBox(
                                 height: height,
@@ -137,12 +146,16 @@ class _CompletePatternGameState extends State<CompletePatternGame> {
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(radius),
                                 ),
-                                child: Image.asset(
-                                  domain[index]['shape']!,
-                                  color:
-                                      colors[int.parse(domain[index]['data']!)]
-                                          .color,
-                                ),
+                                child: widget.isColor
+                                    ? Image.asset(
+                                        domain[index]['shape']!,
+                                        color: colors[int.parse(
+                                                domain[index]['data']!)]
+                                            .color,
+                                      )
+                                    : Image.asset(
+                                        domain[index]['shape']!,
+                                      ),
                               ),
                             );
                           },
@@ -174,12 +187,16 @@ class _CompletePatternGameState extends State<CompletePatternGame> {
                                   borderRadius: BorderRadius.circular(radius),
                                 ),
                                 child: isTrue[index]
-                                    ? Image.asset(
-                                        codomain[index]['shape']!,
-                                        color: colors[int.parse(
-                                                codomain[index]['data']!)]
-                                            .color,
-                                      )
+                                    ? widget.isColor
+                                        ? Image.asset(
+                                            codomain[index]['shape']!,
+                                            color: colors[int.parse(
+                                                    codomain[index]['data']!)]
+                                                .color,
+                                          )
+                                        : Image.asset(
+                                            codomain[index]['shape']!,
+                                          )
                                     : Text(''),
                               );
                             }, onAcceptWithDetails:

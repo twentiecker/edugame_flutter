@@ -24,6 +24,7 @@ class ColorGame extends StatelessWidget {
           return CompletePatternGame(
             images: List.generate(
                 15, (index) => 'assets/images/shape2d/${index + 1}.png'),
+            isColor: true,
           );
         case 3:
           return MatchSliceGame(
