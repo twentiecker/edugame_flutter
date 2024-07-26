@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 import 'package:provider/provider.dart';
 
 import '../../audio/audio_controller.dart';
@@ -9,9 +10,14 @@ import '../../model/base_color.dart';
 import '../../style/my_button.dart';
 
 class MatchShapeGame extends StatefulWidget {
+  final String title;
   final List<String> images;
 
-  const MatchShapeGame({Key? key, required this.images}) : super(key: key);
+  const MatchShapeGame({
+    Key? key,
+    required this.title,
+    required this.images,
+  }) : super(key: key);
 
   @override
   State<MatchShapeGame> createState() => _MatchShapeGameState();
@@ -19,6 +25,7 @@ class MatchShapeGame extends StatefulWidget {
 
 class _MatchShapeGameState extends State<MatchShapeGame> {
   final double scale = 2.7;
+  final FlutterTts flutterTts = FlutterTts();
 
   List<bool> isTrue = [];
   List<bool> isTrueId = [];
@@ -60,6 +67,8 @@ class _MatchShapeGameState extends State<MatchShapeGame> {
   @override
   void initState() {
     super.initState();
+    flutterTts.setLanguage('id-ID');
+    flutterTts.speak(widget.title);
     initGame();
   }
 

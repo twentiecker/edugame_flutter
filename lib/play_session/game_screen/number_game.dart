@@ -72,7 +72,7 @@ class NumberGame extends StatelessWidget {
           );
         case 10:
           return WritingGame(
-              title: 'Menulis angka',
+              title: 'Menulis angka!',
               data: List.generate(10, (index) => '${index + 1}'));
         default:
           return Center(
