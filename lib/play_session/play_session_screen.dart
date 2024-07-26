@@ -4,6 +4,7 @@
 
 import 'dart:async';
 
+import 'package:basic/play_session/game_screen/geometry_game.dart';
 import 'package:basic/play_session/game_screen/number_game.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -92,6 +93,10 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
                       );
                     case 1:
                       return NumberGame(
+                        level: widget.level.number,
+                      );
+                    case 2:
+                      return GeometryGame(
                         level: widget.level.number,
                       );
                     default:

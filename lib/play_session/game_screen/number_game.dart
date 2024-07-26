@@ -1,15 +1,14 @@
+import 'package:basic/play_session/game_widget/writing_game.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../game_widget/complete_pattern_game.dart';
 import '../game_widget/count_number_game.dart';
 import '../game_widget/greater_number_game.dart';
 import '../game_widget/jigsaw_game.dart';
-import '../game_widget/match_shape_game.dart';
 import '../game_widget/match_slice_game.dart';
 import '../game_widget/match_sound_game.dart';
 import '../game_widget/memory_game.dart';
 import '../game_widget/puzzle_game.dart';
-import '../game_widget/spell_game.dart';
 
 class NumberGame extends StatelessWidget {
   final int level;
@@ -29,6 +28,7 @@ class NumberGame extends StatelessWidget {
           );
         case 3:
           return MatchSoundGame(
+            title: 'Memilih angka!',
             category: 'number',
             images: List.generate(10, (index) => '${index + 1}'),
           );
@@ -40,12 +40,14 @@ class NumberGame extends StatelessWidget {
           );
         case 5:
           return GreaterNumberGame(
+            title: 'Manakah yang paling banyak?',
             isGreater: true,
             images: List.generate(
                 16, (index) => 'assets/images/group/${index + 1}.png'),
           );
         case 6:
           return GreaterNumberGame(
+            title: 'Manakah yang paling sedikit?',
             isGreater: false,
             images: List.generate(
                 16, (index) => 'assets/images/group/${index + 1}.png'),
@@ -57,21 +59,21 @@ class NumberGame extends StatelessWidget {
           );
         case 8:
           return MatchSliceGame(
+            title: 'Mencocokkan potongan angka!',
             images: List.generate(
-                6, (index) => 'assets/images/slice/${index + 1}.png'),
+                15, (index) => 'assets/images/number/slices/${index + 1}'),
+            isSymmetric: false,
           );
         case 9:
           return PuzzleGame(
+            title: 'Menyusun 3 potongan angka!',
             imageKey: 'n',
             imageNum: 10,
           );
         case 10:
-          return SpellGame();
-        case 11:
-          return MatchShapeGame(
-            images: List.generate(
-                15, (index) => 'assets/images/shape2d/${index + 1}.png'),
-          );
+          return WritingGame(
+              title: 'Menulis angka',
+              data: List.generate(10, (index) => '${index + 1}'));
         default:
           return Center(
             child: Text("Game isn't Available Now!"),

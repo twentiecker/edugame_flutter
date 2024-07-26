@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart' hide Ink;
+import 'package:flutter_tts/flutter_tts.dart';
 import 'package:google_mlkit_digital_ink_recognition/google_mlkit_digital_ink_recognition.dart';
 import 'package:provider/provider.dart';
 
@@ -8,9 +9,14 @@ import '../../game_internals/level_state.dart';
 import '../../style/my_button.dart';
 
 class WritingGame extends StatefulWidget {
+  final String title;
   final List<String> data;
 
-  const WritingGame({Key? key, required this.data}) : super(key: key);
+  const WritingGame({
+    Key? key,
+    required this.title,
+    required this.data,
+  }) : super(key: key);
 
   @override
   State<WritingGame> createState() => _WritingGameState();
@@ -22,14 +28,15 @@ class _WritingGameState extends State<WritingGame> {
   final _language = 'en';
   final _digitalInkRecognizer = DigitalInkRecognizer(languageCode: 'en');
   final Ink _ink = Ink();
+  final FlutterTts flutterTts = FlutterTts();
+
   List<StrokePoint> _points = [];
-  String _recognizedText = '';
   String question = '';
   bool result = false;
+  bool isLoading = true;
 
   int progress = 0;
-  int subLevel = 3;
-  int adjLevel = 2;
+  int subLevel = 5;
 
   void initGame() {
     _isModelDownloaded();
@@ -42,6 +49,8 @@ class _WritingGameState extends State<WritingGame> {
   @override
   void initState() {
     super.initState();
+    flutterTts.setLanguage('id-ID');
+    flutterTts.speak(widget.title);
     initGame();
   }
 
@@ -66,100 +75,103 @@ class _WritingGameState extends State<WritingGame> {
 
     return Scaffold(
       body: SafeArea(
-        child: Column(
-          children: [
-            Padding(
-              padding: EdgeInsets.only(top: 64, left: 16, right: 16),
-              child: Column(
+        child: isLoading
+            ? Center(child: CircularProgressIndicator())
+            : Column(
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      ElevatedButton(
-                        onPressed: result
-                            ? () {}
-                            : () async {
-                                await _recogniseText();
-                                setState(() {
-                                  winGame();
-                                });
-                              },
-                        child: Text('Read Text'),
-                      ),
-                      Container(
-                        width: 80,
-                        height: 80,
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10.0)),
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: Text(
-                            question,
-                            style: TextStyle(
-                              fontSize: 45,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ),
-                      ElevatedButton(
-                        onPressed: _clearPad,
-                        child: Text('Clear Pad'),
-                      ),
-                    ],
-                  ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 8.0),
-                    child: progress < levelState.goal && result
-                        ? MyButton(
-                            onPressed: () {
-                              setState(() {
-                                initGame();
-                              });
-                            },
-                            child: const Text('Next'),
-                          )
-                        : Container(),
-                  )
+                    padding: EdgeInsets.only(top: 64, left: 16, right: 16),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            ElevatedButton(
+                              onPressed: result
+                                  ? () {}
+                                  : () async {
+                                      await _recogniseText();
+                                      setState(() {
+                                        winGame();
+                                      });
+                                    },
+                              child: Text('Read Text'),
+                            ),
+                            Container(
+                              width: 80,
+                              height: 80,
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(10.0)),
+                              child: Align(
+                                alignment: Alignment.center,
+                                child: Text(
+                                  question,
+                                  style: TextStyle(
+                                    fontSize: 45,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            ElevatedButton(
+                              onPressed: _clearPad,
+                              child: Text('Clear Pad'),
+                            ),
+                          ],
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 8.0),
+                          child: progress < levelState.goal && result
+                              ? MyButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      initGame();
+                                    });
+                                  },
+                                  child: const Text('Next'),
+                                )
+                              : Container(),
+                        )
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: GestureDetector(
+                      onPanStart: (DragStartDetails details) {
+                        _ink.strokes.add(Stroke());
+                      },
+                      onPanUpdate: (DragUpdateDetails details) {
+                        setState(() {
+                          final RenderObject? object =
+                              context.findRenderObject();
+                          final localPosition = (object as RenderBox?)
+                              ?.globalToLocal(details.localPosition);
+                          if (localPosition != null) {
+                            _points = List.from(_points)
+                              ..add(StrokePoint(
+                                x: localPosition.dx,
+                                y: localPosition.dy,
+                                t: DateTime.now().millisecondsSinceEpoch,
+                              ));
+                          }
+                          if (_ink.strokes.isNotEmpty) {
+                            _ink.strokes.last.points = _points.toList();
+                          }
+                        });
+                      },
+                      onPanEnd: (DragEndDetails details) {
+                        _points.clear();
+                        setState(() {});
+                      },
+                      child: CustomPaint(
+                        painter: Signature(ink: _ink),
+                        size: Size.infinite,
+                      ),
+                    ),
+                  ),
                 ],
               ),
-            ),
-            Expanded(
-              child: GestureDetector(
-                onPanStart: (DragStartDetails details) {
-                  _ink.strokes.add(Stroke());
-                },
-                onPanUpdate: (DragUpdateDetails details) {
-                  setState(() {
-                    final RenderObject? object = context.findRenderObject();
-                    final localPosition = (object as RenderBox?)
-                        ?.globalToLocal(details.localPosition);
-                    if (localPosition != null) {
-                      _points = List.from(_points)
-                        ..add(StrokePoint(
-                          x: localPosition.dx,
-                          y: localPosition.dy,
-                          t: DateTime.now().millisecondsSinceEpoch,
-                        ));
-                    }
-                    if (_ink.strokes.isNotEmpty) {
-                      _ink.strokes.last.points = _points.toList();
-                    }
-                  });
-                },
-                onPanEnd: (DragEndDetails details) {
-                  _points.clear();
-                  setState(() {});
-                },
-                child: CustomPaint(
-                  painter: Signature(ink: _ink),
-                  size: Size.infinite,
-                ),
-              ),
-            ),
-          ],
-        ),
       ),
     );
   }
@@ -168,13 +180,14 @@ class _WritingGameState extends State<WritingGame> {
     setState(() {
       _ink.strokes.clear();
       _points.clear();
-      _recognizedText = '';
     });
   }
 
   Future<void> _isModelDownloaded() async {
     await _modelManager.isModelDownloaded(_language)
-        ? debugPrint('Model is ready')
+        ? setState(() {
+            isLoading = false;
+          })
         : _downloadModel();
   }
 
@@ -186,6 +199,9 @@ class _WritingGameState extends State<WritingGame> {
             .then((value) => value ? 'success' : 'failed'),
         context,
         this);
+    setState(() {
+      isLoading = false;
+    });
   }
 
   Future<void> _recogniseText() async {
@@ -197,8 +213,13 @@ class _WritingGameState extends State<WritingGame> {
         barrierDismissible: true);
     try {
       final candidates = await _digitalInkRecognizer.recognize(_ink);
-      _recognizedText = candidates[0].text;
-      _recognizedText == question ? result = true : result = false;
+      for (var i = 0; i < 3; i++) {
+        debugPrint('${candidates[i].text} : ${candidates[i].text == question}');
+        if (candidates[i].text == question) {
+          result = true;
+          break;
+        }
+      }
       setState(() {});
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(

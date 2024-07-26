@@ -9,11 +9,13 @@ import '../../style/my_button.dart';
 import '../../style/palette.dart';
 
 class PuzzleGame extends StatefulWidget {
+  final String title;
   final String imageKey;
   final int imageNum;
 
   const PuzzleGame({
     Key? key,
+    required this.title,
     required this.imageKey,
     required this.imageNum,
   }) : super(key: key);
@@ -56,7 +58,7 @@ class _PuzzleGameState extends State<PuzzleGame> {
   void initState() {
     super.initState();
     flutterTts.setLanguage('id-ID');
-    flutterTts.speak("Menyusun 3 potongan gambar!");
+    flutterTts.speak(widget.title);
     images = List.generate(widget.imageNum, (index) => '$index');
     images.shuffle();
     initGame();

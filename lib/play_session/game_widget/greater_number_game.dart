@@ -12,11 +12,13 @@ import '../../model/base_color.dart';
 import '../../style/my_button.dart';
 
 class GreaterNumberGame extends StatefulWidget {
+  final String title;
   final bool isGreater;
   final List<String> images;
 
   const GreaterNumberGame({
     Key? key,
+    required this.title,
     required this.isGreater,
     required this.images,
   }) : super(key: key);
@@ -65,7 +67,7 @@ class _GreaterNumberGameState extends State<GreaterNumberGame> {
   void initState() {
     super.initState();
     flutterTts.setLanguage('id-ID');
-    flutterTts.speak("Manakah yang paling sedikit?");
+    flutterTts.speak(widget.title);
     initGame();
   }
 

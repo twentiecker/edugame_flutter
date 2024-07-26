@@ -12,11 +12,13 @@ import '../../model/game_data.dart';
 import '../../style/my_button.dart';
 
 class MatchSoundGame extends StatefulWidget {
+  final String title;
   final String category;
   final List<String> images;
 
   const MatchSoundGame({
     Key? key,
+    required this.title,
     required this.category,
     required this.images,
   }) : super(key: key);
@@ -53,7 +55,7 @@ class _MatchSoundGameState extends State<MatchSoundGame> {
   void initState() {
     super.initState();
     flutterTts.setLanguage('id-ID');
-    flutterTts.speak("Memilih warna!");
+    flutterTts.speak(widget.title);
     initGame();
   }
 

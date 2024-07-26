@@ -10,13 +10,17 @@ import '../../model/base_color.dart';
 import '../../style/my_button.dart';
 
 class MatchSliceGame extends StatefulWidget {
+  final String title;
   final List<String> images;
   final bool isColor;
+  final bool isSymmetric;
 
   const MatchSliceGame({
     Key? key,
+    required this.title,
     required this.images,
     this.isColor = false,
+    this.isSymmetric = true,
   }) : super(key: key);
 
   @override
@@ -69,7 +73,7 @@ class _MatchSliceGameState extends State<MatchSliceGame> {
   void initState() {
     super.initState();
     flutterTts.setLanguage('id-ID');
-    flutterTts.speak("Mencocokkan potongan gambar!");
+    flutterTts.speak(widget.title);
     initGame();
   }
 
@@ -112,7 +116,10 @@ class _MatchSliceGameState extends State<MatchSliceGame> {
                                               int.parse(domain[index]['data']!)]
                                           .color,
                                     )
-                                  : Image.asset(domain[index]['image']!),
+                                  : widget.isSymmetric
+                                      ? Image.asset(domain[index]['image']!)
+                                      : Image.asset(
+                                          '${domain[index]['image']!}_01.png'),
                             ),
                             childWhenDragging: Container(
                               alignment: Alignment.centerRight,
@@ -126,7 +133,10 @@ class _MatchSliceGameState extends State<MatchSliceGame> {
                                               int.parse(domain[index]['data']!)]
                                           .color,
                                     )
-                                  : Image.asset(domain[index]['image']!),
+                                  : widget.isSymmetric
+                                      ? Image.asset(domain[index]['image']!)
+                                      : Image.asset(
+                                          '${domain[index]['image']!}_01.png'),
                             ),
                             child: Container(
                               alignment: Alignment.centerRight,
@@ -140,7 +150,10 @@ class _MatchSliceGameState extends State<MatchSliceGame> {
                                               int.parse(domain[index]['data']!)]
                                           .color,
                                     )
-                                  : Image.asset(domain[index]['image']!),
+                                  : widget.isSymmetric
+                                      ? Image.asset(domain[index]['image']!)
+                                      : Image.asset(
+                                          '${domain[index]['image']!}_01.png'),
                             ),
                           ),
                           Container(
@@ -175,7 +188,11 @@ class _MatchSliceGameState extends State<MatchSliceGame> {
                                                   codomain[index]['data']!)]
                                               .color,
                                         )
-                                      : Image.asset(codomain[index]['image']!)
+                                      : widget.isSymmetric
+                                          ? Image.asset(
+                                              codomain[index]['image']!)
+                                          : Image.asset(
+                                              '${codomain[index]['image']!}_01.png')
                                   : Container(
                                       height: height,
                                       width: width,
@@ -201,18 +218,22 @@ class _MatchSliceGameState extends State<MatchSliceGame> {
                             alignment: Alignment.centerLeft,
                             width: width,
                             height: height,
-                            child: Transform.flip(
-                              flipX: true,
-                              child: widget.isColor
-                                  ? Image.asset(
-                                      codomain[index]['image']!,
-                                      scale: scale,
-                                      color: colors[int.parse(
-                                              codomain[index]['data']!)]
-                                          .color,
-                                    )
-                                  : Image.asset(codomain[index]['image']!),
-                            ),
+                            child: widget.isSymmetric
+                                ? Transform.flip(
+                                    flipX: true,
+                                    child: widget.isColor
+                                        ? Image.asset(
+                                            codomain[index]['image']!,
+                                            scale: scale,
+                                            color: colors[int.parse(
+                                                    codomain[index]['data']!)]
+                                                .color,
+                                          )
+                                        : Image.asset(
+                                            codomain[index]['image']!),
+                                  )
+                                : Image.asset(
+                                    '${codomain[index]['image']!}_02.png'),
                           )
                         ],
                       )

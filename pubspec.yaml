@@ -47,6 +47,7 @@ flutter:
     - assets/images/puzzle/
     - assets/images/slice/
     - assets/images/number/
+    - assets/images/number/slices/
     - assets/images/color/
     - assets/images/jigsaw/
     - assets/images/group/

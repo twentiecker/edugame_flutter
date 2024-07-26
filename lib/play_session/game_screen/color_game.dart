@@ -28,12 +28,14 @@ class ColorGame extends StatelessWidget {
           );
         case 3:
           return MatchSliceGame(
+            title: 'Mencocokkan potongan warna!',
             images: List.generate(
                 10, (index) => 'assets/images/slice/${index + 1}c.png'),
             isColor: true,
           );
         case 4:
           return PuzzleGame(
+            title: 'Menyusun 3 potongan gambar!',
             imageKey: 'c',
             imageNum: 7,
           );
@@ -49,6 +51,7 @@ class ColorGame extends StatelessWidget {
           );
         case 7:
           return MatchSoundGame(
+            title: 'Memilih warna!',
             category: 'color',
             images: [
               'merah',
