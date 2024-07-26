@@ -8,29 +8,35 @@ import '../game_widget/match_sound_game.dart';
 import '../game_widget/memory_game.dart';
 import '../game_widget/puzzle_game.dart';
 
-class FruitGame extends StatelessWidget {
+class AnimalGame extends StatelessWidget {
   final int level;
 
-  const FruitGame({Key? key, required this.level}) : super(key: key);
+  const AnimalGame({Key? key, required this.level}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final data = [
-      'alpukat',
-      'anggur hijau',
-      'apel hijau',
-      'apel merah',
-      'jeruk nipis',
-      'jeruk',
-      'kelapa',
-      'kiwi',
-      'lemon',
-      'mangga',
-      'nanas',
-      'pir',
-      'pisang',
-      'semangka',
-      'strawberi'
+      'anjing',
+      'badak',
+      'banteng',
+      'buaya',
+      'burung hantu',
+      'burung pelikan',
+      'burung unta',
+      'gajah',
+      'harimau',
+      'jerapah',
+      'katak',
+      'koala',
+      'kucing',
+      'kuda',
+      'lebah',
+      'panda',
+      'rusa',
+      'sigung',
+      'tikus',
+      'ulat',
+      'unta'
     ];
     return Builder(builder: (BuildContext context) {
       switch (level) {
@@ -38,20 +44,20 @@ class FruitGame extends StatelessWidget {
           return MatchShapeGame(
             title: "Mencocokkan bentuk bayangan!",
             images: List.generate(
-                data.length, (index) => 'assets/images/fruit/${data[index]}.png'),
+                data.length, (index) => 'assets/images/animal/${data[index]}.png'),
             isColor: false,
           );
         case 2:
           return CompletePatternGame(
             images: List.generate(
-                data.length, (index) => 'assets/images/fruit/${data[index]}.png'),
+                data.length, (index) => 'assets/images/animal/${data[index]}.png'),
             isColor: false,
           );
         case 3:
           return MatchSliceGame(
             title: 'Mencocokkan potongan bentuk!',
             images: List.generate(
-                data.length, (index) => 'assets/images/fruit/slices/${data[index]}'),
+                data.length, (index) => 'assets/images/animal/slices/${data[index]}'),
             isSymmetric: false,
           );
         case 4:
@@ -68,12 +74,12 @@ class FruitGame extends StatelessWidget {
         case 6:
           return MemoryGame(
             images: List.generate(
-                data.length, (index) => 'assets/images/fruit/${data[index]}.png'),
+                data.length, (index) => 'assets/images/animal/${data[index]}.png'),
           );
         case 7:
           return MatchSoundGame(
             title: 'Memilih bentuk!',
-            category: 'fruit',
+            category: 'animal',
             images: data,
           );
         default:

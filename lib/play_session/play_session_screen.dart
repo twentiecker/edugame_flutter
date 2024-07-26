@@ -4,6 +4,7 @@
 
 import 'dart:async';
 
+import 'package:basic/play_session/game_screen/animal_game.dart';
 import 'package:basic/play_session/game_screen/fruit_game.dart';
 import 'package:basic/play_session/game_screen/geometry_game.dart';
 import 'package:basic/play_session/game_screen/number_game.dart';
@@ -102,6 +103,10 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
                       );
                     case 3:
                       return FruitGame(
+                        level: widget.level.number,
+                      );
+                    case 4:
+                      return AnimalGame(
                         level: widget.level.number,
                       );
                     default:
