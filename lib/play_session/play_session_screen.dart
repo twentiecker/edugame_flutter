@@ -8,6 +8,7 @@ import 'package:basic/play_session/game_screen/animal_game.dart';
 import 'package:basic/play_session/game_screen/fruit_game.dart';
 import 'package:basic/play_session/game_screen/geometry_game.dart';
 import 'package:basic/play_session/game_screen/number_game.dart';
+import 'package:basic/play_session/game_screen/sense_game.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:logging/logging.dart' hide Level;
@@ -107,6 +108,10 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
                       );
                     case 4:
                       return AnimalGame(
+                        level: widget.level.number,
+                      );
+                    case 5:
+                      return SenseGame(
                         level: widget.level.number,
                       );
                     default:

@@ -223,6 +223,46 @@ const games = [
       ),
     ],
   ),
+  Games(
+    game: 'sense',
+    gameLevels: [
+      GameLevel(
+        number: 1,
+        difficulty: 100,
+        // TODO: When ready, change these achievement IDs.
+        // You configure this in App Store Connect.
+        achievementIdIOS: 'first_win',
+        // You get this string when you configure an achievement in Play Console.
+        achievementIdAndroid: 'NhkIwB69ejkMAOOLDb',
+      ),
+      GameLevel(
+        number: 2,
+        difficulty: 100,
+      ),
+      GameLevel(
+        number: 3,
+        difficulty: 100,
+      ),
+      GameLevel(
+        number: 4,
+        difficulty: 100,
+      ),
+      GameLevel(
+        number: 5,
+        difficulty: 100,
+      ),
+      GameLevel(
+        number: 6,
+        difficulty: 100,
+      ),
+      GameLevel(
+        number: 7,
+        difficulty: 100,
+        achievementIdIOS: 'finished',
+        achievementIdAndroid: 'CdfIhE96aspNWLGSQg',
+      ),
+    ],
+  ),
 ];
 
 class GameLevel {

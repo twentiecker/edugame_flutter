@@ -53,7 +53,7 @@ class _CompletePatternGameState extends State<CompletePatternGame> {
   late int difficulty;
 
   void initGame() {
-    adjLevel < 5 ? difficulty = 4 : difficulty = 6;
+    adjLevel > 4 && widget.images.length >= 6 ? difficulty = 6 : difficulty = 4;
     widget.images.shuffle();
     isTrue = List.generate(difficulty, (index) => true);
     isTrue[Random().nextInt(isTrue.length)] = false;

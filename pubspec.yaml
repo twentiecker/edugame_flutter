@@ -45,13 +45,15 @@ flutter:
     - assets/images/menu/
     - assets/images/shape2d/
     - assets/images/puzzle/
-    - assets/images/slice/
     - assets/images/number/
     - assets/images/number/slices/
     - assets/images/fruit/
     - assets/images/fruit/slices/
     - assets/images/animal/
     - assets/images/animal/slices/
+    - assets/images/sense/
+    - assets/images/sense/slices/
+    - assets/images/slice/
     - assets/images/color/
     - assets/images/jigsaw/
     - assets/images/group/
