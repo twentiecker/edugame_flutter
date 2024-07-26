@@ -48,6 +48,10 @@ flutter:
     - assets/images/slice/
     - assets/images/number/
     - assets/images/number/slices/
+    - assets/images/fruit/
+    - assets/images/fruit/slices/
+    - assets/images/animal/
+    - assets/images/animal/slices/
     - assets/images/color/
     - assets/images/jigsaw/
     - assets/images/group/

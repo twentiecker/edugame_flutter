@@ -12,11 +12,13 @@ import '../../style/my_button.dart';
 class MatchShapeGame extends StatefulWidget {
   final String title;
   final List<String> images;
+  final bool isColor;
 
   const MatchShapeGame({
     Key? key,
     required this.title,
     required this.images,
+    this.isColor = true,
   }) : super(key: key);
 
   @override
@@ -98,19 +100,27 @@ class _MatchShapeGameState extends State<MatchShapeGame> {
                         isTrueId[index]
                             ? Stack(
                                 children: [
-                                  Image.asset(
-                                    domain[index]['shape']!,
-                                    scale: scale,
-                                    color: colors[int.parse(
-                                            '${domain[index]['data']}')]
-                                        .color,
-                                  ),
-                                  Image.asset(
-                                    domain[index]['shape']!,
-                                    scale: scale,
-                                    color: Colors.lightGreenAccent
-                                        .withOpacity(0.8),
-                                  ),
+                                  widget.isColor
+                                      ? Image.asset(
+                                          domain[index]['shape']!,
+                                          scale: scale,
+                                          color: colors[int.parse(
+                                                  '${domain[index]['data']}')]
+                                              .color,
+                                        )
+                                      : Image.asset(domain[index]['shape']!),
+                                  widget.isColor
+                                      ? Image.asset(
+                                          domain[index]['shape']!,
+                                          scale: scale,
+                                          color: Colors.lightGreenAccent
+                                              .withOpacity(0.8),
+                                        )
+                                      : Image.asset(
+                                          domain[index]['shape']!,
+                                          color: Colors.lightGreenAccent
+                                              .withOpacity(0.8),
+                                        ),
                                   Icon(
                                     Icons.check_circle_outline_rounded,
                                     size: 35,
@@ -123,27 +133,33 @@ class _MatchShapeGameState extends State<MatchShapeGame> {
                                   'id': index,
                                   'content': domain[index]['data']
                                 },
-                                feedback: Image.asset(
-                                  domain[index]['shape']!,
-                                  scale: scale,
-                                  color: colors[
-                                          int.parse('${domain[index]['data']}')]
-                                      .color,
-                                ),
-                                childWhenDragging: Image.asset(
-                                  domain[index]['shape']!,
-                                  scale: scale,
-                                  color: colors[
-                                          int.parse('${domain[index]['data']}')]
-                                      .color,
-                                ),
-                                child: Image.asset(
-                                  domain[index]['shape']!,
-                                  scale: scale,
-                                  color: colors[
-                                          int.parse('${domain[index]['data']}')]
-                                      .color,
-                                ),
+                                feedback: widget.isColor
+                                    ? Image.asset(
+                                        domain[index]['shape']!,
+                                        scale: scale,
+                                        color: colors[int.parse(
+                                                '${domain[index]['data']}')]
+                                            .color,
+                                      )
+                                    : Image.asset(domain[index]['shape']!),
+                                childWhenDragging: widget.isColor
+                                    ? Image.asset(
+                                        domain[index]['shape']!,
+                                        scale: scale,
+                                        color: colors[int.parse(
+                                                '${domain[index]['data']}')]
+                                            .color,
+                                      )
+                                    : Image.asset(domain[index]['shape']!),
+                                child: widget.isColor
+                                    ? Image.asset(
+                                        domain[index]['shape']!,
+                                        scale: scale,
+                                        color: colors[int.parse(
+                                                '${domain[index]['data']}')]
+                                            .color,
+                                      )
+                                    : Image.asset(domain[index]['shape']!),
                               ),
                         DragTarget(builder: (
                           BuildContext context,
@@ -151,18 +167,25 @@ class _MatchShapeGameState extends State<MatchShapeGame> {
                           List<dynamic> rejected,
                         ) {
                           return isTrue[index]
-                              ? Image.asset(
-                                  codomain[index]['shape']!,
-                                  scale: scale,
-                                  color: colors[int.parse(
-                                          '${codomain[index]['data']}')]
-                                      .color,
-                                )
-                              : Image.asset(
-                                  codomain[index]['shape']!,
-                                  scale: scale,
-                                  color: Colors.black38,
-                                );
+                              ? widget.isColor
+                                  ? Image.asset(
+                                      codomain[index]['shape']!,
+                                      scale: scale,
+                                      color: colors[int.parse(
+                                              '${codomain[index]['data']}')]
+                                          .color,
+                                    )
+                                  : Image.asset(codomain[index]['shape']!)
+                              : widget.isColor
+                                  ? Image.asset(
+                                      codomain[index]['shape']!,
+                                      scale: scale,
+                                      color: Colors.black38,
+                                    )
+                                  : Image.asset(
+                                      codomain[index]['shape']!,
+                                      color: Colors.black38,
+                                    );
                         }, onAcceptWithDetails: (DragTargetDetails details) {
                           if (details.data['content'] ==
                               codomain[index]['data']) {
