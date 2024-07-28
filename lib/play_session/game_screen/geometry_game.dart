@@ -20,9 +20,11 @@ class GeometryGame extends StatelessWidget {
       switch (level) {
         case 1:
           return MatchShapeGame(
-              title: "Mencocokkan bentuk bayangan!",
-              images: List.generate(
-                  15, (index) => 'assets/images/shape2d/${index + 1}.png'));
+            title: "Mencocokkan bentuk bayangan!",
+            images: List.generate(
+                15, (index) => 'assets/images/shape2d/${index + 1}.png'),
+            scale: 2.7,
+          );
         case 2:
           return CompletePatternGame(
             images: List.generate(

@@ -4,6 +4,7 @@
 
 import 'dart:async';
 
+import 'package:basic/play_session/game_screen/alphabet_game.dart';
 import 'package:basic/play_session/game_screen/animal_game.dart';
 import 'package:basic/play_session/game_screen/fruit_game.dart';
 import 'package:basic/play_session/game_screen/geometry_game.dart';
@@ -24,6 +25,7 @@ import '../style/confetti.dart';
 import '../style/my_button.dart';
 import '../style/palette.dart';
 import 'game_screen/color_game.dart';
+import 'game_screen/profession_game.dart';
 
 /// This widget defines the entirety of the screen that the player sees when
 /// they are playing a level.
@@ -112,6 +114,14 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
                       );
                     case 5:
                       return SenseGame(
+                        level: widget.level.number,
+                      );
+                    case 6:
+                      return ProfessionGame(
+                        level: widget.level.number,
+                      );
+                    case 7:
+                      return AlphabetGame(
                         level: widget.level.number,
                       );
                     default:

@@ -27,21 +27,22 @@ class SenseGame extends StatelessWidget {
         case 1:
           return MatchShapeGame(
             title: "Mencocokkan bentuk bayangan!",
-            images: List.generate(
-                data.length, (index) => 'assets/images/sense/${data[index]}.png'),
+            images: List.generate(data.length,
+                (index) => 'assets/images/sense/${data[index]}.png'),
             isColor: false,
+            scale: 1.3,
           );
         case 2:
           return CompletePatternGame(
-            images: List.generate(
-                data.length, (index) => 'assets/images/sense/${data[index]}.png'),
+            images: List.generate(data.length,
+                (index) => 'assets/images/sense/${data[index]}.png'),
             isColor: false,
           );
         case 3:
           return MatchSliceGame(
-            title: 'Mencocokkan potongan bentuk!',
-            images: List.generate(
-                data.length, (index) => 'assets/images/sense/slices/${data[index]}'),
+            title: 'Mencocokkan potongan gambar!',
+            images: List.generate(data.length,
+                (index) => 'assets/images/sense/slices/${data[index]}'),
             isSymmetric: false,
           );
         case 4:
@@ -57,12 +58,12 @@ class SenseGame extends StatelessWidget {
           );
         case 6:
           return MemoryGame(
-            images: List.generate(
-                data.length, (index) => 'assets/images/sense/${data[index]}.png'),
+            images: List.generate(data.length,
+                (index) => 'assets/images/sense/${data[index]}.png'),
           );
         case 7:
           return MatchSoundGame(
-            title: 'Memilih bentuk!',
+            title: 'Pilihlah gambar panca indera sesuai dengan intruksi!',
             category: 'sense',
             images: data,
           );

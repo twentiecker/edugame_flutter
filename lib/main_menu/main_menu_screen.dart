@@ -110,7 +110,7 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
                                 return AlertDialog(
                                   title: const Text('Signup Page'),
                                   content: SizedBox(
-                                    height: 230,
+                                    height: 270,
                                     child: Form(
                                       key: _formKey,
                                       child: Column(
@@ -120,6 +120,8 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
                                           Column(
                                             children: [
                                               TextFormField(
+                                                decoration: InputDecoration(
+                                                    labelText: 'Email'),
                                                 controller: emailController,
                                                 textInputAction:
                                                     TextInputAction.next,
@@ -144,7 +146,10 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
                                                   return null;
                                                 },
                                               ),
+                                              SizedBox(height: 15),
                                               TextFormField(
+                                                decoration: InputDecoration(
+                                                    labelText: 'Password'),
                                                 controller: passController,
                                                 textInputAction:
                                                     TextInputAction.next,
@@ -190,7 +195,7 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
                                                   }
                                                 }
                                               },
-                                              child: Text('Login'),
+                                              child: Text('Sign Up'),
                                             ),
                                           )
                                         ],
@@ -224,7 +229,7 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
                                 return AlertDialog(
                                   title: const Text('Login Page'),
                                   content: SizedBox(
-                                    height: 230,
+                                    height: 270,
                                     child: Form(
                                       key: _formKey,
                                       child: Column(
@@ -234,6 +239,8 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
                                           Column(
                                             children: [
                                               TextFormField(
+                                                decoration: InputDecoration(
+                                                    labelText: 'Email'),
                                                 controller: emailController,
                                                 textInputAction:
                                                     TextInputAction.next,
@@ -258,7 +265,10 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
                                                   return null;
                                                 },
                                               ),
+                                              SizedBox(height: 15),
                                               TextFormField(
+                                                decoration: InputDecoration(
+                                                    labelText: 'Password'),
                                                 controller: passController,
                                                 textInputAction:
                                                     TextInputAction.next,
@@ -284,14 +294,21 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
                                               onPressed: () async {
                                                 if (_formKey.currentState!
                                                     .validate()) {
-                                                  await authService.userLogin(
-                                                      emailController.text,
-                                                      passController.text);
-                                                }
-                                                if (context.mounted) {
-                                                  GoRouter.of(context).pop();
-                                                  GoRouter.of(context)
-                                                      .go('/games');
+                                                  if (await authService
+                                                      .userLogin(
+                                                          emailController.text,
+                                                          passController
+                                                              .text)) {
+                                                    if (context.mounted) {
+                                                      GoRouter.of(context)
+                                                          .pop();
+                                                      GoRouter.of(context)
+                                                          .go('/games');
+                                                    }
+                                                  } else {
+                                                    print(
+                                                        'Anuu..., ora iso login, soale email karo password e ra cocok COK!');
+                                                  }
                                                 }
                                               },
                                               child: Text('Login'),

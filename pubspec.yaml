@@ -45,19 +45,27 @@ flutter:
     - assets/images/menu/
     - assets/images/shape2d/
     - assets/images/puzzle/
-    - assets/images/number/
-    - assets/images/number/slices/
-    - assets/images/fruit/
-    - assets/images/fruit/slices/
-    - assets/images/animal/
-    - assets/images/animal/slices/
-    - assets/images/sense/
-    - assets/images/sense/slices/
+    - assets/images/numbers/
     - assets/images/slice/
-    - assets/images/color/
     - assets/images/jigsaw/
     - assets/images/group/
     - assets/images/memory/
+    - assets/images/alphabet/
+    - assets/images/alphabet/slices/
+    - assets/images/animal/
+    - assets/images/animal/slices/
+    - assets/images/color/
+    - assets/images/color/slices/
+    - assets/images/emotion/
+    - assets/images/emotion/slices/
+    - assets/images/fruit/
+    - assets/images/fruit/slices/
+    - assets/images/number/
+    - assets/images/number/slices/
+    - assets/images/profession/
+    - assets/images/profession/slices/
+    - assets/images/sense/
+    - assets/images/sense/slices/
     - assets/music/
     - assets/sfx/
     - assets/audio/
