@@ -60,6 +60,9 @@ flutter:
     - assets/images/emotion/slices/
     - assets/images/fruit/
     - assets/images/fruit/slices/
+    - assets/images/islamic/
+    - assets/images/islamic/hijaiyah/
+    - assets/images/islamic/slices/
     - assets/images/number/
     - assets/images/number/slices/
     - assets/images/profession/

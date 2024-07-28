@@ -9,6 +9,7 @@ import 'package:basic/play_session/game_screen/animal_game.dart';
 import 'package:basic/play_session/game_screen/emotion_game.dart';
 import 'package:basic/play_session/game_screen/fruit_game.dart';
 import 'package:basic/play_session/game_screen/geometry_game.dart';
+import 'package:basic/play_session/game_screen/islamic_game.dart';
 import 'package:basic/play_session/game_screen/number_game.dart';
 import 'package:basic/play_session/game_screen/sense_game.dart';
 import 'package:flutter/material.dart';
@@ -127,6 +128,10 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
                       );
                     case 8:
                       return EmotionGame(
+                        level: widget.level.number,
+                      );
+                    case 9:
+                      return IslamicGame(
                         level: widget.level.number,
                       );
                     default:
