@@ -6,6 +6,7 @@ import 'dart:async';
 
 import 'package:basic/play_session/game_screen/alphabet_game.dart';
 import 'package:basic/play_session/game_screen/animal_game.dart';
+import 'package:basic/play_session/game_screen/emotion_game.dart';
 import 'package:basic/play_session/game_screen/fruit_game.dart';
 import 'package:basic/play_session/game_screen/geometry_game.dart';
 import 'package:basic/play_session/game_screen/number_game.dart';
@@ -122,6 +123,10 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
                       );
                     case 7:
                       return AlphabetGame(
+                        level: widget.level.number,
+                      );
+                    case 8:
+                      return EmotionGame(
                         level: widget.level.number,
                       );
                     default:
