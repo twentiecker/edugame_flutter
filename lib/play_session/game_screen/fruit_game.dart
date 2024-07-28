@@ -15,6 +15,7 @@ class FruitGame extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const String category = 'fruit';
     final data = [
       'alpukat',
       'anggur hijau',
@@ -37,22 +38,22 @@ class FruitGame extends StatelessWidget {
         case 1:
           return MatchShapeGame(
             title: "Mencocokkan bentuk bayangan!",
-            images: List.generate(data.length,
-                (index) => 'assets/images/fruit/${data[index]}.png'),
+            images: data,
+            category: category,
             isColor: false,
             scale: 1.6,
           );
         case 2:
           return CompletePatternGame(
-            images: List.generate(data.length,
-                (index) => 'assets/images/fruit/${data[index]}.png'),
+            category: category,
+            images: data,
             isColor: false,
           );
         case 3:
           return MatchSliceGame(
             title: 'Mencocokkan potongan bentuk!',
-            images: List.generate(data.length,
-                (index) => 'assets/images/fruit/slices/${data[index]}'),
+            category: '$category/slices',
+            images: data,
             isSymmetric: false,
           );
         case 4:
@@ -68,8 +69,8 @@ class FruitGame extends StatelessWidget {
           );
         case 6:
           return MemoryGame(
-            images: List.generate(data.length,
-                (index) => 'assets/images/fruit/${data[index]}.png'),
+            category: category,
+            images: data,
           );
         case 7:
           return MatchSoundGame(

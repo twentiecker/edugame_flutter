@@ -16,26 +16,43 @@ class GeometryGame extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const String category = 'shape';
+    final data = [
+      'belah ketupat',
+      'berlian',
+      'bintang',
+      'bulan sabit',
+      'hati',
+      'lingkaran',
+      'oval',
+      'persegi panjang',
+      'persegi',
+      'segienam',
+      'segilima',
+      'segitiga',
+      'tanda panah',
+      'tanda tambah'
+    ];
     return Builder(builder: (BuildContext context) {
       switch (level) {
         case 1:
           return MatchShapeGame(
             title: "Mencocokkan bentuk bayangan!",
-            images: List.generate(
-                15, (index) => 'assets/images/shape2d/${index + 1}.png'),
+            images: data,
+            category: category,
             scale: 2.7,
           );
         case 2:
           return CompletePatternGame(
-            images: List.generate(
-                15, (index) => 'assets/images/shape2d/${index + 1}.png'),
+            images: data,
+            category: category,
             isColor: true,
           );
         case 3:
           return MatchSliceGame(
             title: 'Mencocokkan potongan bentuk!',
-            images: List.generate(
-                10, (index) => 'assets/images/slice/${index + 1}c.png'),
+            category: '$category/slices',
+            images: data,
             isColor: true,
           );
         case 4:
@@ -51,26 +68,14 @@ class GeometryGame extends StatelessWidget {
           );
         case 6:
           return MemoryGame(
-            images: List.generate(
-                14, (index) => 'assets/images/memory/${index + 1}c.png'),
+            category: category,
+            images: data,
           );
         case 7:
           return MatchSoundGame(
             title: 'Memilih bentuk!',
-            category: 'color',
-            images: [
-              'merah',
-              'hijau',
-              'biru',
-              'jingga',
-              'hitam',
-              'putih',
-              'kuning',
-              'merah muda',
-              'ungu',
-              'coklat',
-              'abu-abu',
-            ],
+            category: 'shape',
+            images: data,
           );
         case 8:
           return WritingGame(

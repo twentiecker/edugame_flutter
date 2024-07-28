@@ -15,35 +15,29 @@ class EmotionGame extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final data = [
-      'bahagia',
-      'bingung',
-      'marah',
-      'senyum',
-      'takut',
-      'terkejut'
-    ];
+    const String category = 'emotion';
+    final data = ['bahagia', 'bingung', 'marah', 'senyum', 'takut', 'terkejut'];
     return Builder(builder: (BuildContext context) {
       switch (level) {
         case 1:
           return MatchShapeGame(
             title: "Mencocokkan bentuk bayangan!",
-            images: List.generate(data.length,
-                (index) => 'assets/images/emotion/${data[index]}.png'),
+            images: data,
+            category: 'emotion',
             isColor: false,
             scale: 3.5,
           );
         case 2:
           return CompletePatternGame(
-            images: List.generate(data.length,
-                (index) => 'assets/images/emotion/${data[index]}.png'),
+            category: category,
+            images: data,
             isColor: false,
           );
         case 3:
           return MatchSliceGame(
             title: 'Mencocokkan potongan gambar!',
-            images: List.generate(data.length,
-                (index) => 'assets/images/emotion/slices/${data[index]}'),
+            category: '$category/slices',
+            images: data,
             isSymmetric: false,
           );
         case 4:
@@ -59,8 +53,8 @@ class EmotionGame extends StatelessWidget {
           );
         case 6:
           return MemoryGame(
-            images: List.generate(data.length,
-                (index) => 'assets/images/emotion/${data[index]}.png'),
+            category: category,
+            images: data,
           );
         case 7:
           return MatchSoundGame(

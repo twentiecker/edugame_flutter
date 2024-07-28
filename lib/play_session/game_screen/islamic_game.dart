@@ -15,6 +15,7 @@ class IslamicGame extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const String category = 'islamic';
     final data = [
       'syahadat',
       'solat',
@@ -27,22 +28,22 @@ class IslamicGame extends StatelessWidget {
         case 1:
           return MatchShapeGame(
             title: "Mencocokkan bentuk bayangan!",
-            images: List.generate(30,
-                (index) => 'assets/images/islamic/hijaiyah/${index + 1}.png'),
+            images: data,
+            category: category,
             isColor: false,
             scale: 0.7,
           );
         case 2:
           return CompletePatternGame(
-            images: List.generate(30,
-                (index) => 'assets/images/islamic/hijaiyah/${index + 1}.png'),
+            category: category,
+            images: data,
             isColor: false,
           );
         case 3:
           return MatchSliceGame(
             title: 'Mencocokkan potongan gambar!',
-            images: List.generate(data.length,
-                (index) => 'assets/images/islamic/slices/${data[index]}'),
+            category: '$category/slices',
+            images: data,
             isSymmetric: false,
           );
         case 4:
@@ -58,8 +59,8 @@ class IslamicGame extends StatelessWidget {
           );
         case 6:
           return MemoryGame(
-            images: List.generate(30,
-                (index) => 'assets/images/islamic/hijaiyah/${index + 1}.png'),
+            category: category,
+            images: data,
           );
         case 7:
           return MatchSoundGame(

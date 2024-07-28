@@ -15,6 +15,7 @@ class AlphabetGame extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const String category = 'alphabet';
     final data = [
       'a',
       'b',
@@ -48,22 +49,22 @@ class AlphabetGame extends StatelessWidget {
         case 1:
           return MatchShapeGame(
             title: "Mencocokkan bentuk bayangan alfabet!",
-            images: List.generate(data.length,
-                (index) => 'assets/images/alphabet/${data[index]}.png'),
+            images: data,
+            category: category,
             isColor: false,
             scale: 2,
           );
         case 2:
           return CompletePatternGame(
-            images: List.generate(data.length,
-                (index) => 'assets/images/alphabet/${data[index]}.png'),
+            category: category,
+            images: data,
             isColor: false,
           );
         case 3:
           return MatchSliceGame(
             title: 'Mencocokkan potongan gambar profesi!',
-            images: List.generate(data.length,
-                (index) => 'assets/images/alphabet/slices/${data[index]}'),
+            category: '$category/slices',
+            images: data,
             isSymmetric: false,
           );
         case 4:
@@ -79,8 +80,8 @@ class AlphabetGame extends StatelessWidget {
           );
         case 6:
           return MemoryGame(
-            images: List.generate(data.length,
-                (index) => 'assets/images/alphabet/${data[index]}.png'),
+            category: category,
+            images: data,
           );
         case 7:
           return MatchSoundGame(

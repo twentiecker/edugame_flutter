@@ -16,21 +16,35 @@ class ColorGame extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const String category = 'color';
+    final data = [
+      'abu-abu',
+      'biru',
+      'coklat',
+      'hijau',
+      'hitam',
+      'jingga',
+      'kuning',
+      'merah muda',
+      'merah',
+      'putih',
+      'ungu'
+    ];
     return Builder(builder: (BuildContext context) {
       switch (level) {
         case 1:
           return MatchColorGame();
         case 2:
           return CompletePatternGame(
-            images: List.generate(
-                15, (index) => 'assets/images/shape2d/${index + 1}.png'),
-            isColor: true,
+            category: category,
+            images: data,
+            isColor: false,
           );
         case 3:
           return MatchSliceGame(
             title: 'Mencocokkan potongan warna!',
-            images: List.generate(
-                10, (index) => 'assets/images/slice/${index + 1}c.png'),
+            category: '$category/slices',
+            images: data,
             isColor: true,
           );
         case 4:
@@ -46,8 +60,8 @@ class ColorGame extends StatelessWidget {
           );
         case 6:
           return MemoryGame(
-            images: List.generate(
-                14, (index) => 'assets/images/memory/${index + 1}c.png'),
+            category: category,
+            images: data,
           );
         case 7:
           return MatchSoundGame(

@@ -15,6 +15,7 @@ class SenseGame extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const String category = 'sense';
     final data = [
       'telinga',
       'hidung',
@@ -27,22 +28,22 @@ class SenseGame extends StatelessWidget {
         case 1:
           return MatchShapeGame(
             title: "Mencocokkan bentuk bayangan!",
-            images: List.generate(data.length,
-                (index) => 'assets/images/sense/${data[index]}.png'),
+            images: data,
+            category: category,
             isColor: false,
             scale: 1.3,
           );
         case 2:
           return CompletePatternGame(
-            images: List.generate(data.length,
-                (index) => 'assets/images/sense/${data[index]}.png'),
+            category: category,
+            images: data,
             isColor: false,
           );
         case 3:
           return MatchSliceGame(
             title: 'Mencocokkan potongan gambar!',
-            images: List.generate(data.length,
-                (index) => 'assets/images/sense/slices/${data[index]}'),
+            category: '$category/slices',
+            images: data,
             isSymmetric: false,
           );
         case 4:
@@ -58,8 +59,8 @@ class SenseGame extends StatelessWidget {
           );
         case 6:
           return MemoryGame(
-            images: List.generate(data.length,
-                (index) => 'assets/images/sense/${data[index]}.png'),
+            category: category,
+            images: data,
           );
         case 7:
           return MatchSoundGame(

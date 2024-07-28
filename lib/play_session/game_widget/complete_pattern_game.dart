@@ -13,11 +13,13 @@ import '../../style/my_button.dart';
 
 class CompletePatternGame extends StatefulWidget {
   final List<String> images;
+  final String category;
   final bool isColor;
 
   const CompletePatternGame({
     Key? key,
     required this.images,
+    required this.category,
     required this.isColor,
   }) : super(key: key);
 
@@ -114,7 +116,10 @@ class _CompletePatternGameState extends State<CompletePatternGame> {
                           shrinkWrap: true,
                           itemBuilder: (context, index) {
                             return Draggable(
-                              data: domain[index]['data'],
+                              data: {
+                                'data': domain[index]['data'],
+                                'shape': domain[index]['shape']
+                              },
                               feedback: Container(
                                 height: height,
                                 width: width,
@@ -125,13 +130,13 @@ class _CompletePatternGameState extends State<CompletePatternGame> {
                                 ),
                                 child: widget.isColor
                                     ? Image.asset(
-                                        domain[index]['shape']!,
+                                        'assets/images/${widget.category}/${domain[index]['shape']!}.png',
                                         color: colors[int.parse(
                                                 domain[index]['data']!)]
                                             .color,
                                       )
                                     : Image.asset(
-                                        domain[index]['shape']!,
+                                        'assets/images/${widget.category}/${domain[index]['shape']!}.png',
                                       ),
                               ),
                               childWhenDragging: SizedBox(
@@ -148,13 +153,13 @@ class _CompletePatternGameState extends State<CompletePatternGame> {
                                 ),
                                 child: widget.isColor
                                     ? Image.asset(
-                                        domain[index]['shape']!,
+                                        'assets/images/${widget.category}/${domain[index]['shape']!}.png',
                                         color: colors[int.parse(
                                                 domain[index]['data']!)]
                                             .color,
                                       )
                                     : Image.asset(
-                                        domain[index]['shape']!,
+                                        'assets/images/${widget.category}/${domain[index]['shape']!}.png',
                                       ),
                               ),
                             );
@@ -189,19 +194,21 @@ class _CompletePatternGameState extends State<CompletePatternGame> {
                                 child: isTrue[index]
                                     ? widget.isColor
                                         ? Image.asset(
-                                            codomain[index]['shape']!,
+                                            'assets/images/${widget.category}/${codomain[index]['shape']!}.png',
                                             color: colors[int.parse(
                                                     codomain[index]['data']!)]
                                                 .color,
                                           )
                                         : Image.asset(
-                                            codomain[index]['shape']!,
+                                            'assets/images/${widget.category}/${codomain[index]['shape']!}.png',
                                           )
                                     : Text(''),
                               );
                             }, onAcceptWithDetails:
                                 (DragTargetDetails details) {
-                              if (details.data == codomain[index]['data']) {
+                              if (details.data['data'] ==
+                                  codomain[index]['data']) {
+                                flutterTts.speak('${details.data['shape']}');
                                 setState(() {
                                   isTrue[index] = true;
                                 });

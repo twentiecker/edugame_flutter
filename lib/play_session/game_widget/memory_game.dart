@@ -10,8 +10,13 @@ import '../../style/my_button.dart';
 
 class MemoryGame extends StatefulWidget {
   final List<String> images;
+  final String category;
 
-  const MemoryGame({Key? key, required this.images}) : super(key: key);
+  const MemoryGame({
+    Key? key,
+    required this.images,
+    required this.category,
+  }) : super(key: key);
 
   @override
   State<MemoryGame> createState() => _MemoryGameState();
@@ -23,7 +28,9 @@ class _MemoryGameState extends State<MemoryGame> {
 
   List<bool> isTrue = [];
   List<bool> isTrueTemp = [];
-  List<String> cardList = [];
+  bool isMove = true;
+
+  List<Map<String, String>> cardList = [];
   List<String> hiddenList = [];
   List<Map<int, String>> matchCheck = [];
 
@@ -40,7 +47,12 @@ class _MemoryGameState extends State<MemoryGame> {
     isTrue = List.generate(adjLevel * 2, (index) => false);
     isTrueTemp = List.generate(adjLevel * 2, (index) => false);
     cardList = List.generate(
-        isTrue.length, (index) => widget.images[index % (isTrue.length ~/ 2)]);
+        isTrue.length,
+        (index) => {
+              'name': widget.images[index % (isTrue.length ~/ 2)],
+              'path':
+                  'assets/images/${widget.category}/${widget.images[index % (isTrue.length ~/ 2)]}.png'
+            });
     cardList.shuffle();
     hiddenList = List.generate(cardList.length, (index) => hiddenCard);
   }
@@ -103,63 +115,86 @@ class _MemoryGameState extends State<MemoryGame> {
                             ),
                           ),
                         )
-                      : GestureDetector(
-                          onTap: () {
-                            debugPrint(cardList[index]);
-                            setState(
-                              () {
-                                hiddenList[index] = cardList[index];
-                                matchCheck.add({index: cardList[index]});
-                                isTrueTemp[index] = true;
-                              },
-                            );
-                            if (matchCheck.length == 2) {
-                              if (matchCheck[0].values.first ==
-                                  matchCheck[1].values.first) {
-                                debugPrint('true');
-                                match += 1;
-                                setState(() {
-                                  isTrue[matchCheck[0].keys.first] = true;
-                                  isTrue[matchCheck[1].keys.first] = true;
-                                });
-                                isTrueTemp = isTrue;
-                                matchCheck.clear();
-                                winGame();
-                              } else {
-                                debugPrint('false');
-                                tries++;
-                                Future.delayed(
-                                  const Duration(milliseconds: 500),
+                      : isMove
+                          ? GestureDetector(
+                              onTap: () {
+                                debugPrint('${cardList[index]['path']}');
+                                setState(
                                   () {
-                                    debugPrint(hiddenList.toString());
-                                    setState(() {
-                                      hiddenList[matchCheck[0].keys.first] =
-                                          hiddenCard;
-                                      hiddenList[matchCheck[1].keys.first] =
-                                          hiddenCard;
-                                      isTrueTemp[matchCheck[0].keys.first] =
-                                          false;
-                                      isTrueTemp[matchCheck[1].keys.first] =
-                                          false;
-                                      matchCheck.clear();
-                                    });
+                                    hiddenList[index] =
+                                        cardList[index]['path']!;
+                                    matchCheck
+                                        .add({index: cardList[index]['path']!});
+                                    isTrueTemp[index] = true;
                                   },
                                 );
-                              }
-                            }
-                          },
-                          child: Container(
-                            padding: const EdgeInsets.all(16.0),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(10.0),
-                              image: DecorationImage(
-                                image: AssetImage(hiddenList[index]),
-                                fit: BoxFit.contain,
+                                if (matchCheck.length == 2) {
+                                  if (matchCheck[0].values.first ==
+                                      matchCheck[1].values.first) {
+                                    debugPrint('true');
+                                    flutterTts
+                                        .speak('${cardList[index]['name']}');
+                                    match += 1;
+                                    setState(() {
+                                      isTrue[matchCheck[0].keys.first] = true;
+                                      isTrue[matchCheck[1].keys.first] = true;
+                                    });
+                                    isTrueTemp = isTrue;
+                                    matchCheck.clear();
+                                    winGame();
+                                  } else {
+                                    debugPrint('false');
+                                    tries++;
+                                    setState(() {
+                                      isMove = false;
+                                    });
+                                    Future.delayed(
+                                      const Duration(milliseconds: 500),
+                                      () {
+                                        debugPrint(hiddenList.toString());
+                                        setState(() {
+                                          hiddenList[matchCheck[0].keys.first] =
+                                              hiddenCard;
+                                          hiddenList[matchCheck[1].keys.first] =
+                                              hiddenCard;
+                                          isTrueTemp[matchCheck[0].keys.first] =
+                                              false;
+                                          isTrueTemp[matchCheck[1].keys.first] =
+                                              false;
+                                          matchCheck.clear();
+                                          isMove = true;
+                                        });
+                                      },
+                                    );
+                                  }
+                                }
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.all(16.0),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  image: DecorationImage(
+                                    image: AssetImage(hiddenList[index]),
+                                    fit: BoxFit.contain,
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
-                        );
+                            )
+                          : GestureDetector(
+                              onTap: () {},
+                              child: Container(
+                                padding: const EdgeInsets.all(16.0),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  image: DecorationImage(
+                                    image: AssetImage(hiddenList[index]),
+                                    fit: BoxFit.contain,
+                                  ),
+                                ),
+                              ),
+                            );
                 },
               ),
             ),

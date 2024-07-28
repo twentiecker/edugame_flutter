@@ -102,7 +102,7 @@ class _CountNumberGameState extends State<CountNumberGame> {
                           return Padding(
                             padding: const EdgeInsets.all(4.0),
                             child: Image.asset(
-                              'assets/images/shape2d/${codomain[index]}.png',
+                              'assets/images/shape/${codomain[index]}.png',
                               color: codomain[index] > colors.length - 1
                                   ? colors[randomId].color
                                   : colors[codomain[index]].color,

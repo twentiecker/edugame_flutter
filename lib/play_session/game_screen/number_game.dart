@@ -18,6 +18,7 @@ class NumberGame extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const String category = 'numbers';
     final data = [
       '0',
       '1',
@@ -36,8 +37,8 @@ class NumberGame extends StatelessWidget {
         case 1:
           return MatchShapeGame(
             title: "Mencocokkan bentuk bayangan!",
-            images: List.generate(data.length,
-                (index) => 'assets/images/numbers/${data[index]}.png'),
+            images: data,
+            category: category,
             isColor: false,
             scale: 2.7,
           );
@@ -45,8 +46,8 @@ class NumberGame extends StatelessWidget {
           return CountNumberGame();
         case 3:
           return MemoryGame(
-            images: List.generate(
-                20, (index) => 'assets/images/number/${index + 1}.png'),
+            category: category,
+            images: data,
           );
         case 4:
           return MatchSoundGame(
@@ -56,8 +57,8 @@ class NumberGame extends StatelessWidget {
           );
         case 5:
           return CompletePatternGame(
-            images: List.generate(
-                20, (index) => 'assets/images/number/${index + 1}.png'),
+            category: category,
+            images: data,
             isColor: false,
           );
         case 6:
@@ -82,8 +83,8 @@ class NumberGame extends StatelessWidget {
         case 9:
           return MatchSliceGame(
             title: 'Mencocokkan potongan angka!',
-            images: List.generate(
-                15, (index) => 'assets/images/number/slices/${index + 1}'),
+            category: '$category/slices',
+            images: data,
             isSymmetric: false,
           );
         case 10:

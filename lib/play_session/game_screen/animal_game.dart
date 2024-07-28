@@ -15,6 +15,7 @@ class AnimalGame extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const String category = 'animal';
     final data = [
       'anjing',
       'badak',
@@ -43,22 +44,22 @@ class AnimalGame extends StatelessWidget {
         case 1:
           return MatchShapeGame(
             title: "Mencocokkan bentuk bayangan!",
-            images: List.generate(data.length,
-                (index) => 'assets/images/animal/${data[index]}.png'),
+            images: data,
+            category: category,
             isColor: false,
             scale: 2.2,
           );
         case 2:
           return CompletePatternGame(
-            images: List.generate(data.length,
-                (index) => 'assets/images/animal/${data[index]}.png'),
+            category: category,
+            images: data,
             isColor: false,
           );
         case 3:
           return MatchSliceGame(
             title: 'Mencocokkan potongan bentuk!',
-            images: List.generate(data.length,
-                (index) => 'assets/images/animal/slices/${data[index]}'),
+            category: '$category/slices',
+            images: data,
             isSymmetric: false,
           );
         case 4:
@@ -74,8 +75,8 @@ class AnimalGame extends StatelessWidget {
           );
         case 6:
           return MemoryGame(
-            images: List.generate(data.length,
-                (index) => 'assets/images/animal/${data[index]}.png'),
+            category: category,
+            images: data,
           );
         case 7:
           return MatchSoundGame(

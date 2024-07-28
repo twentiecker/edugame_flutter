@@ -12,6 +12,7 @@ import '../../style/my_button.dart';
 class MatchShapeGame extends StatefulWidget {
   final String title;
   final List<String> images;
+  final String category;
   final bool isColor;
   final double scale;
 
@@ -19,6 +20,7 @@ class MatchShapeGame extends StatefulWidget {
     Key? key,
     required this.title,
     required this.images,
+    required this.category,
     this.isColor = true,
     required this.scale,
   }) : super(key: key);
@@ -103,25 +105,25 @@ class _MatchShapeGameState extends State<MatchShapeGame> {
                                 children: [
                                   widget.isColor
                                       ? Image.asset(
-                                          domain[index]['shape']!,
+                                          'assets/images/${widget.category}/${domain[index]['shape']!}.png',
                                           scale: widget.scale,
                                           color: colors[int.parse(
                                                   '${domain[index]['data']}')]
                                               .color,
                                         )
                                       : Image.asset(
-                                          domain[index]['shape']!,
+                                          'assets/images/${widget.category}/${domain[index]['shape']!}.png',
                                           scale: widget.scale,
                                         ),
                                   widget.isColor
                                       ? Image.asset(
-                                          domain[index]['shape']!,
+                                          'assets/images/${widget.category}/${domain[index]['shape']!}.png',
                                           scale: widget.scale,
                                           color: Colors.lightGreenAccent
                                               .withOpacity(0.8),
                                         )
                                       : Image.asset(
-                                          domain[index]['shape']!,
+                                          'assets/images/${widget.category}/${domain[index]['shape']!}.png',
                                           scale: widget.scale,
                                           color: Colors.lightGreenAccent
                                               .withOpacity(0.8),
@@ -136,42 +138,43 @@ class _MatchShapeGameState extends State<MatchShapeGame> {
                             : Draggable(
                                 data: {
                                   'id': index,
-                                  'content': domain[index]['data']
+                                  'data': domain[index]['data'],
+                                  'shape': domain[index]['shape']
                                 },
                                 feedback: widget.isColor
                                     ? Image.asset(
-                                        domain[index]['shape']!,
+                                        'assets/images/${widget.category}/${domain[index]['shape']!}.png',
                                         scale: widget.scale,
                                         color: colors[int.parse(
                                                 '${domain[index]['data']}')]
                                             .color,
                                       )
                                     : Image.asset(
-                                        domain[index]['shape']!,
+                                        'assets/images/${widget.category}/${domain[index]['shape']!}.png',
                                         scale: widget.scale,
                                       ),
                                 childWhenDragging: widget.isColor
                                     ? Image.asset(
-                                        domain[index]['shape']!,
+                                        'assets/images/${widget.category}/${domain[index]['shape']!}.png',
                                         scale: widget.scale,
                                         color: colors[int.parse(
                                                 '${domain[index]['data']}')]
                                             .color,
                                       )
                                     : Image.asset(
-                                        domain[index]['shape']!,
+                                        'assets/images/${widget.category}/${domain[index]['shape']!}.png',
                                         scale: widget.scale,
                                       ),
                                 child: widget.isColor
                                     ? Image.asset(
-                                        domain[index]['shape']!,
+                                        'assets/images/${widget.category}/${domain[index]['shape']!}.png',
                                         scale: widget.scale,
                                         color: colors[int.parse(
                                                 '${domain[index]['data']}')]
                                             .color,
                                       )
                                     : Image.asset(
-                                        domain[index]['shape']!,
+                                        'assets/images/${widget.category}/${domain[index]['shape']!}.png',
                                         scale: widget.scale,
                                       ),
                               ),
@@ -183,30 +186,30 @@ class _MatchShapeGameState extends State<MatchShapeGame> {
                           return isTrue[index]
                               ? widget.isColor
                                   ? Image.asset(
-                                      codomain[index]['shape']!,
+                                      'assets/images/${widget.category}/${codomain[index]['shape']!}.png',
                                       scale: widget.scale,
                                       color: colors[int.parse(
                                               '${codomain[index]['data']}')]
                                           .color,
                                     )
                                   : Image.asset(
-                                      codomain[index]['shape']!,
+                                      'assets/images/${widget.category}/${codomain[index]['shape']!}.png',
                                       scale: widget.scale,
                                     )
                               : widget.isColor
                                   ? Image.asset(
-                                      codomain[index]['shape']!,
+                                      'assets/images/${widget.category}/${codomain[index]['shape']!}.png',
                                       scale: widget.scale,
                                       color: Colors.black38,
                                     )
                                   : Image.asset(
-                                      codomain[index]['shape']!,
+                                      'assets/images/${widget.category}/${codomain[index]['shape']!}.png',
                                       scale: widget.scale,
                                       color: Colors.black38,
                                     );
                         }, onAcceptWithDetails: (DragTargetDetails details) {
-                          if (details.data['content'] ==
-                              codomain[index]['data']) {
+                          if (details.data['data'] == codomain[index]['data']) {
+                            flutterTts.speak('${details.data['shape']}');
                             setState(() {
                               isTrueId[int.parse('${details.data['id']}')] =
                                   true;
