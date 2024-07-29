@@ -7,7 +7,6 @@ import '../game_widget/match_color_game.dart';
 import '../game_widget/match_slice_game.dart';
 import '../game_widget/match_sound_game.dart';
 import '../game_widget/memory_game.dart';
-import '../game_widget/puzzle_game.dart';
 
 class ColorGame extends StatelessWidget {
   final int level;
@@ -50,29 +49,23 @@ class ColorGame extends StatelessWidget {
             isSymmetric: false,
           );
         case 4:
-          return PuzzleGame(
-            title: 'Menyusun 3 potongan gambar mainan!',
-            imageKey: 'c',
-            imageNum: 7,
-          );
-        case 5:
           return JigsawGame(
             images: List.generate(
                 12, (index) => 'assets/images/jigsaw/${index + 1}c.png'),
           );
-        case 6:
+        case 5:
           return MemoryGame(
             title: 'Mengingat pasangan warna yang sama!',
             category: category,
             images: data,
           );
-        case 7:
+        case 6:
           return MatchSoundGame(
             title: 'Pilihlah warna sesuai dengan petunjuk permainan!',
             category: 'color',
             images: data,
           );
-        case 8:
+        case 7:
           return GroupGame(
             images: List.generate(
                 16, (index) => 'assets/images/group/${index + 1}.png'),

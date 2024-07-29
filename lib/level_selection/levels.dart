@@ -38,10 +38,6 @@ const games = [
       GameLevel(
         number: 7,
         difficulty: 100,
-      ),
-      GameLevel(
-        number: 8,
-        difficulty: 100,
         achievementIdIOS: 'finished',
         achievementIdAndroid: 'CdfIhE96aspNWLGSQg',
       ),
@@ -94,10 +90,6 @@ const games = [
       GameLevel(
         number: 10,
         difficulty: 100,
-      ),
-      GameLevel(
-        number: 11,
-        difficulty: 100,
         achievementIdIOS: 'finished',
         achievementIdAndroid: 'CdfIhE96aspNWLGSQg',
       ),
@@ -138,10 +130,6 @@ const games = [
       GameLevel(
         number: 7,
         difficulty: 100,
-      ),
-      GameLevel(
-        number: 8,
-        difficulty: 100,
         achievementIdIOS: 'finished',
         achievementIdAndroid: 'CdfIhE96aspNWLGSQg',
       ),
@@ -173,14 +161,6 @@ const games = [
       ),
       GameLevel(
         number: 5,
-        difficulty: 100,
-      ),
-      GameLevel(
-        number: 6,
-        difficulty: 100,
-      ),
-      GameLevel(
-        number: 7,
         difficulty: 100,
         achievementIdIOS: 'finished',
         achievementIdAndroid: 'CdfIhE96aspNWLGSQg',
@@ -214,14 +194,6 @@ const games = [
       GameLevel(
         number: 5,
         difficulty: 100,
-      ),
-      GameLevel(
-        number: 6,
-        difficulty: 100,
-      ),
-      GameLevel(
-        number: 7,
-        difficulty: 100,
         achievementIdIOS: 'finished',
         achievementIdAndroid: 'CdfIhE96aspNWLGSQg',
       ),
@@ -254,14 +226,6 @@ const games = [
       GameLevel(
         number: 5,
         difficulty: 100,
-      ),
-      GameLevel(
-        number: 6,
-        difficulty: 100,
-      ),
-      GameLevel(
-        number: 7,
-        difficulty: 100,
         achievementIdIOS: 'finished',
         achievementIdAndroid: 'CdfIhE96aspNWLGSQg',
       ),
@@ -293,14 +257,6 @@ const games = [
       ),
       GameLevel(
         number: 5,
-        difficulty: 100,
-      ),
-      GameLevel(
-        number: 6,
-        difficulty: 100,
-      ),
-      GameLevel(
-        number: 7,
         difficulty: 100,
         achievementIdIOS: 'finished',
         achievementIdAndroid: 'CdfIhE96aspNWLGSQg',
@@ -338,14 +294,6 @@ const games = [
       GameLevel(
         number: 6,
         difficulty: 100,
-      ),
-      GameLevel(
-        number: 7,
-        difficulty: 100,
-      ),
-      GameLevel(
-        number: 8,
-        difficulty: 100,
         achievementIdIOS: 'finished',
         achievementIdAndroid: 'CdfIhE96aspNWLGSQg',
       ),
@@ -378,14 +326,6 @@ const games = [
       GameLevel(
         number: 5,
         difficulty: 100,
-      ),
-      GameLevel(
-        number: 6,
-        difficulty: 100,
-      ),
-      GameLevel(
-        number: 7,
-        difficulty: 100,
         achievementIdIOS: 'finished',
         achievementIdAndroid: 'CdfIhE96aspNWLGSQg',
       ),
@@ -417,14 +357,6 @@ const games = [
       ),
       GameLevel(
         number: 5,
-        difficulty: 100,
-      ),
-      GameLevel(
-        number: 6,
-        difficulty: 100,
-      ),
-      GameLevel(
-        number: 7,
         difficulty: 100,
         achievementIdIOS: 'finished',
         achievementIdAndroid: 'CdfIhE96aspNWLGSQg',

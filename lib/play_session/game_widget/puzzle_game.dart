@@ -133,62 +133,85 @@ class _PuzzleGameState extends State<PuzzleGame> {
           ),
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
-            child: Container(
-              height: scrollHeight,
-              padding: EdgeInsets.symmetric(
-                vertical: (scrollHeight - cardHeight) / 2,
-              ),
-              child: ListView.separated(
-                  scrollDirection: Axis.horizontal,
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    return Draggable(
-                      data: domain[index],
-                      feedback: Container(
-                        padding: EdgeInsets.all(5.0),
-                        width: cardWidth,
-                        height: cardHeight,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(radius),
-                        ),
-                        child: Image.asset(
-                          domain[index],
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                      childWhenDragging: Container(
-                        padding: EdgeInsets.all(5.0),
-                        width: cardWidth,
-                        height: cardHeight,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(radius),
-                        ),
-                        child: Image.asset(
-                          domain[index],
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                      child: Container(
-                        padding: EdgeInsets.all(5.0),
-                        width: cardWidth,
-                        height: cardHeight,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(radius),
-                        ),
-                        child: Image.asset(
-                          domain[index],
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    );
-                  },
-                  separatorBuilder: (context, index) {
-                    return SizedBox(width: 10);
-                  },
-                  itemCount: isTrue.length),
+            child: Stack(
+              children: [
+                Container(
+                  height: scrollHeight,
+                  padding: EdgeInsets.symmetric(
+                    vertical: (scrollHeight - cardHeight) / 2,
+                  ),
+                  child: ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        return Draggable(
+                          data: domain[index],
+                          feedback: Container(
+                            padding: EdgeInsets.all(5.0),
+                            width: cardWidth,
+                            height: cardHeight,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(radius),
+                            ),
+                            child: Image.asset(
+                              domain[index],
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                          childWhenDragging: Container(
+                            padding: EdgeInsets.all(5.0),
+                            width: cardWidth,
+                            height: cardHeight,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(radius),
+                            ),
+                            child: Image.asset(
+                              domain[index],
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                          child: Container(
+                            padding: EdgeInsets.all(5.0),
+                            width: cardWidth,
+                            height: cardHeight,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(radius),
+                            ),
+                            child: Image.asset(
+                              domain[index],
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        );
+                      },
+                      separatorBuilder: (context, index) {
+                        return SizedBox(width: 10);
+                      },
+                      itemCount: isTrue.length),
+                ),
+                Positioned.fill(
+                    child: Padding(
+                  padding: const EdgeInsets.only(bottom: 16.0),
+                  child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: const [
+                          Icon(
+                            Icons.keyboard_double_arrow_left_rounded,
+                            size: 30,
+                          ),
+                          Icon(
+                            Icons.keyboard_double_arrow_right_rounded,
+                            size: 30,
+                          ),
+                        ],
+                      )),
+                ))
+              ],
             ),
           ),
           Spacer(),
