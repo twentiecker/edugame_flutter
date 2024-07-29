@@ -1,3 +1,4 @@
+import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:provider/provider.dart';
@@ -15,6 +16,8 @@ class MatchShapeGame extends StatefulWidget {
   final String category;
   final bool isColor;
   final double scale;
+  final List<String> hijaiyahSound;
+  final bool isHijaiyah;
 
   const MatchShapeGame({
     Key? key,
@@ -23,6 +26,8 @@ class MatchShapeGame extends StatefulWidget {
     required this.category,
     this.isColor = true,
     required this.scale,
+    this.hijaiyahSound = const [],
+    this.isHijaiyah = false,
   }) : super(key: key);
 
   @override
@@ -46,6 +51,7 @@ class _MatchShapeGameState extends State<MatchShapeGame> {
   ];
   List<Map<String, String>> domain = [];
   List<Map<String, String>> codomain = [];
+  List<String> hijaiyahSounds = [];
 
   int progress = 0;
   int subLevel = 5;
@@ -53,6 +59,10 @@ class _MatchShapeGameState extends State<MatchShapeGame> {
   int adj = 0;
 
   void initGame() {
+    if (widget.isHijaiyah) {
+      hijaiyahSounds =
+          List.generate(30, (index) => widget.hijaiyahSound[index]);
+    }
     widget.images.shuffle();
     isTrue = List.generate(adjLevel, (index) => false);
     isTrueId = List.generate(adjLevel, (index) => false);
@@ -209,7 +219,11 @@ class _MatchShapeGameState extends State<MatchShapeGame> {
                                     );
                         }, onAcceptWithDetails: (DragTargetDetails details) {
                           if (details.data['data'] == codomain[index]['data']) {
-                            flutterTts.speak('${details.data['shape']}');
+                            widget.isHijaiyah
+                                ? FlameAudio.play(
+                                    '${hijaiyahSounds[int.parse('${details.data['shape']}') - 1]}.aac')
+                                : flutterTts.speak('${details.data['shape']}');
+                            // flutterTts.speak('${details.data['shape']}');
                             setState(() {
                               isTrueId[int.parse('${details.data['id']}')] =
                                   true;

@@ -40,7 +40,7 @@ class _JigsawGameState extends State<JigsawGame> {
   void initState() {
     super.initState();
     flutterTts.setLanguage('id-ID');
-    flutterTts.speak("Menyusun teka-teki gambar!");
+    flutterTts.speak('Menyusun potongan-potongan gambar!');
     initGame();
   }
 

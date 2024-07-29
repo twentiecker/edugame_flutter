@@ -97,6 +97,7 @@ class _GreaterNumberGameState extends State<GreaterNumberGame> {
                         if (widget.isGreater
                             ? numbers[index] == numbers.reduce(max)
                             : numbers[index] == numbers.reduce(min)) {
+                          flutterTts.speak('${numbers[index]}');
                           setState(() {
                             isTrue[index] = true;
                           });

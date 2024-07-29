@@ -58,7 +58,7 @@ class _CountNumberGameState extends State<CountNumberGame> {
   void initState() {
     super.initState();
     flutterTts.setLanguage('id-ID');
-    flutterTts.speak("Menghitung objek!");
+    flutterTts.speak('Hitunglah benda yang ada di kotak!');
     initGame();
   }
 
@@ -102,7 +102,7 @@ class _CountNumberGameState extends State<CountNumberGame> {
                           return Padding(
                             padding: const EdgeInsets.all(4.0),
                             child: Image.asset(
-                              'assets/images/shape/${codomain[index]}.png',
+                              'assets/images/group/${codomain[index]}.png',
                               color: codomain[index] > colors.length - 1
                                   ? colors[randomId].color
                                   : colors[codomain[index]].color,
@@ -139,6 +139,8 @@ class _CountNumberGameState extends State<CountNumberGame> {
                       );
                     }, onAcceptWithDetails: (DragTargetDetails details) {
                       if (details.data == '${codomain[index]}') {
+                        flutterTts.speak('${details.data}');
+                        // print(details.data);
                         setState(() {
                           isTrue[index] = true;
                         });

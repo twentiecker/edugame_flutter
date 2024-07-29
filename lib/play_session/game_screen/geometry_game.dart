@@ -33,31 +33,35 @@ class GeometryGame extends StatelessWidget {
       'tanda panah',
       'tanda tambah'
     ];
+    final shapes = ['-', 'l', 'll', '+', '=', 'O', 'X'];
     return Builder(builder: (BuildContext context) {
       switch (level) {
         case 1:
           return MatchShapeGame(
-            title: "Mencocokkan bentuk bayangan!",
+            title: 'Mencocokkan bentuk dan bayangannya!',
             images: data,
             category: category,
             scale: 2.7,
           );
         case 2:
           return CompletePatternGame(
+            title:
+                'Pilihlah bentuk yang sesuai dengan pola kumpulan bentuk di sebelah kanan!',
             images: data,
             category: category,
             isColor: true,
           );
         case 3:
           return MatchSliceGame(
-            title: 'Mencocokkan potongan bentuk!',
+            title: 'Pasangkan dengan potongan bentuk yang sesuai!',
             category: '$category/slices',
             images: data,
-            isColor: true,
+            // isColor: true,
+            isSymmetric: false,
           );
         case 4:
           return PuzzleGame(
-            title: 'Menyusun 3 potongan gambar!',
+            title: 'Menyusun 3 potongan gambar mainan!',
             imageKey: 'c',
             imageNum: 7,
           );
@@ -68,19 +72,22 @@ class GeometryGame extends StatelessWidget {
           );
         case 6:
           return MemoryGame(
+            title: 'Mengingat pasangan bentuk yang sama!',
             category: category,
             images: data,
           );
         case 7:
           return MatchSoundGame(
-            title: 'Memilih bentuk!',
+            title: 'Pilihlah bentuk sesuai dengan petunjuk permainan!',
             category: 'shape',
             images: data,
           );
         case 8:
           return WritingGame(
-              title: 'Menggambar bentuk!',
-              data: ['-', 'l', 'll', '+', '=', 'O', 'X']);
+            title: 'Gambarlah bentuk sesuai dengan petunjuk permainan!',
+            data: shapes,
+            isShape: true,
+          );
         default:
           return Center(
             child: Text("Game isn't Available Now!"),

@@ -36,7 +36,7 @@ class NumberGame extends StatelessWidget {
       switch (level) {
         case 1:
           return MatchShapeGame(
-            title: "Mencocokkan bentuk bayangan!",
+            title: 'Mencocokkan angka dengan bentuk bayangannya!',
             images: data,
             category: category,
             isColor: false,
@@ -46,31 +46,34 @@ class NumberGame extends StatelessWidget {
           return CountNumberGame();
         case 3:
           return MemoryGame(
+            title: 'Mengingat pasangan angka yang sama!',
             category: category,
             images: data,
           );
         case 4:
           return MatchSoundGame(
-            title: 'Memilih angka!',
+            title: 'Pilihlah angka sesuai dengan petunjuk permainan!',
             category: 'number',
-            images: List.generate(10, (index) => '${index + 1}'),
+            images: List.generate(11, (index) => '$index'),
           );
         case 5:
           return CompletePatternGame(
+            title:
+                'Pilihlah angka yang sesuai dengan pola kumpulan angka di sebelah kanan!',
             category: category,
             images: data,
             isColor: false,
           );
         case 6:
           return GreaterNumberGame(
-            title: 'Manakah yang paling banyak?',
+            title: 'Manakah kotak yang meimiliki jumlah paling banyak?',
             isGreater: true,
             images: List.generate(
                 16, (index) => 'assets/images/group/${index + 1}.png'),
           );
         case 7:
           return GreaterNumberGame(
-            title: 'Manakah yang paling sedikit?',
+            title: 'Manakah kotak yang meimiliki jumlah paling sedikit?',
             isGreater: false,
             images: List.generate(
                 16, (index) => 'assets/images/group/${index + 1}.png'),
@@ -82,21 +85,21 @@ class NumberGame extends StatelessWidget {
           );
         case 9:
           return MatchSliceGame(
-            title: 'Mencocokkan potongan angka!',
+            title: 'Pasangkan dengan potongan angka yang sesuai!',
             category: '$category/slices',
             images: data,
             isSymmetric: false,
           );
         case 10:
           return PuzzleGame(
-            title: 'Menyusun 3 potongan angka!',
+            title: 'Menyusun 3 potongan gambar angka!',
             imageKey: 'n',
             imageNum: 10,
           );
         case 11:
           return WritingGame(
-              title: 'Menulis angka!',
-              data: List.generate(10, (index) => '${index + 1}'));
+              title: 'Tulislah angka sesuai dengan petunjuk permainan!',
+              data: List.generate(11, (index) => '$index'));
         default:
           return Center(
             child: Text("Game isn't Available Now!"),

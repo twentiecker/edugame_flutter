@@ -1,3 +1,4 @@
+import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:provider/provider.dart';
@@ -9,13 +10,19 @@ import '../../game_internals/level_state.dart';
 import '../../style/my_button.dart';
 
 class MemoryGame extends StatefulWidget {
+  final String title;
   final List<String> images;
   final String category;
+  final List<String> hijaiyahSound;
+  final bool isHijaiyah;
 
   const MemoryGame({
     Key? key,
+    required this.title,
     required this.images,
     required this.category,
+    this.hijaiyahSound = const [],
+    this.isHijaiyah = false,
   }) : super(key: key);
 
   @override
@@ -33,6 +40,7 @@ class _MemoryGameState extends State<MemoryGame> {
   List<Map<String, String>> cardList = [];
   List<String> hiddenList = [];
   List<Map<int, String>> matchCheck = [];
+  List<String> hijaiyahSounds = [];
 
   int tries = 0;
   int match = 0;
@@ -43,6 +51,10 @@ class _MemoryGameState extends State<MemoryGame> {
   int adj = 0;
 
   void initGame() {
+    if (widget.isHijaiyah) {
+      hijaiyahSounds =
+          List.generate(30, (index) => widget.hijaiyahSound[index]);
+    }
     widget.images.shuffle();
     isTrue = List.generate(adjLevel * 2, (index) => false);
     isTrueTemp = List.generate(adjLevel * 2, (index) => false);
@@ -61,7 +73,7 @@ class _MemoryGameState extends State<MemoryGame> {
   void initState() {
     super.initState();
     flutterTts.setLanguage('id-ID');
-    flutterTts.speak("Mengingat gambar!");
+    flutterTts.speak(widget.title);
     initGame();
   }
 
@@ -132,8 +144,12 @@ class _MemoryGameState extends State<MemoryGame> {
                                   if (matchCheck[0].values.first ==
                                       matchCheck[1].values.first) {
                                     debugPrint('true');
-                                    flutterTts
-                                        .speak('${cardList[index]['name']}');
+                                    widget.isHijaiyah
+                                        ? FlameAudio.play(
+                                            '${hijaiyahSounds[int.parse('${cardList[index]['name']}') - 1]}.aac')
+                                        : flutterTts.speak(
+                                            '${cardList[index]['name']}');
+
                                     match += 1;
                                     setState(() {
                                       isTrue[matchCheck[0].keys.first] = true;

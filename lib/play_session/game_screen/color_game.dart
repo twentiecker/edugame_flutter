@@ -27,7 +27,6 @@ class ColorGame extends StatelessWidget {
       'kuning',
       'merah muda',
       'merah',
-      'putih',
       'ungu'
     ];
     return Builder(builder: (BuildContext context) {
@@ -36,20 +35,23 @@ class ColorGame extends StatelessWidget {
           return MatchColorGame();
         case 2:
           return CompletePatternGame(
+            title:
+                'Pilihlah warna yang sesuai dengan pola kumpulan warna di sebelah kanan!',
             category: category,
             images: data,
             isColor: false,
           );
         case 3:
           return MatchSliceGame(
-            title: 'Mencocokkan potongan warna!',
+            title: 'Pasangkan dengan potongan warna yang sesuai!',
             category: '$category/slices',
             images: data,
-            isColor: true,
+            // isColor: true,
+            isSymmetric: false,
           );
         case 4:
           return PuzzleGame(
-            title: 'Menyusun 3 potongan gambar!',
+            title: 'Menyusun 3 potongan gambar mainan!',
             imageKey: 'c',
             imageNum: 7,
           );
@@ -60,26 +62,15 @@ class ColorGame extends StatelessWidget {
           );
         case 6:
           return MemoryGame(
+            title: 'Mengingat pasangan warna yang sama!',
             category: category,
             images: data,
           );
         case 7:
           return MatchSoundGame(
-            title: 'Memilih warna!',
+            title: 'Pilihlah warna sesuai dengan petunjuk permainan!',
             category: 'color',
-            images: [
-              'merah',
-              'hijau',
-              'biru',
-              'jingga',
-              'hitam',
-              'putih',
-              'kuning',
-              'merah muda',
-              'ungu',
-              'coklat',
-              'abu-abu',
-            ],
+            images: data,
           );
         case 8:
           return GroupGame(

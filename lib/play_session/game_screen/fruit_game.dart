@@ -37,7 +37,7 @@ class FruitGame extends StatelessWidget {
       switch (level) {
         case 1:
           return MatchShapeGame(
-            title: "Mencocokkan bentuk bayangan!",
+            title: 'Mencocokkan buah dengan bentuk bayangannya!',
             images: data,
             category: category,
             isColor: false,
@@ -45,20 +45,22 @@ class FruitGame extends StatelessWidget {
           );
         case 2:
           return CompletePatternGame(
+            title:
+                'Pilihlah buah yang sesuai dengan pola kumpulan buah di sebelah kanan!',
             category: category,
             images: data,
             isColor: false,
           );
         case 3:
           return MatchSliceGame(
-            title: 'Mencocokkan potongan bentuk!',
+            title: 'Pasangkan dengan potongan buah yang sesuai!',
             category: '$category/slices',
             images: data,
             isSymmetric: false,
           );
         case 4:
           return PuzzleGame(
-            title: 'Menyusun 3 potongan gambar!',
+            title: 'Menyusun 3 potongan gambar mainan!',
             imageKey: 'c',
             imageNum: 7,
           );
@@ -69,12 +71,13 @@ class FruitGame extends StatelessWidget {
           );
         case 6:
           return MemoryGame(
+            title: 'Mengingat pasangan buah yang sama!',
             category: category,
             images: data,
           );
         case 7:
           return MatchSoundGame(
-            title: 'Memilih bentuk!',
+            title: 'Pilihlah buah sesuai dengan petunjuk permainan!',
             category: 'fruit',
             images: data,
           );

@@ -7,6 +7,7 @@ import '../game_widget/match_slice_game.dart';
 import '../game_widget/match_sound_game.dart';
 import '../game_widget/memory_game.dart';
 import '../game_widget/puzzle_game.dart';
+import '../game_widget/writing_game.dart';
 
 class AlphabetGame extends StatelessWidget {
   final int level;
@@ -48,7 +49,7 @@ class AlphabetGame extends StatelessWidget {
       switch (level) {
         case 1:
           return MatchShapeGame(
-            title: "Mencocokkan bentuk bayangan alfabet!",
+            title: 'Mencocokkan huruf dengan bentuk bayangannya!',
             images: data,
             category: category,
             isColor: false,
@@ -56,20 +57,22 @@ class AlphabetGame extends StatelessWidget {
           );
         case 2:
           return CompletePatternGame(
+            title:
+                'Pilihlah huruf yang sesuai dengan pola kumpulan huruf di sebelah kanan!',
             category: category,
             images: data,
             isColor: false,
           );
         case 3:
           return MatchSliceGame(
-            title: 'Mencocokkan potongan gambar profesi!',
+            title: 'Pasangkan dengan potongan huruf yang sesuai!',
             category: '$category/slices',
             images: data,
             isSymmetric: false,
           );
         case 4:
           return PuzzleGame(
-            title: 'Menyusun 3 potongan gambar!',
+            title: 'Menyusun 3 potongan gambar mainan!',
             imageKey: 'c',
             imageNum: 7,
           );
@@ -80,15 +83,20 @@ class AlphabetGame extends StatelessWidget {
           );
         case 6:
           return MemoryGame(
+            title: 'Mengingat pasangan huruf yang sama!',
             category: category,
             images: data,
           );
         case 7:
           return MatchSoundGame(
-            title: 'Memilih profesi!',
+            title: 'Pilihlah huruf sesuai dengan petunjuk permainan!',
             category: 'alphabet',
             images: data,
           );
+        case 8:
+          return WritingGame(
+              title: 'Tulislah huruf sesuai dengan petunjuk permainan!',
+              data: data);
         default:
           return Center(
             child: Text("Game isn't Available Now!"),

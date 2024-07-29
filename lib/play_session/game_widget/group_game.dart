@@ -64,7 +64,7 @@ class _GroupGameState extends State<GroupGame> {
   void initState() {
     super.initState();
     flutterTts.setLanguage('id-ID');
-    flutterTts.speak("Menempatkan gambar sesuai warna!");
+    flutterTts.speak('Masukkan benda ke keranjang sesuai dengan warnanya!');
     initGame();
   }
 

@@ -43,9 +43,8 @@ flutter:
   assets:
     - assets/images/
     - assets/images/menu/
-    - assets/images/shape/
+    - assets/images/number/
     - assets/images/puzzle/
-    - assets/images/numbers/
     - assets/images/slice/
     - assets/images/jigsaw/
     - assets/images/group/
@@ -63,12 +62,14 @@ flutter:
     - assets/images/islamic/
     - assets/images/islamic/hijaiyah/
     - assets/images/islamic/slices/
-    - assets/images/number/
-    - assets/images/number/slices/
+    - assets/images/numbers/
+    - assets/images/numbers/slices/
     - assets/images/profession/
     - assets/images/profession/slices/
     - assets/images/sense/
     - assets/images/sense/slices/
+    - assets/images/shape/
+    - assets/images/shape/slices/
     - assets/music/
     - assets/sfx/
     - assets/audio/

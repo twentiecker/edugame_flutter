@@ -43,7 +43,7 @@ class AnimalGame extends StatelessWidget {
       switch (level) {
         case 1:
           return MatchShapeGame(
-            title: "Mencocokkan bentuk bayangan!",
+            title: 'Mencocokkan hewan dengan bentuk bayangannya!',
             images: data,
             category: category,
             isColor: false,
@@ -51,20 +51,22 @@ class AnimalGame extends StatelessWidget {
           );
         case 2:
           return CompletePatternGame(
+            title:
+                'Pilihlah hewan yang sesuai dengan pola kumpulan hewan di sebelah kanan!',
             category: category,
             images: data,
             isColor: false,
           );
         case 3:
           return MatchSliceGame(
-            title: 'Mencocokkan potongan bentuk!',
+            title: 'Pasangkan dengan potongan hewan yang sesuai!',
             category: '$category/slices',
             images: data,
             isSymmetric: false,
           );
         case 4:
           return PuzzleGame(
-            title: 'Menyusun 3 potongan gambar!',
+            title: 'Menyusun 3 potongan gambar mainan!',
             imageKey: 'c',
             imageNum: 7,
           );
@@ -75,12 +77,13 @@ class AnimalGame extends StatelessWidget {
           );
         case 6:
           return MemoryGame(
+            title: 'Mengingat pasangan hewan yang sama!',
             category: category,
             images: data,
           );
         case 7:
           return MatchSoundGame(
-            title: 'Memilih bentuk!',
+            title: 'Pilihlah hewan sesuai dengan petunjuk permainan!',
             category: 'animal',
             images: data,
           );

@@ -11,11 +11,13 @@ import '../../style/my_button.dart';
 class WritingGame extends StatefulWidget {
   final String title;
   final List<String> data;
+  final bool isShape;
 
   const WritingGame({
     Key? key,
     required this.title,
     required this.data,
+    this.isShape = false,
   }) : super(key: key);
 
   @override
@@ -34,6 +36,15 @@ class _WritingGameState extends State<WritingGame> {
   String question = '';
   bool result = false;
   bool isLoading = true;
+  Map<String, String> shapeTranslator = {
+    'X': 'tanda silang',
+    '+': 'tanda tambah',
+    'll': '2 garis tegak lurus',
+    'l': '1 garis tegak lurus',
+    '=': '2 garis mendatar',
+    '-': '1 garis mendatar',
+    'O': 'lingkaran',
+  };
 
   int progress = 0;
   int subLevel = 5;
@@ -217,6 +228,9 @@ class _WritingGameState extends State<WritingGame> {
         debugPrint('${candidates[i].text} : ${candidates[i].text == question}');
         if (candidates[i].text == question) {
           result = true;
+          widget.isShape
+              ? flutterTts.speak(shapeTranslator[question]!)
+              : flutterTts.speak(question);
           break;
         }
       }

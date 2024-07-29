@@ -27,7 +27,7 @@ class SenseGame extends StatelessWidget {
       switch (level) {
         case 1:
           return MatchShapeGame(
-            title: "Mencocokkan bentuk bayangan!",
+            title: 'Mencocokkan panca indera dengan bentuk bayangannya!',
             images: data,
             category: category,
             isColor: false,
@@ -35,20 +35,22 @@ class SenseGame extends StatelessWidget {
           );
         case 2:
           return CompletePatternGame(
+            title:
+                'Pilihlah panca indera yang sesuai dengan pola kumpulan panca indera di sebelah kanan!',
             category: category,
             images: data,
             isColor: false,
           );
         case 3:
           return MatchSliceGame(
-            title: 'Mencocokkan potongan gambar!',
+            title: 'Pasangkan dengan potongan panca indera yang sesuai!',
             category: '$category/slices',
             images: data,
             isSymmetric: false,
           );
         case 4:
           return PuzzleGame(
-            title: 'Menyusun 3 potongan gambar!',
+            title: 'Menyusun 3 potongan gambar mainan!',
             imageKey: 'c',
             imageNum: 7,
           );
@@ -59,12 +61,13 @@ class SenseGame extends StatelessWidget {
           );
         case 6:
           return MemoryGame(
+            title: 'Mengingat pasangan panca indera yang sama!',
             category: category,
             images: data,
           );
         case 7:
           return MatchSoundGame(
-            title: 'Pilihlah gambar panca indera sesuai dengan intruksi!',
+            title: 'Pilihlah panca indera sesuai dengan petunjuk permainan!',
             category: 'sense',
             images: data,
           );

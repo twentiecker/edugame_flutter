@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:provider/provider.dart';
@@ -12,15 +13,21 @@ import '../../model/base_color.dart';
 import '../../style/my_button.dart';
 
 class CompletePatternGame extends StatefulWidget {
+  final String title;
   final List<String> images;
   final String category;
   final bool isColor;
+  final List<String> hijaiyahSound;
+  final bool isHijaiyah;
 
   const CompletePatternGame({
     Key? key,
+    required this.title,
     required this.images,
     required this.category,
     required this.isColor,
+    this.hijaiyahSound = const [],
+    this.isHijaiyah = false,
   }) : super(key: key);
 
   @override
@@ -46,6 +53,7 @@ class _CompletePatternGameState extends State<CompletePatternGame> {
   ];
   List<Map<String, String>> domain = [];
   List<Map<String, String>> codomain = [];
+  List<String> hijaiyahSounds = [];
 
   int progress = 0;
   int subLevel = 5;
@@ -56,6 +64,10 @@ class _CompletePatternGameState extends State<CompletePatternGame> {
 
   void initGame() {
     adjLevel > 4 && widget.images.length >= 6 ? difficulty = 6 : difficulty = 4;
+    if (widget.isHijaiyah) {
+      hijaiyahSounds =
+          List.generate(30, (index) => widget.hijaiyahSound[index]);
+    }
     widget.images.shuffle();
     isTrue = List.generate(difficulty, (index) => true);
     isTrue[Random().nextInt(isTrue.length)] = false;
@@ -83,7 +95,7 @@ class _CompletePatternGameState extends State<CompletePatternGame> {
   void initState() {
     super.initState();
     flutterTts.setLanguage('id-ID');
-    flutterTts.speak("Mencocokkan pola!");
+    flutterTts.speak(widget.title);
     initGame();
   }
 
@@ -208,7 +220,11 @@ class _CompletePatternGameState extends State<CompletePatternGame> {
                                 (DragTargetDetails details) {
                               if (details.data['data'] ==
                                   codomain[index]['data']) {
-                                flutterTts.speak('${details.data['shape']}');
+                                widget.isHijaiyah
+                                    ? FlameAudio.play(
+                                        '${hijaiyahSounds[int.parse('${details.data['shape']}') - 1]}.aac')
+                                    : flutterTts
+                                        .speak('${details.data['shape']}');
                                 setState(() {
                                   isTrue[index] = true;
                                 });

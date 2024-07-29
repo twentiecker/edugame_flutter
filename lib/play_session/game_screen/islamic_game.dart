@@ -23,32 +23,71 @@ class IslamicGame extends StatelessWidget {
       'puasa',
       'haji',
     ];
+    final hijaiyahSound = [
+      '1alif',
+      '2ba',
+      '3ta',
+      '4tsa',
+      '5jim',
+      '6kha',
+      '7kho',
+      '8dal',
+      '9dzal',
+      '10ro',
+      '11zai',
+      '12sin',
+      '13syin',
+      '14shod',
+      '15dhod',
+      '16tho',
+      '17dha',
+      '18ain',
+      '19ghain',
+      '20fa',
+      '21qof',
+      '22kaf',
+      '23lam',
+      '24mim',
+      '25nun',
+      '26wau',
+      '27ha',
+      '28lam alif',
+      '29hamzah',
+      '30ya'
+    ];
+    final List<String> hijaiyah = List.generate(30, (index) => '${index + 1}');
     return Builder(builder: (BuildContext context) {
       switch (level) {
         case 1:
           return MatchShapeGame(
-            title: "Mencocokkan bentuk bayangan!",
-            images: data,
-            category: category,
+            title: 'Mencocokkan huruf hijaiyah dengan bentuk bayangannya!',
+            images: hijaiyah,
+            category: '$category/hijaiyah',
             isColor: false,
             scale: 0.7,
+            isHijaiyah: true,
+            hijaiyahSound: hijaiyahSound,
           );
         case 2:
           return CompletePatternGame(
-            category: category,
-            images: data,
+            title:
+                'Pilihlah huruf hijaiyah yang sesuai dengan pola kumpulan huruf di sebelah kanan!',
+            category: '$category/hijaiyah',
+            images: hijaiyah,
             isColor: false,
+            isHijaiyah: true,
+            hijaiyahSound: hijaiyahSound,
           );
         case 3:
           return MatchSliceGame(
-            title: 'Mencocokkan potongan gambar!',
+            title: 'Pasangkan dengan potongan gambar rukun islam yang sesuai!',
             category: '$category/slices',
             images: data,
             isSymmetric: false,
           );
         case 4:
           return PuzzleGame(
-            title: 'Menyusun 3 potongan gambar!',
+            title: 'Menyusun 3 potongan gambar mainan!',
             imageKey: 'c',
             imageNum: 7,
           );
@@ -59,14 +98,19 @@ class IslamicGame extends StatelessWidget {
           );
         case 6:
           return MemoryGame(
-            category: category,
-            images: data,
+            title: 'Mengingat pasangan huruf hijaiyah yang sama!',
+            category: '$category/hijaiyah',
+            images: hijaiyah,
+            isHijaiyah: true,
+            hijaiyahSound: hijaiyahSound,
           );
         case 7:
           return MatchSoundGame(
-            title: 'Pilihlah gambar panca indera sesuai dengan intruksi!',
-            category: 'islamic',
-            images: data,
+            title: 'Pilihlah huruf hijaiyah sesuai dengan petunjuk permainan!',
+            category: '$category/hijaiyah',
+            images: hijaiyah,
+            isHijaiyah: true,
+            hijaiyahSound: hijaiyahSound,
           );
         default:
           return Center(

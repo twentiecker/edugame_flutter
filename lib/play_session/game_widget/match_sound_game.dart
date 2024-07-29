@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:provider/provider.dart';
@@ -15,12 +16,16 @@ class MatchSoundGame extends StatefulWidget {
   final String title;
   final String category;
   final List<String> images;
+  final List<String> hijaiyahSound;
+  final bool isHijaiyah;
 
   const MatchSoundGame({
     Key? key,
     required this.title,
     required this.category,
     required this.images,
+    this.hijaiyahSound = const [],
+    this.isHijaiyah = false,
   }) : super(key: key);
 
   @override
@@ -34,6 +39,7 @@ class _MatchSoundGameState extends State<MatchSoundGame> {
   final FlutterTts flutterTts = FlutterTts();
 
   List<GameData> gameData = [];
+  List<String> hijaiyahSounds = [];
 
   int progress = 0;
   int subLevel = 5;
@@ -41,6 +47,10 @@ class _MatchSoundGameState extends State<MatchSoundGame> {
   int adj = 0;
 
   void initGame() {
+    if (widget.isHijaiyah) {
+      hijaiyahSounds =
+          List.generate(30, (index) => widget.hijaiyahSound[index]);
+    }
     gameData = List.generate(adjLevel, (i) {
       widget.images.shuffle();
       return GameData(
@@ -84,7 +94,10 @@ class _MatchSoundGameState extends State<MatchSoundGame> {
                       InkWell(
                         onTap: () {
                           debugPrint(gameData[i].sound);
-                          flutterTts.speak(gameData[i].sound);
+                          widget.isHijaiyah
+                              ? FlameAudio.play(
+                                  '${hijaiyahSounds[int.parse(gameData[i].sound) - 1]}.aac')
+                              : flutterTts.speak(gameData[i].sound);
                         },
                         child: Container(
                           height: height,

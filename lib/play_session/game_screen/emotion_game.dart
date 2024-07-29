@@ -21,7 +21,7 @@ class EmotionGame extends StatelessWidget {
       switch (level) {
         case 1:
           return MatchShapeGame(
-            title: "Mencocokkan bentuk bayangan!",
+            title: 'Mencocokkan bentuk emosi dengan bentuk bayangannya!',
             images: data,
             category: 'emotion',
             isColor: false,
@@ -29,20 +29,22 @@ class EmotionGame extends StatelessWidget {
           );
         case 2:
           return CompletePatternGame(
+            title:
+                'Pilihlah emosi yang sesuai dengan pola kumpulan emosi di sebelah kanan!',
             category: category,
             images: data,
             isColor: false,
           );
         case 3:
           return MatchSliceGame(
-            title: 'Mencocokkan potongan gambar!',
+            title: 'Pasangkan dengan potongan gambar emosi yang sesuai!',
             category: '$category/slices',
             images: data,
             isSymmetric: false,
           );
         case 4:
           return PuzzleGame(
-            title: 'Menyusun 3 potongan gambar!',
+            title: 'Menyusun 3 potongan gambar mainan!',
             imageKey: 'c',
             imageNum: 7,
           );
@@ -53,12 +55,13 @@ class EmotionGame extends StatelessWidget {
           );
         case 6:
           return MemoryGame(
+            title: 'Mengingat pasangan gambar emosi yang sama!',
             category: category,
             images: data,
           );
         case 7:
           return MatchSoundGame(
-            title: 'Pilihlah gambar panca indera sesuai dengan intruksi!',
+            title: 'Pilihlah gambar emosi sesuai dengan petunjuk permainan!',
             category: 'emotion',
             images: data,
           );
